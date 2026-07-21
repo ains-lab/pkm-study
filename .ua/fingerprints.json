@@ -1,0 +1,317 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "non-git",
+  "generatedAt": "2026-07-16T10:27:30.021Z",
+  "files": {
+    "comparisons/knowledge-graph-tools.md": {
+      "filePath": "comparisons/knowledge-graph-tools.md",
+      "contentHash": "57c910a4b2afd3f03a6dfda00686a0d9b4f249c1b6d5654a1e6ffedcc2f9f849",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": true
+    },
+    "comparisons/knowledge-tool-roles.md": {
+      "filePath": "comparisons/knowledge-tool-roles.md",
+      "contentHash": "e4a969682d7d205b785d367df4dfac4b424d351782b836d3eae12a81b6a64e03",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    "concepts/agentic-workspace.md": {
+      "filePath": "concepts/agentic-workspace.md",
+      "contentHash": "244df305be88487e78927f9366f7d45e53e96527d4834efa92a2aebbb8bd65da",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 41,
+      "hasStructuralAnalysis": true
+    },
+    "concepts/ai-knowledge-workflow.md": {
+      "filePath": "concepts/ai-knowledge-workflow.md",
+      "contentHash": "a8055274f81ccf72dd247a675a86415d197c6ba6ba50e7a91eca84e8dac586b2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 50,
+      "hasStructuralAnalysis": true
+    },
+    "concepts/knowledge-graph-analysis.md": {
+      "filePath": "concepts/knowledge-graph-analysis.md",
+      "contentHash": "07a6659ddca5a738085c1b96dd429127abfc0ee34719a3a94877c1fe9848692b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 36,
+      "hasStructuralAnalysis": true
+    },
+    "concepts/llm-wiki.md": {
+      "filePath": "concepts/llm-wiki.md",
+      "contentHash": "83f7bbb42ee48245c63de1a69543fd64bc4732041b7b2ac317d242a1eb51240f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 51,
+      "hasStructuralAnalysis": true
+    },
+    "concepts/research-feedback-loop.md": {
+      "filePath": "concepts/research-feedback-loop.md",
+      "contentHash": "b37d578f678dbb35860323518023005d279f73ea7953518012848ffdf81ae020",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 37,
+      "hasStructuralAnalysis": true
+    },
+    "concepts/second-brain-research-workflow.md": {
+      "filePath": "concepts/second-brain-research-workflow.md",
+      "contentHash": "5c5499dc944b653a5f7197be4e0eed7829f2fde3fca8fc9efd63b5e13b92251b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 38,
+      "hasStructuralAnalysis": true
+    },
+    "entities/codegraph.md": {
+      "filePath": "entities/codegraph.md",
+      "contentHash": "6f37edb884311e98458c95f7f37f992f3f2007a4fff8b7b5deb3ef036b656aa0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "entities/graphify.md": {
+      "filePath": "entities/graphify.md",
+      "contentHash": "201bd0b574b51d42d9655a79585da04f1b292cd35cfa594da5373b0c990a71d4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "entities/notebooklm-py.md": {
+      "filePath": "entities/notebooklm-py.md",
+      "contentHash": "e4fb3aab07cd925f7a16f70965bab6829aaa728867f0ac0f45c20ea97c17f6a2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": true
+    },
+    "entities/notebooklm.md": {
+      "filePath": "entities/notebooklm.md",
+      "contentHash": "66b52ca0bd0e88e2068289196b5ee5cd850a9b78bb90aca6ffaaea38b25d13c1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 38,
+      "hasStructuralAnalysis": true
+    },
+    "entities/obsidian.md": {
+      "filePath": "entities/obsidian.md",
+      "contentHash": "656598ff37c7aefc8a82ad25c194e91d9ff2f22194a1b46b54c85b3f771a09e7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": true
+    },
+    "entities/orca.md": {
+      "filePath": "entities/orca.md",
+      "contentHash": "e5fa739e734b48949480abf066bbb44fb9147e987c0ed5bf1946a8a4b23754a7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 36,
+      "hasStructuralAnalysis": true
+    },
+    "entities/slides-grab.md": {
+      "filePath": "entities/slides-grab.md",
+      "contentHash": "b2b188ffd4711fa2e328f9686433b94fd5f99add9c024166e9cc772ed5208313",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    "entities/understand-anything.md": {
+      "filePath": "entities/understand-anything.md",
+      "contentHash": "2dbcebd53eabc16da416da41762df0b87dacdb97fceb99ea6eb8f63a107047f7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    "entities/zotero-mcp.md": {
+      "filePath": "entities/zotero-mcp.md",
+      "contentHash": "efbb2751d8a928e7a5c73a55229fe9ce05576e5a5f32d7fc4570ca3b977387fa",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    "entities/zotero.md": {
+      "filePath": "entities/zotero.md",
+      "contentHash": "b13dc450447135ade86c6f61345c42c82565a1d5494bcc81e713f7985ce38ae4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    "raw/notebooklm/2026-07-16-all-notes.md": {
+      "filePath": "raw/notebooklm/2026-07-16-all-notes.md",
+      "contentHash": "bea48eba5dedd47058c006726f2d9bdb7229f7818948d5ef157f211d2d868a69",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 749,
+      "hasStructuralAnalysis": true
+    },
+    "raw/notebooklm/codegraph-github.md": {
+      "filePath": "raw/notebooklm/codegraph-github.md",
+      "contentHash": "4cca5ccd44040ca2e9f9f1726eee65879a1808fc41aa18015e7523eda68dba16",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2414,
+      "hasStructuralAnalysis": true
+    },
+    "raw/notebooklm/graphify-github.md": {
+      "filePath": "raw/notebooklm/graphify-github.md",
+      "contentHash": "aa1c6b52a236dcc0701d32197efcdb0ab8aaf77d3b1d05206182e0875614ef90",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2199,
+      "hasStructuralAnalysis": true
+    },
+    "raw/notebooklm/llm-wiki-skill-github.md": {
+      "filePath": "raw/notebooklm/llm-wiki-skill-github.md",
+      "contentHash": "888fc52566a6688ff269d77d22dc4de472f714ff94371403ad22b0dcc1e2eb8d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 860,
+      "hasStructuralAnalysis": true
+    },
+    "raw/notebooklm/llm-wiki-zotero-notebooklm-youtube.md": {
+      "filePath": "raw/notebooklm/llm-wiki-zotero-notebooklm-youtube.md",
+      "contentHash": "a26bc95668ba508de4813f6d40126f70722757b9074fb18c5b63bd58fc37c38b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 886,
+      "hasStructuralAnalysis": true
+    },
+    "raw/notebooklm/notebooklm-py-github.md": {
+      "filePath": "raw/notebooklm/notebooklm-py-github.md",
+      "contentHash": "325062cb964469e784f5ac7d247da88b58369165f6a65950be81a21c3b60ce98",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1181,
+      "hasStructuralAnalysis": true
+    },
+    "raw/notebooklm/understand-anything-github.md": {
+      "filePath": "raw/notebooklm/understand-anything-github.md",
+      "contentHash": "3116062fda4d6ffdb2c47e9e2a4d73434464bff49e24aedad2b002786b1ce95e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1078,
+      "hasStructuralAnalysis": true
+    },
+    "raw/notebooklm/zotero-mcp-github.md": {
+      "filePath": "raw/notebooklm/zotero-mcp-github.md",
+      "contentHash": "96fc91098d1d2e6195504996c0b3c1d00d7dabe41579302ce74cf9e12592f55b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 863,
+      "hasStructuralAnalysis": true
+    },
+    "raw/web/NomaDamasslides-grab Best harness + editor + linter for generating slides in Claude Code  Codex - Claude Design Open Source Alternative.md": {
+      "filePath": "raw/web/NomaDamasslides-grab Best harness + editor + linter for generating slides in Claude Code  Codex - Claude Design Open Source Alternative.md",
+      "contentHash": "da6e2f2eac3941edbd631947b4a5521d4f5250186f3c2453704df23296fcada1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 257,
+      "hasStructuralAnalysis": true
+    },
+    "raw/web/stablyaiorca Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile..md": {
+      "filePath": "raw/web/stablyaiorca Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile..md",
+      "contentHash": "ff5f3ac6c57c91c003876cf6795c95458cd96512b3ea7c2f7bad7f20a60d090d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 103,
+      "hasStructuralAnalysis": true
+    },
+    "raw/youtube/📺 How To Build LLM Wiki In Obsidian 🧠 A Memory Layer For Any Agentic AI.md": {
+      "filePath": "raw/youtube/📺 How To Build LLM Wiki In Obsidian 🧠 A Memory Layer For Any Agentic AI.md",
+      "contentHash": "f49ebc9265e3828d26c62283d51c1d1dc2bed7c51547386ba33355a77e492d3c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 304,
+      "hasStructuralAnalysis": true
+    },
+    "raw/youtube/📺 LLM Wiki를 업그레이드하는 외부 지식 시스템! 연구자를 위한 최강의 조합 Zotero × Notebook × Obsidian x Claude Code.md": {
+      "filePath": "raw/youtube/📺 LLM Wiki를 업그레이드하는 외부 지식 시스템! 연구자를 위한 최강의 조합 Zotero × Notebook × Obsidian x Claude Code.md",
+      "contentHash": "1b9cb91076131d9a1b1a35cb514faadf8147016ad6d4cbc6fc533f75533e5ccb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 690,
+      "hasStructuralAnalysis": true
+    },
+    "raw/youtube/📺 Orca Is the Free Cursor Killer Nobody's Talking About!.md": {
+      "filePath": "raw/youtube/📺 Orca Is the Free Cursor Killer Nobody's Talking About!.md",
+      "contentHash": "1fdb350a56b058e2bec28b0d0a57d85d0734a04ad08bf510e296672f5e755041",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 238,
+      "hasStructuralAnalysis": true
+    }
+  }
+}

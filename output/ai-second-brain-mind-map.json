@@ -1,0 +1,152 @@
+{
+  "name": "AI Second Brain System",
+  "children": [
+    {
+      "name": "Core Objectives",
+      "children": [
+        {
+          "name": "Integrity (Originality)"
+        },
+        {
+          "name": "Provenance (Traceability)"
+        },
+        {
+          "name": "Incrementality (Growth)"
+        },
+        {
+          "name": "Discovery (Relationships)"
+        }
+      ]
+    },
+    {
+      "name": "Architecture Layers",
+      "children": [
+        {
+          "name": "Raw Layer (Sources)"
+        },
+        {
+          "name": "Analysis Layer (AI Dialog)"
+        },
+        {
+          "name": "Long-term Knowledge Layer (Wiki)"
+        }
+      ]
+    },
+    {
+      "name": "Tool Roles",
+      "children": [
+        {
+          "name": "Zotero: Metadata/Source Preservation"
+        },
+        {
+          "name": "NotebookLM: Contextual Analysis"
+        },
+        {
+          "name": "LLM Wiki (Obsidian): Knowledge Storage"
+        },
+        {
+          "name": "Graphify: Relationship Analysis"
+        },
+        {
+          "name": "Understand Anything: Visual Dashboard"
+        },
+        {
+          "name": "CodeGraph: Symbol Impact Analysis"
+        }
+      ]
+    },
+    {
+      "name": "Workflow Steps",
+      "children": [
+        {
+          "name": "1. Collection & Integrity (SHA-256)"
+        },
+        {
+          "name": "2. Notebook Configuration (Source Validation)"
+        },
+        {
+          "name": "3. Structured Query (JSON/Source ID)"
+        },
+        {
+          "name": "4. Filtering Policy (Queries Promotion)"
+        },
+        {
+          "name": "5. Wiki Promotion (Backlinks/Logs)"
+        },
+        {
+          "name": "6. Quality Linting (10-point Check)"
+        },
+        {
+          "name": "7. Knowledge Graph Generation"
+        },
+        {
+          "name": "8. Insight Discovery (Hubs/Bridges)"
+        },
+        {
+          "name": "9. Feedback Loop (Refining Gaps)"
+        }
+      ]
+    },
+    {
+      "name": "LLM Wiki Schema",
+      "children": [
+        {
+          "name": "Frontmatter: Metadata/Tags/Sources"
+        },
+        {
+          "name": "Confidence Scores"
+        },
+        {
+          "name": "Atomic Note Size (under 200 lines)"
+        }
+      ]
+    },
+    {
+      "name": "Collaboration Model",
+      "children": [
+        {
+          "name": "Agent Tasks",
+          "children": [
+            {
+              "name": "Data Collection"
+            },
+            {
+              "name": "Drafting/Formatting"
+            },
+            {
+              "name": "Linting/Graphing"
+            }
+          ]
+        },
+        {
+          "name": "Human Tasks",
+          "children": [
+            {
+              "name": "Value Judgment"
+            },
+            {
+              "name": "Logical Verification"
+            },
+            {
+              "name": "Strategic Insight"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "System Maintenance",
+      "children": [
+        {
+          "name": "Semantic Normalization"
+        },
+        {
+          "name": "Drift Prevention"
+        },
+        {
+          "name": "Source Rotation"
+        }
+      ]
+    }
+  ]
+}
