@@ -1,7 +1,7 @@
 ---
 title: AI 개인 지식관리
 created: 2026-07-20
-updated: 2026-07-20
+updated: 2026-07-25
 type: concept
 tags: [pkm, knowledge-base, workflow, provenance, knowledge-graph]
 sources:
@@ -9,6 +9,7 @@ sources:
   - "raw/youtube/📺 LLM Wiki를 업그레이드하는 외부 지식 시스템! 연구자를 위한 최강의 조합 Zotero × Notebook × Obsidian x Claude Code.md"
   - "raw/notebooklm/2026-07-16-all-notes.md"
   - "raw/notebooklm/understand-anything-github.md"
+  - "raw/web/logseq-github-overview.md"
 confidence: medium
 contested: false
 ---
@@ -22,7 +23,7 @@ AI 개인 지식관리는 자료를 많이 저장하는 일이 아니라, 원본
 | 층 | 목적 | 대표 수단 | 보존 원칙 |
 |---|---|---|---|
 | 원본 | 논문·웹·영상과 서지정보 보존 | [[zotero]], `raw/` | 수정하지 않고 출처와 수집 시점을 남긴다. |
-| 컴파일된 지식 | 개념·엔티티·비교를 재사용 가능하게 정리 | [[llm-wiki]], [[obsidian]] | 출처, 위키링크, 갱신일과 신뢰도를 유지한다. |
+| 컴파일된 지식 | 개념·엔티티·비교를 재사용 가능하게 정리 | [[llm-wiki]], [[obsidian]], [[logseq]] | 출처, 위키링크, 갱신일과 신뢰도를 유지한다. |
 | 집중 탐색 | 제한된 소스 묶음에 질문하고 가설을 만든다 | [[notebooklm]] | 생성 답변을 확정 지식과 구분한다. |
 
 원본 도서관, 컴파일된 위키, 소스 기반 질의 공간을 분리하면 대용량 원본을 Markdown 저장소에 모두 복제하지 않으면서도 근거로 돌아갈 수 있다. 또한 한 도구의 대화 기록이나 독점 형식이 사라져도 핵심 지식과 출처 관계가 남는다. ^[raw/youtube/📺 LLM Wiki를 업그레이드하는 외부 지식 시스템! 연구자를 위한 최강의 조합 Zotero × Notebook × Obsidian x Claude Code.md]

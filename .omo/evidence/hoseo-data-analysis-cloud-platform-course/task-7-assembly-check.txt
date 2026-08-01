@@ -1,0 +1,363 @@
+Todo 7 assembly evidence
+
+PRELIGHT / FAIL-CLOSED
+Scenario: target absent before assembly
+Invocation: test ! -e output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md
+Exit: 0
+Binary observable: target did not exist.
+
+Scenario: intentionally missing brief blocks assembly
+Invocation: test -s .omo/evidence/hoseo-data-analysis-cloud-platform-course/__intentionally-missing-brief__.md
+Exit: 1 (expected nonzero)
+Binary observable: missing brief rejected.
+Invocation: test ! -e output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md
+Exit: 0
+Binary observable: target remained absent after the failed preflight; assembly did not run on partial inputs.
+
+Scenario: all six validated briefs are present and nonempty
+Invocation: test -s for task-1-source-ledger.md through task-6-governance-assessment.md
+Exit: 0 for each
+Binary observables:
+- task-1-source-ledger.md: 11836 bytes
+- task-2-course-contract.md: 14338 bytes
+- task-3-ncp-module.md: 12843 bytes
+- task-4-hermes-cti-module.md: 17489 bytes
+- task-5-wiki-ua-graph-module.md: 15196 bytes
+- task-6-governance-assessment.md: 12061 bytes
+
+ASSEMBLY GATE: PASS. Target creation authorized only after the complete six-brief preflight above.
+
+ASSEMBLY
+Invocation: apply_patch Add File output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md
+Exit: 0
+Binary observable: exactly one nonempty target was created only after the gate passed.
+Correction: the first deterministic content run rejected the draft because the exact dated-ledger key `official_latest` was absent. No success was claimed. apply_patch changed the ATT&CK source row to `official_latest: v19.1`; the complete structure/content scenario was then rerun and passed.
+
+STATIC AND STRUCTURE QA
+Scenario: file identity and nonempty content
+Invocation: file output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md; test -s output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md
+Exits: 0, 0
+Observable: `Unicode text, UTF-8 text`; 30790 bytes.
+
+Scenario: UTF-8, LF only, final newline
+Invocation: Ruby binary read; force UTF-8; require valid_encoding, no CR byte, and final LF
+Exit: 0
+Observable: `UTF8_LF_FINAL_NEWLINE_OK bytes=30790`.
+
+Scenario: exact unique H2 contract
+Invocation: rg -n '^## ' output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md
+Exit: 0
+Observable: exactly 10 lines at 3,16,34,52,82,104,124,148,158,178, in required order: 교과목 개요; 운영 전제 및 선수지식; 학습성과 및 평가 정렬; 평가 방법; 15주 수업 일정; 실습 마일스톤 및 제출 증거; 운영 환경 및 대체 실습 매트릭스; 안전·윤리·비용·개인정보·접근성 정책; 교수자 사전 준비 및 장애 복구; 최신성·출처 기준.
+
+Scenario: no unfinished scaffold markers in target
+Invocation: rg -n -i '\b(TODO|TBD)\b|\{\{|<insert|\[insert|PLACEHOLDER' output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md
+Raw exit: 1 (expected no match); absence assertion exit: 0.
+
+Scenario: deterministic Markdown schedule, LO, assessment, and fallback parser
+Invocation: inline Ruby parser over named H2 sections and pipe-table rows
+Exit: 0
+Observable: `STRUCTURE_OK headings=10 weeks=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 instructional=13 exams=8,15 weights=20/40/40 mid=10+10+12+8 final=10+10+10+10 fallback_rows=6 lo=LO1-LO5 lineage=true`.
+Parser assertions: H2 list exact and unique; weeks exactly 1..15 once; exactly 13 schedule rows contain `60분 비동기 동영상 + 120분 대면 실습`; only weeks 8/15 contain `3시간 개인 실기시험, 신규 강의 없음`; exam rows contain no instructional marker; each LO occurs in outcome, assessment, and schedule sections; weighted rows are 20/40/40; rubric vectors and sums are exact; the six named fallback rows have seven nonempty cells; full lineage and fact/default/fixture/hypothesis distinctions are present.
+
+RENDER AND MANUAL QA
+Scenario: independent GFM parse
+Invocation: pandoc -f gfm -t html output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md | Ruby nonempty/heading/table counter
+Exit: 0
+Observable: `PANDOC_GFM_OK html_bytes=37901 h2=10 tables=10`.
+
+Scenario: wide-terminal Markdown render
+Invocation: COLUMNS=420 NO_COLOR=1 glow -w 400 -s dark output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md
+Exit: 0
+Observable: nonempty render, 109584 bytes, 236 lines, ellipsis count 0.
+Manual surface inspection: PASS. Directly inspected the 400-column rendered assessment tables, 15-week schedule, milestone table, platform table, six-track fallback table, policy/preflight sections, and source ledger. Korean headings and rows were readable; week 8/15 exam-only wording, 20/40/40, both rubric totals, all 15 week labels, Docker fixture-only limitation, and ATT&CK fixture/current distinction were visible. No clipped header marker, malformed pipe row, or merged semantic cell was observed. Artifact: this receipt records the render command and binary/manual observations; no extra render file was retained because task ownership permits only the target and this receipt.
+
+PROTECTED STATE, SAFETY, AND ADVERSARIAL QA
+Scenario: protected path/hash fidelity
+Invocation: find the Todo 1 protected scope excluding the new syllabus, parse task-1-protected-sha256.txt with compatible Ruby 2.6 each_with_object, recompute SHA-256, and compare exact sorted path set
+Exit: 0
+Observable: `PROTECTED_CHECK rows=142 current=142 exact_set=true mismatches=0`.
+Harness note: an initial stdin/heredoc form exited 1 with `uninitialized constant SCHEMA`; it was a checker wiring error and was not treated as a product failure or pass. The corrected pipe plus `ruby -e` form above reran the complete protected check and passed.
+
+Scenario: dirty-worktree write boundary
+Invocation: Ruby set comparison of fresh `git status --short` against the exact block in task-1-baseline-status.txt
+Exit: 0
+Observable: baseline=51, current=52, added exactly `?? output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md`, removed=[]; the evidence directory was already represented by its baseline untracked status line. No staged/reverted/normalized path.
+
+Scenario: secret/PII scan over both owned files
+Invocation: Ruby high-signal scan for private-key blocks, GitHub/AWS token forms, bearer credentials, JWT, Korean resident-registration number, and email patterns
+Exit: 0
+Observable: `SECRET_PII_SCAN files=2 private_key=0 github=0 aws=0 bearer=0 jwt=0 korean_rrn=0 email=0`.
+
+Scenario: prompt-injection-shaped text
+Invocation: rg -ni for common system/developer/tool-call/execute-instruction shapes over both owned files
+Raw exit: 1 (expected no match); absence assertion exit: 0. Brief and web text remained source data only.
+
+Adversarial results:
+- malformed_input: PASS — intentionally missing brief produced test-s exit 1 and target stayed absent; only complete briefs opened the assembly gate.
+- prompt_injection: PASS — source text was treated as evidence data; no injection-shaped text was executed or promoted.
+- stale_state: PASS — `as_of: 2026-07-29`, documented fact/course default/semester fixture/hypothesis labels, `official_latest`, dated observations, and no-silent-refresh rule are explicit.
+- dirty_worktree: PASS — 142 protected hashes and exact protected path set unchanged; actual status delta is only the owned syllabus path.
+- misleading_success_output: PASS — independent Ruby parsing, Pandoc GFM parsing, Glow rendering, and manual surface inspection agree; the first missing-key failure is disclosed.
+- cancel_resume: PASS — negative preflight proves partial briefs cannot create the target; target is now complete and nonempty.
+- repeated_interruptions: PASS — target was written only after the recorded complete preflight and ends as a single valid final-newline file.
+- hung_long_commands: N/A — all commands were bounded local reads/parses/renders; no server, poll, network request, cloud call, Hermes job, cron, or UA run occurred.
+- flaky_tests: N/A — structure, arithmetic, set, encoding, SHA-256, and render checks are deterministic over local files.
+
+CLEANUP
+No task-specific temporary directory or temporary file was created. No process, server, browser session, container, cloud resource, Hermes installation, cron, CTI live collection, canonical/wiki mutation, or UA generation was started. Persistent writes are exactly the syllabus and this receipt.
+
+FINAL INTEGRITY RERUN
+- `test -s` both owned files: exit 0.
+- `file`: both report Unicode UTF-8 text.
+- Ruby UTF-8/LF/final-newline validator: exit 0; target 30790 bytes, receipt 8349 bytes before this final append.
+- Full deterministic parser: exit 0; `FINAL_PARSER_PASS h2=10 weeks=15 instructional=13 exams=8,15 weights=20/40/40 mid=10+10+12+8 final=10+10+10+10 fallback=6 LO=1-5`.
+- `git diff --no-index --check /dev/null <target>`: normal new-file exit 1 with zero whitespace diagnostics; assertion exit 0.
+- Pandoc GFM: exit 0; `PANDOC_FINAL_PASS bytes=37901 h2=10 tables=10`.
+- Glow at 400 columns: exit 0; `GLOW_FINAL_PASS bytes=109584 lines=236 ellipsis=0`.
+- Final high-signal secret/PII scan: exit 0; all seven categories zero.
+- Final target SHA-256: `b87d72f0227c1e59d33e13e6db011d132156644eb8536f4dcb6c2036e3d41210`.
+
+TODO 7 VERDICT: PASS. Required syllabus is complete; negative preflight remains preserved above.
+
+REOPENED REMEDIATION — FAILING-FIRST CONTROL
+Trigger: global code/document review and focused debugging found missing Task 4 carry-through clauses and no stable machine-consumed row contracts. This receipt and the syllabus remain the only Task 7 write targets.
+
+Invocation before remediation edits:
+`rg -n -F` once per carry-through literal over the current syllabus, followed by stable-ID regex searches.
+
+Observed RED results before edits:
+- `messaging/browser`: exit 1
+- `학생 workspace`: exit 1
+- `wakeAgent`: exit 1
+- `reason`: exit 1
+- `changedPaths`: exit 1
+- `resultsPerPage`: exit 1
+- `startIndex`: exit 1
+- `페이지/날짜 batch`: exit 1
+- `value_state`: exit 1
+- `state_reason`: exit 1
+- `published_at`: exit 1
+- `last_modified_at`: exit 1
+- `fixture_release`: exit 1
+- `rg -n -o 'topic_id: W(0[1-9]|1[0-5])-[a-z0-9-]+'`: exit 1
+- `rg -n -o 'M[1-7]-(HAPPY|FAIL|ARTIFACT|MACHINE|FALLBACK|SAFETY|ASSESS)'`: exit 1
+
+Binary observable: all 13 carry-through searches and both stable-ID searches returned no match. Remediation was therefore required before edits.
+
+REOPENED REMEDIATION — GREEN CONTROLS
+
+Content repair:
+- Restored Hermes non-root/student-workspace tool allowlist, one gateway/local-only, manual approval boundary, `cron_mode: deny`, separate messaging/browser approval, trusted `wakeAgent`/`reason`/`changedPaths`, and secret exclusions with compact pinned official source links.
+- Restored NVD `resultsPerPage`/`startIndex`, 페이지/날짜 batch, minimum six-second pacing, maximum-three bounded retry, defer/no-publish, and last-good preservation with compact official source links.
+- Restored complete `vulnerability`, `signal`, and `attack` field contracts, including source/native identifiers, source/version/hash linkage, record timestamps, `published_at`, `last_modified_at`, `value_state`, `state_reason`, and ATT&CK `fixture_release`.
+- Split LO1 into honest live NCP configuration versus approved fixture design/teardown validation; fallback explicitly forbids claiming provisioning.
+- Added exactly one stable `topic_id` for each W01–W15 schedule row and exactly one per-cell `M#-HAPPY`, `M#-FAIL`, `M#-ARTIFACT`, `M#-MACHINE`, `M#-FALLBACK`, `M#-SAFETY`, `M#-ASSESS` identifier for M1–M7.
+- Made UA partial/stale nonzero rejection, provided captions/transcript/accessibility, prohibited offensive activity, data-only/non-executed external content, and inert Markdown polarity explicit.
+
+Scenario: carry-through literal closure
+Invocation: `rg -q -F` for the same 13 RED literals.
+Exit: 0 for every literal.
+Observable: all missing Hermes, NVD, pagination/batching, normalized schema, timestamp, state, and ATT&CK fixture fields now occur in their operational sections.
+
+Scenario: deterministic stable contract parser
+Invocation: inline Ruby parser over named H2 sections, schedule rows, milestone cells, grading/rubric tables, fallback table, schemas, polarity, and active-content denylist.
+Exit: 0.
+Observable: `CONTRACT_PASS h2=10 weeks=15 topics=15 instructional=13 exams=8,15 weights=20/40/40 mid=10+10+12+8 final=10+10+10+10 milestones=7 evidence_ids=49 fallback=6 schemas=3 carry=11 active_content=0`.
+The parser required the exact ordered slug list W01–W15 once each. For every M1–M7 row it required eight nonempty cells and the matching seven evidence IDs in their exact corresponding cell, with each full ID occurring once in the syllabus.
+
+Scenario: current Task 8 checker compatibility report
+Invocation: `ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/syllabus_check.rb output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md`
+Exit: 1.
+Observable: it reports `milestone table missing required evidence fields`, `incomplete practical milestone`, and downstream prose-token bucket failures. This is the expected handoff: the current checker hard-codes the former seven-column combined artifact/machine format, while the requested stable contract intentionally splits `Artifact` and `Machine` into distinct ID-bearing cells. No Task 8 file was edited. The independent stable-contract parser above passes the required new format.
+
+Scenario: prior Todo 7 structure invariants
+Invocations: `file`, `test -s`, Ruby UTF-8/LF/final-newline validation, `rg -n '^## '`, grading/rubric/week/fallback parsing.
+Exits: all 0.
+Observables: UTF-8 LF file with final newline; exactly ten ordered H2 headings; weeks 1–15 once; exactly 13 instructional rows; exams only 8/15; LO1–LO5 in outcomes/assessment/schedule; 20/40/40; midterm 10+10+12+8; final 10+10+10+10; exactly six complete fallback rows.
+
+Scenario: GFM and wide/ordinary terminal surfaces
+Invocations:
+- `pandoc -f gfm -t html <target>` plus nonempty/H2/table/active-HTML assertions
+- `COLUMNS=180 NO_COLOR=1 glow -w 160 -s dark <target>`
+- `COLUMNS=420 NO_COLOR=1 glow -w 400 -s dark <target>`
+Exits: all 0.
+Observables: `PANDOC_PASS bytes=43541 h2=10 tables=11 active_html=0`; `GLOW_PASS width=160 bytes=97643 lines=504 ellipsis=0`; `GLOW_PASS width=400 bytes=128323 lines=276 ellipsis=0`.
+Manual QA: PASS. Direct 160-column inspection showed readable Korean headings, compact schedule headers, visible W01 topic IDs, separately labeled milestone evidence cells, complete schema rows, explicit accessibility/data-only policies, and source tables without ellipsis or malformed rows. The 400-column render retained the same semantics with fewer wraps. Topic slugs wrap at 160 columns but remain intact and untruncated.
+
+Scenario: negative content and whitespace guards
+Invocations: target scans for scaffold markers and active HTML/event-handler/execution-URI shapes; `git diff --no-index --check /dev/null <target>`.
+Results: both scans raw exit 1 as expected no-match; no-index normal added-file exit 1 with zero whitespace diagnostics; assertions exit 0.
+
+Scenario: protected state and sensitive data
+Invocations: recompute the Todo 1 protected manifest and exact path set excluding the syllabus; high-signal secret/PII scan across both Task 7 owned files.
+Exits: 0, 0.
+Observables: `PROTECTED_PASS rows=142 exact_set=true mismatches=0`; `SECRET_PII_PASS files=2 private_key=0 github=0 aws=0 bearer=0 jwt=0 rrn=0 email=0`.
+
+Adversarial remediation results:
+- malformed_input: PASS — stable topic/milestone multiplicity and exact cell IDs are deterministically parsed rather than inferred from token buckets.
+- prompt_injection: PASS — untrusted external content is explicitly data-only and never executed; active content scan has zero matches.
+- stale_state: PASS — partial/stale UA is an explicit nonzero rejection and dated fixture/current distinctions remain intact.
+- dirty_worktree: PASS — only the two Task 7 owned paths were edited; 142 protected paths match exactly.
+- misleading_success_output: PASS — current Task 8 incompatibility is reported as exit 1, not relabeled as success; independent parser and two render surfaces provide positive evidence for the new contract.
+- cancel_resume: PASS — pre-edit RED receipt is durable and final target is a complete single UTF-8 file.
+- repeated_interruptions: PASS — exact identity/multiplicity checks prevent partial or duplicate stable contract rows from passing.
+- hung_long_commands: N/A — all commands are bounded local reads/parses/renders.
+- flaky_tests: N/A — identity, set, schema, encoding, hash, and rendering checks are deterministic.
+
+Cleanup: `/tmp/hoseo-t7-task8-current.out` was removed and its absence verified. No other temporary path, process, server, browser context, cloud resource, Hermes operation, cron, CTI live collection, canonical/wiki mutation, or UA generation was created.
+
+Remediated target SHA-256: `d062c7427f7b8a715f357f7d6f7e307f677fcd3b455c9b709c899ef192d52bee`.
+
+AUTOMATED-CONTRACT REMEDIATION — FAILING-FIRST
+- Pinned pre-edit target SHA-256: `d062c7427f7b8a715f357f7d6f7e307f677fcd3b455c9b709c899ef192d52bee`.
+- `rg -n '^### 자동 검증 계약$' <target>`: exit 1, expected missing subsection.
+- `rg -n '^contract_version:' <target>`: exit 1, expected missing YAML contract.
+- Binary observable: the syllabus contained the human safety/operating rules but no explicit machine-readable YAML projection before this edit.
+
+AUTOMATED-CONTRACT REMEDIATION — GREEN
+
+Change: added one `### 자동 검증 계약` subsection under the existing safety/policy H2. It is a human-readable fenced YAML projection of existing rules; no H2 or educational requirement was added, removed, or reordered. The accompanying sentence states that M1–M7 role IDs and fallback column/track IDs are stable structure for open Korean prose, while actual meaning remains subject to independent F1/F3 review.
+
+Scenario: YAML parse and exact typed values
+Invocation: Ruby `YAML.safe_load` of the fenced block plus nested key/value assertions.
+Exit: 0.
+Observable: `AUTO_CONTRACT_PASS keys=11 h2=10 weeks=15 topics=15 milestone_ids=49 weights=20/40/40 fallback_rows=6`.
+Validated values: contract version 1.0; UA partial/stale accept false and nonzero exit; graph inference fact false; all three accessibility booleans true; all four offensive booleans false; untrusted execution false; prompt/log/history credentials false; Hermes separate approval, allowlist, gateway count 1, local-only, and exact gate outputs; NVD pagination, six-second minimum, three retries, deferred failure, and last-good preservation; milestone roles and fallback columns/tracks.
+
+Scenario: current Task 8 stable-contract checker
+Invocation: `ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/syllabus_check.rb <target>`.
+Exit: 0.
+Observable: `PASS headings=10 weeks=15 topic_ids=15 milestones=7 evidence_ids=49 fallbacks=6 weights=20/40/40 rubrics=40/40 carry=PASS`.
+
+Scenario: GFM and terminal rendering
+Invocations:
+- `pandoc -f gfm -t html <target>` plus active-content assertion
+- `glow -w 160 -s dark <target>`
+- `glow -w 400 -s dark <target>`
+- `glow -w 160 -s notty <target>` with direct contract-field inspection
+Exits: all 0.
+Observables: `PANDOC_PASS bytes=53501 h2=10 h3=7 tables=11 active=0`; width 160 rendered 105263 bytes/551 lines/ellipsis 0; width 400 rendered 146824 bytes/322 lines/ellipsis 0. The styled render's ANSI sequences make raw exact-heading substring search unsuitable, so the notty surface was inspected directly instead: lines 426–472 show the intact Korean subsection, all YAML keys/values, role list, fallback columns, and track list without clipping or ellipsis. Manual QA: PASS.
+
+Scenario: prior document invariants and negative guards
+Invocations: exact H2/week/instructional/exam/topic/milestone/weight/fallback parsing; scaffold and active-content scan; no-index whitespace check.
+Exits: all assertions 0.
+Observables: ten unchanged H2 headings, 15 unique weeks, 13 instructional rows, exams 8/15, 15 unique topic IDs, 49 unique milestone IDs, 20/40/40, six fallback rows; negative scan raw exit 1/no matches; whitespace diagnostics 0.
+
+Scenario: protected state and sensitive data
+Invocations: fresh Todo 1 protected manifest recomputation excluding the syllabus; high-signal secret/PII scan over both Task 7 files.
+Exits: 0, 0.
+Observables: `PROTECTED_PASS rows=142 exact_set=true mismatches=0`; all seven sensitive-pattern categories zero.
+
+Cleanup: no temporary file, process, server, browser context, cloud resource, Hermes/cron/CTI operation, canonical/wiki mutation, or UA generation was created.
+
+Automated-contract target SHA-256: `75df0f2733c5bf898b78ee531cbc13700aafcc359b4f7ea15d3a0c296d2c1e51`.
+
+FALLBACK CELL-BINDING REMEDIATION — FAILING-FIRST
+- Pinned pre-edit target SHA-256: `75df0f2733c5bf898b78ee531cbc13700aafcc359b4f7ea15d3a0c296d2c1e51`.
+- Invocation: `rg -n -o 'F-(NCP|HERMES|CTI_API|LLM_ENRICHMENT|UA_GENERATION|GRAPH_ANALYSIS)-(LIVE|FIXTURE|MANIFEST|PRESERVED|LOST|CLAIM)' <target>`.
+- Exit: 1, expected no match.
+- Binary observable: the fallback table had track and column contracts but no per-cell identifiers, so a LOST/CLAIM whole-cell swap was not structurally bound before remediation.
+
+FALLBACK CELL-BINDING REMEDIATION — GREEN
+
+Change: prefixed each of the six fallback rows' six semantic cells with one unique inline-code `F-TRACK-ROLE` ID. Track slugs are exactly `NCP`, `HERMES`, `CTI_API`, `LLM_ENRICHMENT`, `UA_GENERATION`, `GRAPH_ANALYSIS`; role suffixes are exactly `LIVE`, `FIXTURE`, `MANIFEST`, `PRESERVED`, `LOST`, `CLAIM`. All existing Korean prose remains after its ID. The auto-validation explanation now states that these IDs bind track and column while F1/F3 independently review open Korean meaning; existing YAML values are unchanged.
+
+Scenario: exact ID set, uniqueness, and cell placement
+Invocation: independent Ruby parser over the six fallback rows before any Task 8 invocation.
+Exit: 0.
+Observable: `FALLBACK_ID_PASS rows=6 ids=36 unique=36 correct_cells=true`.
+The parser required seven cells per row, derived the exact stable slug from the displayed track, required each role ID at the beginning of its corresponding semantic cell, and required every full ID exactly once in the target.
+
+Scenario: whole-cell swap negative control
+Setup: copied the syllabus into a task-specific `/tmp/hoseo-t7-fallback-swap.*` directory, then swapped the complete NCP LOST and CLAIM cells including their IDs.
+Invocation: independent cell-binding parser against the swapped copy.
+Exit: 1, expected nonzero.
+Observable: `FAIL_FALLBACK_CELL_BINDING NCP`; wrapper assertion printed `SWAP_NEGATIVE_PASS parser_exit=1 expected_nonzero=true`.
+Cleanup: deleted the copied fixture, removed its task-specific directory, and verified `SWAP_CLEANUP_PASS temp_absent=true`.
+
+Scenario: current Task 8 checker
+Invocation: `ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/syllabus_check.rb <target>`.
+Exit: 0.
+Observable: `PASS headings=10 weeks=15 topic_ids=15 milestones=7 evidence_ids=49 fallbacks=6 weights=20/40/40 rubrics=40/40 contract=PASS`.
+
+Scenario: Pandoc and terminal surfaces
+Invocations: Pandoc GFM→HTML plus active-content assertion; Glow at widths 160 and 400; direct `glow -s notty -w 160` fallback inspection.
+Exits: all 0.
+Observables: `PANDOC_PASS bytes=54743 h2=10 tables=11 active=0`; Glow width 160 rendered 107011 bytes/559 lines/ellipsis 0; width 400 rendered 148365 bytes/325 lines/ellipsis 0. Manual 160-column QA showed NCP, Hermes, and other row IDs visibly aligned beneath live/fixture/manifest/preserved/lost/claim headers, with Korean descriptions intact; the F-TRACK-ROLE explanation also rendered intact. Verdict: PASS.
+
+Scenario: protected state, whitespace, staging, and sensitive data
+Invocations: fresh Todo 1 protected manifest recomputation excluding the syllabus; no-index whitespace check; cached-diff check limited to the two Task 7 paths; high-signal secret/PII scan.
+Exits: all assertions 0.
+Observables: `PROTECTED_PASS rows=142 exact_set=true mismatches=0`; whitespace diagnostics 0; `STAGING_PASS owned_paths_staged=false`; all seven sensitive-pattern categories zero.
+
+Cleanup receipt: the only temporary resource was the NCP swap directory and copy; both are absent. No process, server, browser context, cloud resource, Hermes/cron/CTI operation, canonical/wiki mutation, or UA generation was created.
+
+Fallback-cell-binding target SHA-256: `3f487040566d26ba2c181ac2d29b2af5fd1a01bf00adc4f544fe67488e99ce98`.
+
+HERMES TYPED-CONTRACT REMEDIATION — FAILING-FIRST
+- Pinned pre-edit target SHA-256: `3f487040566d26ba2c181ac2d29b2af5fd1a01bf00adc4f544fe67488e99ce98`.
+- Invocation: Ruby `YAML.safe_load` scoped to `### 자동 검증 계약`, then inspect six keys inside the `hermes` mapping.
+- Exit: 1, expected missing contract.
+- Observable: `install_mode`, `doctor_required`, `timezone`, `cron_mode`, `observation_states`, and `preserve_last_good` were each `present=false value=nil` within `yaml.hermes`.
+- Note: global prose already contained `cron_mode: deny`, and the NVD mapping already contained a separate `preserve_last_good: true`; only the scoped YAML parser is accepted as failing-first evidence for the missing Hermes fields.
+
+HERMES TYPED-CONTRACT REMEDIATION — GREEN
+
+Change: extended only the existing fenced YAML `hermes` mapping with `install_mode: headless`, `doctor_required: true`, `timezone: Asia/Seoul`, `cron_mode: deny`, `observation_states: [changed, no_change, semantic_failure]`, and `preserve_last_good: true`. No visible Korean prose, prior YAML value, fallback ID, milestone ID, or H2 was changed.
+
+Scenario: scoped YAML types and invariant preservation
+Invocation: Ruby `YAML.safe_load`, exact six-field type/value assertions inside `yaml.hermes`, ten-H2 count, exact fallback/milestone ID set checks.
+Exit: 0.
+Observable: `HERMES_CONTRACT_PASS fields=6 types=typed h2=10 fallback_ids=36 milestone_ids=49`.
+Harness note: the first local fallback occurrence helper passed an escaped String to `String#scan`, producing a false `MISSING F-NCP-LIVE` error. It was not treated as a product result. The corrected Regexp-based occurrence helper reran the complete YAML/H2/ID scenario and passed.
+
+Scenario: current Task 8 checker compatibility
+Invocation: `ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/syllabus_check.rb <target>`.
+Exit: 1.
+Observable: `FAIL: contract root.hermes keys mismatch`. This is the expected checker handoff: its exact Hermes key set predates the newly required six typed fields. No checker/harness file was edited.
+
+Scenario: Pandoc and terminal rendering
+Invocations: Pandoc GFM→HTML with active-content assertion; Glow at widths 160 and 400; `glow -s notty -w 160` direct contract inspection.
+Exits: all 0.
+Observables: `PANDOC_PASS bytes=56193 h2=10 tables=11 active=0`; Glow width 160 rendered 107965 bytes/565 lines/ellipsis 0; width 400 rendered 150759 bytes/331 lines/ellipsis 0. Manual output lines 469–474 show all six added Hermes fields intact, typed, and readable; NVD `preserve_last_good` remains a separate mapping value. Verdict: PASS.
+
+Scenario: protected state, whitespace, staging, sensitive data
+Invocations: Todo 1 protected-manifest recomputation excluding the syllabus; no-index whitespace check; cached-diff check on the two Task 7 paths; high-signal secret/PII scan.
+Exits: all assertions 0.
+Observables: `PROTECTED_PASS rows=142 exact_set=true mismatches=0`; whitespace diagnostics 0; owned paths unstaged; all seven sensitive-pattern categories zero.
+
+Cleanup: no temporary file, process, server, browser context, cloud resource, Hermes/cron/CTI operation, canonical/wiki mutation, or UA generation was created.
+
+Hermes-typed-contract target SHA-256: `65ed06d96716202509679a3a3ef57c4a0d446c2bb77998a454ed2885d2123d66`.
+
+COURSE FACTS TYPED-CONTRACT REMEDIATION — FAILING-FIRST
+- Pinned pre-edit target SHA-256: `65ed06d96716202509679a3a3ef57c4a0d446c2bb77998a454ed2885d2123d66`.
+- Invocation: Ruby `YAML.safe_load` scoped to `### 자동 검증 계약`, then inspect the requested `course`, `team`, `platform.docker`, and `cti` paths.
+- Exit: 1, expected missing contract.
+- Observable: `RED missing=course.instructional_weeks,course.instructional_delivery,course.exam_weeks,course.exam_duration_minutes,course.exam_new_lecture,team.min_size,team.max_size,team.separately_weighted,platform.docker,cti.raw_manifest_fields,cti.value_states`.
+
+COURSE FACTS TYPED-CONTRACT REMEDIATION — GREEN
+
+Change: extended only the existing fenced YAML contract with the requested typed `course`, `team`, `platform.docker`, and `cti` mappings. The `cti.value_states` member `"null"` parses as a String. No visible Korean prose, existing YAML key/value, H2 heading, milestone ID, or fallback ID changed. Removing the exact inserted YAML text reconstructs the prior target byte-for-byte at SHA-256 `65ed06d96716202509679a3a3ef57c4a0d446c2bb77998a454ed2885d2123d66`.
+
+Scenario: strict YAML types/values and invariant preservation
+Invocation: Ruby `YAML.safe_load`, exact twelve path/value assertions, scalar/array element type assertions, schedule-section parser, stable-ID parser, and prior-SHA reconstruction.
+Exit: 0.
+Observable: `COURSE_CONTRACT_PASS fields=12 typed=true h2=10 weeks=15 milestone_ids=49 fallback_ids=36 prior_sha=65ed06d96716202509679a3a3ef57c4a0d446c2bb77998a454ed2885d2123d66`.
+Harness notes: the first streamed run used a `주` suffix not present in the schedule's first column and treated manifest metadata as hash rows; it was not accepted as product evidence. The next run reached the protected check but Ruby 2.6 rejected `filter_map`. The final full run used the actual numeric week cell format and Ruby-2.6-compatible `each_with_object`, started with `set -eu`, and passed every scenario below.
+
+Scenario: Pandoc and terminal surfaces
+Invocations: `pandoc -f gfm -t html <target>` streamed to HTML structure/active-content assertions; Glow at widths 160 and 400 streamed to nonempty/ellipsis assertions; `glow -s notty -w 160 <target>` streamed to all twelve new field-name assertions.
+Exits: all 0.
+Observables: `PANDOC_PASS bytes=61511 h2=10 tables=11 active=0`; Glow width 160 rendered 110827 bytes/583 lines/ellipsis 0; width 400 rendered 157941 bytes/349 lines/ellipsis 0; `GLOW_NOTTY_PASS contract_fields=12`. Verdict: PASS.
+
+Scenario: protected state, whitespace, staging, and sensitive data
+Invocations: Todo 1 protected-manifest exact-set and SHA recomputation excluding the syllabus; no-index whitespace check; cached-diff check limited to both Task 7 paths; seven-category high-signal secret/PII scan over both Task 7 files.
+Exits: all 0.
+Observables: `PROTECTED_PASS rows=142 exact_set=true mismatches=0`; `WHITESPACE_PASS diagnostics=0`; `STAGING_PASS owned_paths_staged=false`; `SENSITIVE_SCAN_PASS categories=7 matches=0`.
+
+Adversarial classes: generated-contract stale state was probed by reconstructing and hashing the full pre-edit target; misleading success output was probed with exact typed values, counts, renderer structure, protected hashes, and binary exits rather than log text. Malformed input, prompt injection, cancel/resume, hung command, flaky test, dirty-worktree mutation, and repeated interruptions are not triggered by this static YAML-only extension; the owned-path staging check still confirmed no staged mutation.
+
+Cleanup: all verification was streamed through stdin/stdout. No temporary file, process, server, browser context, cloud resource, Hermes/cron/CTI operation, canonical/wiki mutation, or UA generation was created. `CLEANUP_PASS temporary_resources=none`.
+
+Course-facts typed-contract target SHA-256: `17fd413c37db2549264b711ada76b8352891e04ba60e39db7333fcf8e53d7be6`.

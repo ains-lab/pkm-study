@@ -1,0 +1,4 @@
+interface:
+  display_name: "Understand Domain"
+  short_description: "Extract domain flows from the project knowledge graph"
+  default_prompt: "Use $understand-domain to extract the project's domains, flows, and process steps."

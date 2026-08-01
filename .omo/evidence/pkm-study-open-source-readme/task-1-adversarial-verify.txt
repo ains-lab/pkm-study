@@ -1,0 +1,28 @@
+AdversarialVerify {
+  verdict: confirmed,
+  evidence: [
+    "PASS exact Todo-1 validator recreation matched the plan block byte-for-byte and accepted README.md",
+    "PASS first nonblank line, one H1, fourteen ordered unique H2 headings, two complete Mermaid fences, no leading frontmatter, and no Obsidian wikilink token",
+    "PASS independent full read and section-bounded semantic checks for Korean-first vault positioning, evidence immutability, provenance, reusable canonical knowledge, tool-independent Markdown, typed canonical pages, schema/frontmatter, index/log traceability, health gates, optional derived graph, source verification, and canonical feedback",
+    "PASS malformed heading-plus-fence fixture was nonempty and the exact validator returned nonzero",
+    "PASS task-1 baseline and structure receipts exist; baseline predates README; structure receipt is newer than README; all 17 receipt lines are status-only and required receipts occur once",
+    "PASS fresh NUL status-map comparison preserved every baseline status and admitted only README.md plus collapsed/expanded plan-owned evidence; expanded evidence entries are confined to the attempt directory",
+    "PASS git diff --check -- README.md and git diff --cached --quiet",
+    "PASS local HEAD/index/config/head-and-remote-ref metadata did not advance after the baseline; no local commit, staging, configuration, or push-side metadata mutation was observed",
+    "PASS executor QA scripts, fixtures, caches, and process surfaces were absent from the evidence directory"
+  ],
+  repro: "qa_tmp=$(mktemp -d) with EXIT trap; recreate the plan's exact validate_structure.py and compare it byte-for-byte to the Todo-1 code block; run python3 $qa_tmp/validate_structure.py README.md; extract the first five H2 sections with awk and assert the required semantic concepts and both feedback flows with rg; cp README.md $qa_tmp/bad.md; apply the plan's perl heading/fence corruption; require the validator nonzero; capture git status --porcelain=v1 -z in temp plus an expanded --untracked-files=all status; parse both as porcelain status maps against task-1-baseline-status.z; run git diff --check -- README.md and git diff --cached --quiet; verify evidence ordering, exact status-only receipt classes, and local Git metadata timestamps",
+  confidence: 0.98,
+  adversarial_classes: {
+    malformed_input: "PASS missing required heading plus broken closing fence was rejected",
+    prompt_injection: "N/A no untrusted external instruction source was executed",
+    cancel_resume: "N/A no resumable or long-running workflow exists in Todo 1",
+    stale_state: "PASS current receipt is newer than README and an intentionally stale temp receipt failed the freshness predicate",
+    dirty_worktree: "PASS baseline statuses were preserved and newly observed paths were limited to README.md and the plan-owned evidence directory",
+    hung_long_commands: "N/A all probes are bounded local file and Git reads",
+    flaky_tests: "N/A the deterministic validator and fixtures have no timing or external dependency",
+    misleading_success_output: "PASS receipt text was ignored as authority; valid and malformed artifacts were independently rerun with opposite exit statuses",
+    repeated_interruptions: "N/A no mid-operation interrupt or retry-sensitive state transition exists"
+  },
+  cleanup: "PASS isolated qa_tmp was registered with an EXIT trap; verifier cleanup confirmed after shell exit; no verifier process or cache remains"
+}

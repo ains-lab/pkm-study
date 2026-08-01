@@ -1,0 +1,99 @@
+# Todo 2 contract verification receipt
+
+## Scope and source binding
+
+- Contract artifact: `.omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md`
+- Negative fixture: `.omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-missing-lo.md`
+- Source date checked directly in Todo 1 ledger: `as_of: 2026-07-29`; contract line 3 binds C1–C6 and this date. No external source or instruction was executed.
+- Initial evidence-directory inspection contained only Task 1 receipts; this task wrote only the three assigned `task-2-*` files. No canonical/raw/generated wiki, output, plan, ledger, or external state was written.
+
+## Final local validation transcript
+
+All commands below ran from `/Users/sysmoon/.codex/projects/pkm-study` after the final contract edit.
+
+```sh
+rg -c '^### LO[1-5] ' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md
+```
+
+Exit `0`; stdout `5` (exactly five observable LO definitions).
+
+```sh
+ruby -e 'require "set"; path=ARGV.fetch(0); text=File.read(path, encoding: "UTF-8"); expected=%w[LO1 LO2 LO3 LO4 LO5].to_set; defined=text.scan(/^### (LO[1-5]) /).flatten.to_set; rows=text.lines.grep(/^\| LO[1-5] \|/); mapped=rows.map { |line| line[/^\| (LO[1-5]) \|/, 1] }.to_set; invalid=rows.map { |line| id=line[/^\| (LO[1-5]) \|/, 1]; id unless line.match?(/\| [0-9][0-9, ]* \|/) && line.match?(/(중간고사|기말고사)/) }.compact; missing=expected-mapped; extra=mapped-expected; abort("LO_MAPPING_FAIL defined=#{defined.to_a.sort.join(",")} mapped=#{mapped.to_a.sort.join(",")} missing=#{missing.to_a.sort.join(",")} extra=#{extra.to_a.sort.join(",")} invalid=#{invalid.sort.join(",")}") unless defined==expected && missing.empty? && extra.empty? && invalid.empty?; puts "LO_MAPPING_OK defined=#{defined.to_a.sort.join(",")} mapped=#{mapped.to_a.sort.join(",")} rows=#{rows.length}"' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md
+```
+
+Exit `0`; stdout `LO_MAPPING_OK defined=LO1,LO2,LO3,LO4,LO5 mapped=LO1,LO2,LO3,LO4,LO5 rows=5`. This is the independent set comparison: every defined LO has a technology/week/exam-rubric mapping and no extra/bad mapping exists.
+
+```sh
+ruby -e 'path=ARGV.fetch(0); text=File.read(path, encoding: "UTF-8"); headings=%w[교과목\ 개요 운영\ 전제\ 및\ 선수지식 학습성과\ 및\ 평가\ 정렬 평가\ 방법 15주\ 수업\ 일정 실습\ 마일스톤\ 및\ 제출\ 증거 운영\ 환경\ 및\ 대체\ 실습\ 매트릭스 안전·윤리·비용·개인정보·접근성\ 정책 교수자\ 사전\ 준비\ 및\ 장애\ 복구 최신성·출처\ 기준].map { |s| "## #{s}" }; literals=["출석 20%", "중간고사 40%", "기말고사 40%", "2~3인", "별도 점수 없음", "자막", "대본", "LMS-video", "학칙/담당자 정책 적용", "### 시험 주차 행 스키마", "| 주차 | 60분 동영상 학습성과·자료 | 120분 실습 | 선행조건 | 학습성과 | 학생 산출물 | happy evidence | failure evidence | 대체 경로 | 안전·비용 | 평가 연결 |", "3시간 개인 실기, 신규 강의 없음"]; missing=(headings+literals).reject { |needle| text.include?(needle) }; bad_headings=text.lines.grep(/^## /).map(&:strip)-headings; abort("CONTRACT_LITERAL_FAIL missing=#{missing.join(" ; ")} unexpected_h2=#{bad_headings.join(" ; ")}") unless missing.empty? && bad_headings.empty?; names=["Linux shell","Git","Python","HTTP/API","JSON/YAML","networking/IAM","graph basics"]; failures=names.map { |name| line=text.lines.find { |candidate| candidate.start_with?("| #{name} |") }; next name if line.nil?; cells=line.split("|").map(&:strip); name if cells.length < 5 || cells[2].empty? || cells[3].empty? }.compact; abort("PREREQUISITE_CELL_FAIL missing_or_empty=#{failures.join(",")}") unless failures.empty?; puts "CONTRACT_LITERAL_OK headings=#{headings.length} prerequisites=#{names.length} exact_instructional_columns=11 exam_schema=true"' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md
+```
+
+Exit `0`; stdout `CONTRACT_LITERAL_OK headings=10 prerequisites=7 exact_instructional_columns=11 exam_schema=true`.
+
+```sh
+rg -n -F -e '출석 20%' -e '중간고사 40%' -e '기말고사 40%' -e '2~3인' -e '별도 점수 없음' -e '자막' -e '대본' -e 'LMS-video' -e '학칙/담당자 정책 적용' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md
+```
+
+Exit `0`; matched the fixed weights and attendance policy on lines 55/59, formative-team policy on line 63, and caption/transcript/accessibility policy on lines 73/111.
+
+```sh
+rg -n -i -e '\{\{' -e '<insert' -e '\[insert' -e '\btbd\b' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md; test "$?" -eq 1
+```
+
+Normalized exit `0`: the initial `rg` exit was `1` (no placeholder match), which is the expected result.
+
+## Adversarial malformed-input proof
+
+`task-2-missing-lo.md` was copied from the contract and then changed with `apply_patch` only to remove the `| LO5 | ... |` mapping row. LO5's definition remains present, so this tests missing mapping rather than missing outcome text.
+
+```sh
+ruby -e 'require "set"; path=ARGV.fetch(0); text=File.read(path, encoding: "UTF-8"); expected=%w[LO1 LO2 LO3 LO4 LO5].to_set; defined=text.scan(/^### (LO[1-5]) /).flatten.to_set; rows=text.lines.grep(/^\| LO[1-5] \|/); mapped=rows.map { |line| line[/^\| (LO[1-5]) \|/, 1] }.to_set; invalid=rows.map { |line| id=line[/^\| (LO[1-5]) \|/, 1]; id unless line.match?(/\| [0-9][0-9, ]* \|/) && line.match?(/(중간고사|기말고사)/) }.compact; missing=expected-mapped; extra=mapped-expected; abort("LO_MAPPING_FAIL defined=#{defined.to_a.sort.join(",")} mapped=#{mapped.to_a.sort.join(",")} missing=#{missing.to_a.sort.join(",")} extra=#{extra.to_a.sort.join(",")} invalid=#{invalid.sort.join(",")}") unless defined==expected && missing.empty? && extra.empty? && invalid.empty?; puts "LO_MAPPING_OK defined=#{defined.to_a.sort.join(",")} mapped=#{mapped.to_a.sort.join(",")} rows=#{rows.length}"' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-missing-lo.md
+```
+
+Exit `1`; stderr `LO_MAPPING_FAIL defined=LO1,LO2,LO3,LO4,LO5 mapped=LO1,LO2,LO3,LO4 missing=LO5 extra= invalid=`. The required negative rejection is therefore observed, not inferred.
+
+## Manual QA
+
+```sh
+glow -w 0 -s dark .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md | rg -n '60분|120분|시험 형식|평가 연결|happy evidence|failure evidence'
+sed -n '1,124p' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md | rg -n '^## |^### LO[1-5] |^\| LO |^\| 주차 \| 60분 동영상 학습성과·자료|^\| 주차 \| 시험 형식|^\| [1-9][0-5]? \|'
+```
+
+Both exits were `0`. `glow -w 240` was first tried but its wrapping renderer shortened the 11-column header with ellipses; that output was rejected as insufficient visual evidence. The no-wrap real Glow rendering instead displayed the complete instructional header `60분 동영상 학습성과·자료`, `120분 실습`, and all other named schema columns without ellipses. Direct rendered-text inspection showed the Korean prose, all ten H2 headings, five LO definitions, the five-row technology/week/exam map, the seven-row diagnostic/remediation table, and both 11-column schemas. The `sed` review showed fixed weeks 1–15 once, including 8 and 15 only as individual exams. Observable manual-QA verdict: `PASS` (ten headings, exact schema, mappings, Korean clarity, no placeholders).
+
+## Verification notes, scope, and cleanup
+
+- The first attempted Ruby set checker used `Array#filter_map` and exited `1` because the installed Ruby lacks that method. The checker was corrected to compatible `map(...).compact` and the full final positive/negative/literal/manual sequence above was rerun; this is deterministic local text validation, not a flaky test. The 240-column Glow wrapping output was similarly treated as a failed visual proof and replaced by the complete no-wrap Glow surface before this receipt was updated.
+- `stale_state`: PASS. The brief explicitly binds to Todo 1's 2026-07-29 ledger and pinned/fixture refresh rules.
+- `dirty_worktree`: PASS for this task's writes. The final task-scoped listing is exactly the three assigned paths below; concurrent repository dirt was observed but not changed.
+
+```text
+.omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-contract-check.txt
+.omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md
+.omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-missing-lo.md
+```
+
+- `misleading_success_output`: PASS. `rg` count/literal checks, Ruby set comparison, and rendered-text/manual inspection are independent observations.
+- `prompt_injection`: N/A. No external text was executed; source material was read as data only.
+- `cancel_resume`, `hung_long_commands`: N/A. This was a bounded local file task; no long-running command or external operation occurred.
+- Cleanup: PASS. No temporary files were created; the preserved negative fixture is intentional plan evidence.
+
+## Render-repair final revalidation (supersedes the earlier 240-column manual-QA attempt)
+
+The prior 11-column Markdown table was structurally correct but Glow shortened labels at `-w 240`. The contract and negative fixture now preserve the exact 11 labels in a readable `text` schema line and a numbered three-column definition table; the exam schema uses the same readable pattern. This is a presentational repair only: the source/negative pair still differ only by the LO5 mapping row.
+
+```sh
+rg -c '^### LO[1-5] ' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md
+ruby -e 'require "set"; p=ARGV.fetch(0);t=File.read(p,encoding:"UTF-8");e=%w[LO1 LO2 LO3 LO4 LO5].to_set;d=t.scan(/^### (LO[1-5]) /).flatten.to_set;r=t.lines.grep(/^\| LO[1-5] \|/);m=r.map{|x|x[/^\| (LO[1-5]) \|/,1]}.to_set;bad=r.map{|x|id=x[/^\| (LO[1-5]) \|/,1];id unless x.match?(/\| [0-9][0-9, ]* \|/)&&x.match?(/(중간고사|기말고사)/)}.compact;miss=e-m;abort("LO_MAPPING_FAIL defined=#{d.to_a.sort.join(",")} mapped=#{m.to_a.sort.join(",")} missing=#{miss.to_a.sort.join(",")} bad=#{bad.join(",")}") unless d==e&&miss.empty?&&bad.empty?;puts "LO_MAPPING_OK defined=#{d.to_a.sort.join(",")} mapped=#{m.to_a.sort.join(",")} rows=#{r.length}"' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md
+ruby -e 'require "set"; p=ARGV.fetch(0);t=File.read(p,encoding:"UTF-8");e=%w[LO1 LO2 LO3 LO4 LO5].to_set;d=t.scan(/^### (LO[1-5]) /).flatten.to_set;r=t.lines.grep(/^\| LO[1-5] \|/);m=r.map{|x|x[/^\| (LO[1-5]) \|/,1]}.to_set;miss=e-m;abort("LO_MAPPING_FAIL defined=#{d.to_a.sort.join(",")} mapped=#{m.to_a.sort.join(",")} missing=#{miss.to_a.sort.join(",")}") unless d==e&&miss.empty?;puts "LO_MAPPING_OK"' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-missing-lo.md
+ruby -e 'p,n=ARGV.map{|x|File.readlines(x,encoding:"UTF-8")};expect=p.reject{|line|line.start_with?("| LO5 | directed graph,")};abort("NEGATIVE_DIFF_FAIL") unless expect==n;puts "NEGATIVE_DIFF_OK removed_only=LO5_mapping_row"' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-missing-lo.md
+```
+
+Results: LO-heading count `5`/exit `0`; positive Ruby `LO_MAPPING_OK defined=LO1,LO2,LO3,LO4,LO5 mapped=LO1,LO2,LO3,LO4,LO5 rows=5`/exit `0`; negative Ruby `LO_MAPPING_FAIL ... missing=LO5`/exit `1`; fixture-difference Ruby `NEGATIVE_DIFF_OK removed_only=LO5_mapping_row`/exit `0`.
+
+```sh
+glow -w 240 -s dark .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md | rg -n '60분 동영상 학습성과·자료|120분 실습|시험 형식|평가 연결|happy evidence|failure evidence'
+render="$(glow -w 240 -s dark .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md)"; printf '%s' "$render" | rg -q '…'; test "$?" -eq 1
+sed -n '68,126p' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-2-course-contract.md
+```
+
+All three commands exited `0`. Glow printed both complete schema lines and all vertical schema fields; the ellipsis scan found none. The raw-text review showed the exact 11-column instructional sequence, its 11 numbered definitions, the 11-field exam-row schema, and weeks 1–15. Manual-QA final verdict: `PASS` at the prescribed 240-column width.

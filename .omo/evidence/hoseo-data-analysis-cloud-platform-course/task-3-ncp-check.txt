@@ -1,0 +1,113 @@
+# Todo 3 NCP module verification receipt
+
+Artifact under test: `.omo/evidence/hoseo-data-analysis-cloud-platform-course/task-3-ncp-module.md`.
+Scope: local document verification only. No NCP resource, Hermes installation, cron, server, or external state was created or changed.
+
+## Bounded first-party source availability
+
+Invocation: one `curl -fsSL --max-time 20 --output /dev/null` per Todo 3 URL: `vpc-manage-vpc`, `vpc-subnetmanage-vpc`, `server-create-vpc`, `server-access-vpc`, `server-acg-vpc`, `server-publicip-vpc`, `costexplorer-budget`, and `server-return-vpc`.
+
+Binary observable: all eight calls returned curl exit `56` with HTTP `403`; no call exceeded the 20-second cap. This reproduces the Todo 1 dated unavailable condition rather than inferring undocumented NCP behavior. The brief names every first-party retry URL and directs a dated refresh before course use.
+
+Post-correction re-run: every bounded source invocation again returned exit `56`; `--output /dev/null` created no temporary source artifact.
+
+## Happy-path static checks
+
+Invocation:
+
+```sh
+rg -n 'VPC|subnet|ACG|TCP 22|public IP|Cost Explorer|terminate|fixture-only|sha256' \
+  .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-3-ncp-module.md
+```
+
+Exit: `0`.
+
+Binary observable: matches include VPC/subnet, ACG, restricted TCP 22, public IP, Cost Explorer, terminate, fixture-only, and sha256; the output also includes the explicit `0.0.0.0/0` SSH prohibition, stop-only rejection, public-IP release, and residual-cost warning.
+
+Invocation (independent Ruby parser):
+
+```sh
+ruby -e '<read brief; require exactly two /^### [23]주차 —/ sections and no other H3;
+require all eight backticked manifest fields, the non-circular top-level-sha256 omission/canonical-payload contract,
+SSH/teardown/Docker literals;
+split Markdown table blocks; require live/fallback and platform tables; require equal cells per table row>' \
+  .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-3-ncp-module.md
+```
+
+Exit: `0`.
+
+Binary observable: `PASS_STRUCTURE weeks=2 tables=6 manifest_fields=8 hash_contract=non_circular`.
+
+The eight independently checked manifest field names were `fixture_id`, `owner`, `schema_version`, `created_at`, `refreshed_at`, `source_urls`, `sha256`, and `expected_results`.
+
+## Non-circular fixture hash contract
+
+The corrected contract omits only the top-level `sha256` field, recursively UTF-8-byte-sorts object keys, retains array order, serializes compact UTF-8 JSON, and stores `sha256:<64 lowercase hex>` for that payload. It does not hash the complete fixture containing its own digest.
+
+Positive invocation: `ruby -rjson -rdigest -e '<canonical recursive JSON encoder; construct the documented fixture; set sha256 from the payload; JSON round-trip; independently recompute and compare>'`.
+
+Exit: `0`.
+
+Binary observable: `PASS_CANONICAL_FIXTURE_SHA256 sha256:c93aa7ac5b4333092b3cee72c8df1a83d82c13d3a04df8122750794111e3e23a`.
+
+Tamper invocation: the same deterministic verifier changed protected payload field `expected_results.ssh_tcp_22` from `restricted` to `unrestricted` without changing the declared digest.
+
+Exit: `1` (required nonzero).
+
+Binary observable: `FAIL_FIXTURE_SHA256`. Both checksum samples were in-memory Ruby values; no checksum fixture file was retained.
+
+## Adversarial malformed-input check
+
+Temporary sample path: `.omo/evidence/hoseo-data-analysis-cloud-platform-course/task-3-negative-ncp-lab-fixture.json`.
+
+Sample content had one `acg_rules` entry with `direction: inbound`, `protocol: TCP`, `port: 22`, and `source: 0.0.0.0/0`.
+
+Invocation:
+
+```sh
+ruby -rjson -e 'rules = JSON.parse(File.read(ARGV.fetch(0))).fetch("acg_rules");
+unrestricted = rules.any? { |rule| rule["direction"] == "inbound" && rule["protocol"] == "TCP" &&
+  rule["port"] == 22 && rule["source"] == "0.0.0.0/0" };
+if unrestricted then warn "FAIL_UNRESTRICTED_SSH"; exit 1; end; puts "PASS_RESTRICTED_SSH"' \
+  .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-3-negative-ncp-lab-fixture.json
+```
+
+Exit: `1` (required nonzero).
+
+Binary observable: `FAIL_UNRESTRICTED_SSH`.
+
+Cleanup invocation: `test ! -e .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-3-negative-ncp-lab-fixture.json`.
+
+Exit: `0`; the negative fixture was removed after the result was captured.
+
+## Rendering and manual QA
+
+Invocations:
+
+```sh
+glow -s dark .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-3-ncp-module.md >/dev/null
+pandoc -f gfm -t html .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-3-ncp-module.md >/dev/null
+sed -n '20,96p' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-3-ncp-module.md
+```
+
+Exits: Glow `0`; Pandoc `0`; direct text/table rendering `0`.
+
+Manual QA artifact/result: direct inspection of the Glow/Pandoc-renderable Markdown and the emitted 2–3주차 table text was **PASS**. It shows exactly two week headings; separate live and fallback columns; every required evidence family in the 3주차 table; a four-column fallback lost-competency claim rather than a false equivalence; the `Docker | Hermes gateway persistence | fixture-only` row; restricted-TCP-22/complete-teardown language; and a non-circular canonical-payload hash procedure with a visibly prefixed digest example. The loss claims are honest: fallback preserves Linux/service work but not actual NCP provisioning, public-IP/ACG enforcement, Cost Explorer alert delivery, release, or residual-cost verification.
+
+## Whitespace and scope checks
+
+Invocation: `git diff --no-index --check /dev/null .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-3-ncp-module.md`.
+
+Exit: `1`, the normal `--no-index` added-file exit; stdout/stderr had no whitespace diagnostics.
+
+Final owned-path status invocation:
+
+```sh
+git status --short -- .omo/evidence/hoseo-data-analysis-cloud-platform-course
+```
+
+Exit: `0`.
+
+Binary observable: only the pre-existing untracked evidence directory is reported at directory granularity; this Todo wrote exactly `task-3-ncp-module.md` and this receipt. No protected wiki/raw/generated/output path was edited by this Todo.
+
+Adversarial coverage: malformed_input=unrestricted SSH fixture (rejected above); protected-payload tamper=fixture hash mismatch rejected above; prompt_injection=external documents treated as evidence data only; stale_state=Todo 1 `as_of` plus bounded refresh path; dirty_worktree=two owned files only; misleading_success_output=independent parser plus required failure exits; hung_long_commands=N/A (network calls capped at 20 seconds); flaky_tests=N/A (deterministic parser); cancel/resume/repeated interruptions=N/A (bounded document task).

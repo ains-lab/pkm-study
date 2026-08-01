@@ -1,0 +1,554 @@
+
+  # 데이터 분석과 클라우드 플랫폼 15주 수업계획서                                                                                                             
+                                                                                                                                                              
+  ## 교과목 개요                                                                                                                                              
+                                                                                                                                                              
+  이 교과목은 호서대학교 컴퓨터공학과 4학년을 대상으로 한다. 학생은 공개 CTI 응답에서 시작해 원본 보존, 정규화, 안전한 Hermes Agent 자동화, LLM Wiki 승격,    
+  Understand Anything(UA) 지식그래프 생성·검증, 재현 가능한 그래프 분석과 원문 대조 결론까지 하나의 데이터 계보를 완성한다.                                   
+                                                                                                                                                              
+  수업은 기능 나열이 아니라 CTI response → raw hash → normalized CVE/source ID → canonical source link → UA node/edge ID → metric result → checked            
+  conclusion의 전 구간을 개인 실행 증거로 설명하는 데 초점을 둔다. 2~3인 통합 프로젝트는 동료 검토를 위한 형성 활동이며 **프로젝트 별도 점수 없음**이다.      
+  성적은 출석 20%, 중간고사 40%, 기말고사 40%만으로 산정하고 두 시험 모두 개인 실행 증거를 요구한다.                                                          
+                                                                                                                                                              
+  문서의 진술 유형은 다음처럼 구분한다.                                                                                                                       
+                                                                                                                                                              
+  • **문서화된 사실:** 기준일에 확인한 공식 문서·API 또는 고정 commit이 뒷받침하는 내용이다.                                                                  
+  • **과목 기본값:** 안전하고 재현 가능한 운영을 위해 담당자가 정한 수업 규칙이며 제품의 영구 속성으로 주장하지 않는다.                                       
+  • **학기 fixture:** owner·schema·hash·기준일·기대 결과를 고정한 교육 자료다. live 수행과 동일하다고 주장하지 않는다.                                        
+  • **가설:** 그래프·LLM이 제안했지만 원문 대조가 끝나지 않은 관계다. 평가에서는 사실과 분리한다.                                                             
+                                                                                                                                                              
+  ## 운영 전제 및 선수지식                                                                                                                                    
+                                                                                                                                                              
+  학교가 제공한 NCP sub-account를 우선 사용하되, 권한·비용·서비스 장애가 있으면 승인된 Linux VM, WSL2-with-systemd 또는 교수자 fixture로 전환한다. NCP/실습실 
+  Linux VM/WSL2-with-systemd는 Hermes의 live systemd 경로가 될 수 있다. Docker는 collector·Wiki·UA 작업의 제한적 보조 환경일 뿐, systemd가 없는 Docker에서    
+  Hermes gateway persistence는 fixture-only다.                                                                                                                
+                                                                                                                                                              
+  Hermes의 과목 기본값은 학생별 **non-root** 계정과 학생 workspace 한 경로에 한정된 read·list·search 및 교수자 검토 wrapper tool allowlist다. 하나의 gateway  
+  scheduler와 local-only delivery만 사용하고, approvals.mode: smart를 기본으로 하되 위험·범위확장 동작은 manual approval 또는 재설계를 요구하며 cron_mode:    
+  deny를 유지한다. messaging/browser는 각각 별도의 명시적 승인이 있기 전까지 사용하지 않는다. gate가 제공한 wakeAgent, reason, changedPaths를 신뢰하고 agent가
+  변경 여부를 재계산하지 않는다. API key·token·cookie·내부 URL은 config·prompt·stdout·log·history에 넣지 않는다. 근거: Hermes cron                            
+  https://github.com/NousResearch/hermes-agent/blob/0f64557c06f3e878fd9ec5170b9bca7f20e2778e/website/docs/user-guide/features/cron.md, Hermes security        
+  https://github.com/NousResearch/hermes-agent/blob/0f64557c06f3e878fd9ec5170b9bca7f20e2778e/website/docs/user-guide/security.md#L30-L58.                     
+                                                                                                                                                              
+  1주차 개시 진단은 opening-diagnostic.md, diagnostic-terminal.txt, diagnostic-git.txt, diagnostic-api.json, diagnostic-graph.txt를 제출한다.                 
+  계정·비밀정보·실제                                                                                                                                          
+  공인 IP는 요구하지 않는다.                                                                                                                                  
+                                                                                                                                                              
+   선수지식                  | 진단 관찰값                                                           | fixture 기반 보충 경로                                 
+  ---------------------------|-----------------------------------------------------------------------|------------------------------------------------------  
+   Linux shell               | 경로·권한·로그 읽기 명령과 오류를 terminal 전사에 기록                | Linux VM/WSL2 shell fixture에서 같은 형식으로 재수행   
+   Git                       | status, diff, staged/untracked를 구분                                 | 오프라인 history fixture로 판별 근거 제출              
+   Python                    | JSON 필수 키 검사와 예외를 stderr로 분리                              | 고정 입력으로 타입·예외·UTF-8 처리 재수행              
+   HTTP/API                  | URL·상태·헤더·본문을 구분하고 429를 실패로 기록                       | 저장된 CISA/NVD/EPSS 응답으로 bounded retry 판단       
+   JSON/YAML                 | JSON 배열과 leading YAML frontmatter를 독립 파싱                      | malformed fixture의 오류 위치·schema·격리 결정 기록    
+   networking/IAM            | private/public, 최소권한, 제한된 TCP 22 규칙 판별                     | NCP 설정 fixture에서 ACG·비용·정리 표 완성             
+   graph basics              | 방향 그래프와 단순 무방향 projection 및 degree/component/isolate 구분 | self-loop 제거·parallel edge 병합 fixture 재계산       
+                                                                                                                                                              
+  진단 미달은 해당 보충 산출물이 기계 판독 가능한 결과와 함께 통과할 때까지 보완한다. 접근성 조정과 공결·결석 처리는 학칙/담당자 정책 적용으로 결정하며 임의  
+  감점식을 만들지 않는다.                                                                                                                                     
+                                                                                                                                                              
+  ## 학습성과 및 평가 정렬                                                                                                                                    
+                                                                                                                                                              
+  • **LO1:** live NCP에서는 VPC/subnet·ACG·제한 SSH·public IP·비용경보·완전 정리를 **구성하고 검증하여 설명한다**. 승인 fallback에서는 Linux 서비스 작업과    
+  교수자 NCP fixture의 동일 설계·teardown 증거를 **검증하여 설명하되 실제 provisioning을 주장하지 않는다**.                                                   
+  • **LO2:** Hermes를 non-root·최소도구·로컬 전달 경계에서 **점검하고**, changed/no-change/semantic-failure를 **구분해 last-good 보존과 안전한 복구를         
+  설명한다**.                                                                                                                                                 
+  • **LO3:** 공개 CTI의 raw provenance를 **기록·정규화하고**, uppercase CVE join·dedupe·상태 구분·rate-limit 실패를 **재현 검증한다**.                        
+  • **LO4:** raw를 보존한 canonical Wiki를 **lint하고**, UA graph/meta를 live로 생성하거나 pinned fixture로 **구조 검증하며 두 경로의 주장 한계를 구분한다**. 
+  • **LO5:** 원시 방향 그래프와 단순 무방향 projection을 **재현 계산하고**, 지표 기반 후보를 원문과 대조해 **검증된 통찰 또는 반려 가설로 판정한다**.         
+                                                                                                                                                              
+  최소 숙련은 각 시험 안에서 해당 LO의 모든 필수 실습 증거 가족을 개인적으로 완성하는 것이다. 출석이나 팀 결과는 누락된 기술 성과를 대체하지 않는다.          
+                                                                                                                                                              
+   LO             | 필수 기술과 주차                                                                | 평가 증거                                               
+  ----------------|---------------------------------------------------------------------------------|-------------------------------------------------------  
+   LO1            | NCP/Linux, VPC/subnet, ACG, SSH, 비용·teardown; 2·3·8주                         | 중간: 환경 및 네트워크 증거 10점                        
+   LO2            | Hermes pinned 설치, doctor, 최소 allowlist, scheduler fixture; 4·7·8주          | 중간: 안전 설치·health 10점, troubleshooting·안전 8점   
+   LO3            | CISA KEV, NVD 2.0, FIRST EPSS, ATT&CK v19.1, normalize/dedupe; 1·5·6·7·8·9·14주 | 중간: CTI 수집·품질 12점                                
+   LO4            | raw manifest, canonical lint, understand-knowledge, UA 구조; 1·9·10·11·14·15주  | 기말: Wiki 10점, UA 10점                                
+   LO5            | directed/raw, simple undirected projection, 세 지표군, 원문 대조; 12·13·14·15주 | 기말: 지표 10점, 해석·복구 10점                         
+                                                                                                                                                              
+  ## 평가 방법                                                                                                                                                
+                                                                                                                                                              
+   평가 범주     |         비중 | 학습성과 및 증거                                                                                                            
+  ---------------|--------------|---------------------------------------------------------------------------------------------------------------------------  
+   출석          |          20% | LO1–LO5의 준비 과정: LMS 동영상 완료 기록과 대면 실습 참여·산출물을 함께 확인한다. 공결·결석은 학칙/담당자 정책 적용이다.   
+   중간고사      |          40% | 8주 3시간 개인 실기, LO1·LO2·LO3의 명령 전사·manifest/hash·redacted 설정·실패 판정                                          
+   기말고사      |          40% | 15주 3시간 개인 실기, LO4·LO5 및 전 구간 lineage의 개인 생성·검증·해석·복구 증거                                            
+                                                                                                                                                              
+  2~3인 형성 통합 활동은 별도 가중치가 없고 팀 화면·공유 파일이 개인 수행을 대신하지 않는다.                                                                  
+                                                                                                                                                              
+  ### 중간고사 개인 실기 rubric                                                                                                                               
+                                                                                                                                                              
+   채점 항목                                         | 관련 LO                                           |                                             점수   
+  ---------------------------------------------------|---------------------------------------------------|--------------------------------------------------  
+   NCP/fallback 환경 및 네트워크 증거                | LO1                                               |                                               10   
+   Hermes 안전 설치·health                           | LO2                                               |                                               10   
+   CTI 수집 및 데이터 품질 증거                      | LO3                                               |                                               12   
+   개인 troubleshooting·안전 설명                    | LO1·LO2·LO3                                       |                                                8   
+   **합계**                                          |                                                   |                                           **40**   
+                                                                                                                                                              
+  ### 기말고사 개인 실기 rubric                                                                                                                               
+                                                                                                                                                              
+   채점 항목                                         | 관련 LO                                           |                                             점수   
+  ---------------------------------------------------|---------------------------------------------------|--------------------------------------------------  
+   LLM Wiki schema·provenance·lint                   | LO4                                               |                                               10   
+   UA graph 생성·검증                                | LO4                                               |                                               10   
+   그래프 지표 재현성                                | LO5                                               |                                               10   
+   원문 대조 해석 및 복구                            | LO4·LO5                                           |                                               10   
+   **합계**                                          |                                                   |                                           **40**   
+                                                                                                                                                              
+  ## 15주 수업 일정                                                                                                                                           
+                                                                                                                                                              
+  모든 비동기 동영상에는 자막·대본·접근 가능한 대체 자료가 함께 제공된다.                                                                                     
+                                                                                                                                                              
+   주차 | 형식·주제   | 실습·시험   | 선행         | LO           | 산출물       | Happy        | Fail         | 대체         | 안전·비용    | 평가           
+  ------|-------------|-------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------  
+      1 | topic_id:   | 공개        | 없음         | LO3·LO4:     | 진단 5종과   | fixture      | malformed·주 | 오프라인     | credential·P | 출석,          
+        | W01-        | fixture의   |              | 증거 계보를  | provenance   | ID/hash 및   | 입성 문구를  | golden       | II 미사용    | LO3·LO4 진단   
+        | orientation | 지시/데이터 |              | 식별         | 표           | parser PASS  | 실행하지     | fixture      |              |                
+        | -diagnostic | 경계와      |              |              |              |              | 않고 격리    |              |              |                
+        | -provenance | manifest/ha |              |              |              |              |              |              |              |                
+        | — 60분      | sh 판독     |              |              |              |              |              |              |              |                
+        | 비동기      |             |              |              |              |              |              |              |              |                
+        | 동영상 +    |             |              |              |              |              |              |              |              |                
+        | 120분 대면  |             |              |              |              |              |              |              |              |                
+        | 실습:       |             |              |              |              |              |              |              |              |                
+        | 오리엔테이  |             |              |              |              |              |              |              |              |                
+        | 션·진단·pro |             |              |              |              |              |              |              |              |                
+        | venance     |             |              |              |              |              |              |              |              |                
+      2 | topic_id:   | VPC/public  | networking/I | LO1:         | redacted     | TCP 22가     | 0.0.0.0/0    | Linux        | 실제 IP·키   | 출석, 중간     
+        | W02-cloud-  | subnet·ACG· | AM 진단      | 최소권한     | 설정 export  | 현재         | SSH는        | VM/WSL2와    | redaction,   | LO1 10점       
+        | ncp-        | public      |              | 네트워크를   | 또는 ncp-    | IP/campus    | FAIL_UNRESTR | NCP fixture  | 생성 전      | 준비           
+        | networking  | IP·budget   |              | 설계·검증    | lab-fixture. | CIDR로       | ICTED_SSH    |              | 비용경보     |                
+        | — 60분      | 설계 검토   |              |              | json 결과와  | 제한되고     |              |              |              |                
+        | 비동기      |             |              |              | ACG 표       | budget 증거  |              |              |              |                
+        | 동영상 +    |             |              |              |              | PASS         |              |              |              |                
+        | 120분 대면  |             |              |              |              |              |              |              |              |                
+        | 실습:       |             |              |              |              |              |              |              |              |                
+        | cloud·NCP   |             |              |              |              |              |              |              |              |                
+        | networking  |             |              |              |              |              |              |              |              |                
+      3 | topic_id:   | SSH/termina | 2주 승인     | LO1: live    | terminal/cur | live는       | stop-        | 개인/실습    | 임시 포트    | 출석, 중간     
+        | W03-ncp-vm- | l·임시      | 설계         | 구성 또는    | l, owner     | 접속·서비스· | only·남은    | Linux VM     | 제거, 잔존   | LO1 10점       
+        | approved-   | service     |              | fixture 설계 | label,       | terminate·pu | IP·미제한    | 또는 WSL2와  | 비용 후속    | 준비           
+        | fallback —  | curl·완전   |              | 검증을       | rule·budget, | blic-IP      | rule은 실패  | fixture;     | 확인         |                
+        | 60분 비동기 | teardown    |              | 정직하게     | teardown     | release·잔여 |              | provisioning |              |                
+        | 동영상 +    |             |              | 설명         | 묶음         | 확인 PASS    |              | 주장 금지    |              |                
+        | 120분 대면  |             |              |              |              |              |              |              |              |                
+        | 실습: NCP   |             |              |              |              |              |              |              |              |                
+        | VM 또는     |             |              |              |              |              |              |              |              |                
+        | 승인        |             |              |              |              |              |              |              |              |                
+        | fallback    |             |              |              |              |              |              |              |              |                
+        |             |             |              |              |              |              |              |              |              |                
+        |             |             |              |              |              |              |              |              |              |                
+        |             |             |              |              |              |              |              |              |              |                
+      4 | topic_id:   | non-root    | Linux 보충   | LO2: 안전    | commit/versi | non-         | doctor       | systemd      | approvals·cr | 출석, 중간     
+        | W04-hermes- | headless    | 완료         | 경계와       | on/hash,     | root·학생    | 오류는       | Linux live   | on_mode:     | LO2 10점       
+        | safe-       | 설치 또는   |              | health를     | hermes       | workspace    | 성공으로     | 또는         | deny;        | 준비           
+        | install-    | health      |              | 점검         | doctor,      | allowlist·lo | 바꾸지 않고  | install-heal | messaging/br |                
+        | operation — | fixture     |              |              | redacted     | cal-         | 원인·fallbac | th fixture   | owser는 별도 |                
+        | 60분 비동기 | 판독        |              |              | config       | only·Asia/Se | k 기록       |              | 승인         |                
+        | 동영상 +    |             |              |              |              | oul 확인     |              |              |              |                
+        | 120분 대면  |             |              |              |              |              |              |              |              |                
+        | 실습:       |             |              |              |              |              |              |              |              |                
+        | Hermes      |             |              |              |              |              |              |              |              |                
+        | 설치·안전   |             |              |              |              |              |              |              |              |                
+        | 운영        |             |              |              |              |              |              |              |              |                
+      5 | topic_id:   | CISA/NVD/EP | HTTP·JSON    | LO3: raw     | 8필드        | source/versi | absent/null/ | instructor-  | 공개         | 출석, 중간     
+        | W05-cti-    | SS/ATT&CK   | 진단         | 사실 단위를  | manifest,    | on/hash와    | unknown      | owned        | 데이터만,    | LO3 12점       
+        | source-     | 원본        |              | 기록·구분    | 3종          | uppercase    | 혼동·잘못된  | response     | API key·원문 | 준비           
+        | manual-     | manifest와  |              |              | normalized   | CVE join     | CVE는 격리   | fixture      | 명령 실행    |                
+        | provenance  | 표본 정규화 |              |              | 표본         | PASS         |              |              | 금지         |                
+        | — 60분      |             |              |              |              |              |              |              |              |                
+        | 비동기      |             |              |              |              |              |              |              |              |                
+        | 동영상 +    |             |              |              |              |              |              |              |              |                
+        | 120분 대면  |             |              |              |              |              |              |              |              |                
+        | 실습: CTI   |             |              |              |              |              |              |              |              |                
+        | source·수동 |             |              |              |              |              |              |              |              |                
+        | provenance  |             |              |              |              |              |              |              |              |                
+      6 | topic_id:   | request→raw | 5주 manifest | LO3:         | run          | 동일 key     | malformed    | 고정         | NVD          | 출석, 중간     
+        | W06-cti-    | →normalize→ |              | 중복·rate-   | manifest,    | 재실행의 new | 격리, 429    | wrapper와    | pagination·b | LO3 12점       
+        | normalize-  | dedupe→vali |              | limit·semant | dedupe       | duplicates = | bounded      | golden       | atch·pacing  | 준비           
+        | idempotent- | date 재현   |              | ic 실패를    | report,      | 0            | retry 후     | fixtures     | 준수, 재시도 |                
+        | collector — |             |              | 검증         | malformed/du |              | defer, last- |              | 폭주 금지    |                
+        | 60분 비동기 |             |              |              | plicate/429  |              | good 보존    |              |              |                
+        | 동영상 +    |             |              |              | 결과         |              |              |              |              |                
+        | 120분 대면  |             |              |              |              |              |              |              |              |                
+        | 실습:       |             |              |              |              |              |              |              |              |                
+        | normalized/ |             |              |              |              |              |              |              |              |                
+        | idempotent  |             |              |              |              |              |              |              |              |                
+        | collector   |             |              |              |              |              |              |              |              |                
+      7 | topic_id:   | changed/no- | 4–6주 산출물 | LO2·LO3:     | triggered 1, | gate의       | 변경 여부를  | scheduler·42 | one gateway, | 출석, 중간     
+        | W07-hermes- | change/sema |              | 실행·skip·fa | skipped 1,   | wakeAgent·re | 재계산하지   | 9 fixture    | local-only,  | LO2·LO3        
+        | scheduling- | ntic-       |              | ilure를      | semantic     | ason·changed | 않고         |              | secret       | 리허설         
+        | recovery-   | failure 및  |              | 구분·복구    | failure 1의  | Paths와      | partial/sema |              | redaction    |                
+        | rehearsal — | 개인 증거   |              |              | redacted     | published    | ntic 실패를  |              |              |                
+        | 60분 비동기 | 묶음 점검   |              |              | receipt      | run ID·last- | 성공으로     |              |              |                
+        | 동영상 +    |             |              |              |              | good hash가  | 표시하지     |              |              |                
+        | 120분 대면  |             |              |              |              | 일치         | 않음         |              |              |                
+        | 실습:       |             |              |              |              |              |              |              |              |                
+        | Hermes      |             |              |              |              |              |              |              |              |                
+        | scheduling· |             |              |              |              |              |              |              |              |                
+        | 관찰·복구·  |             |              |              |              |              |              |              |              |                
+        | 중간 리허설 |             |              |              |              |              |              |              |              |                
+      8 | topic_id:   | NCP/fallbac | 1–7주 필수   | LO1·LO2·LO3: | 명령         | 네 rubric의  | 실패         | 승인된       | 비밀 미제출, | 중간고사 40%   
+        | W08-        | k·Hermes·CT | 증거 가족    | 구성·수집·복 | 전사·manifes | 기계 결과와  | fixture를    | instructor   | live 자원    |                
+        | midterm-ind | I를 개인    |              | 구를 독립    | t/hash·redac | 개인 설명    | 격리하고     | fixtures     | 완전         |                
+        | ividual-    | run ID와    |              | 수행         | ted log·안전 | 일치         | last-        |              | teardown     |                
+        | practical — | hash로 수행 |              |              | 설명         |              | good/재진입  |              |              |                
+        | 3시간 개인  |             |              |              |              |              | 판단         |              |              |                
+        | 실기시험,   |             |              |              |              |              |              |              |              |                
+        | 신규 강의   |             |              |              |              |              |              |              |              |                
+        | 없음        |             |              |              |              |              |              |              |              |                
+      9 | topic_id:   | Raw–Wiki–Sc | 중간 후      | LO3·LO4:     | raw 8필드    | raw          | hash         | pinned raw   | 외부 문구는  | 출석, 기말     
+        | W09-llm-    | hema 분리와 | lineage      | 불변 원본과  | manifest와   | hash·수집시  | drift·로그인 | fixture      | 데이터, 공개 | LO4 10점       
+        | wiki-       | immutable   |              | 승격 경계를  | 값 상태표    | 각·source가  | 요구·주입성  |              | 원본만       | 준비           
+        | architectur | raw         |              | 설명         |              | 연결         | 원문은 격리  |              |              |                
+        | e — 60분    | manifest    |              |              |              |              |              |              |              |                
+        | 비동기      |             |              |              |              |              |              |              |              |                
+        | 동영상 +    |             |              |              |              |              |              |              |              |                
+        | 120분 대면  |             |              |              |              |              |              |              |              |                
+        | 실습: LLM   |             |              |              |              |              |              |              |              |                
+        | Wiki        |             |              |              |              |              |              |              |              |                
+        | architectur |             |              |              |              |              |              |              |              |                
+        | e           |             |              |              |              |              |              |              |              |                
+     10 | topic_id:   | leading     | 9주 raw      | LO4:         | 변경 목록과  | exact raw    | 원본은       | 교수자       | contradictio | 출석, 기말     
+        | W10-cti-    | frontmatter |              | canonical    | 전 항목 lint | path, 등록   | 고치지 않고  | canonical    | n 보존, 오류 | Wiki 10점      
+        | canonical-  | ·source·tag |              | 후보를 lint  | report       | tag, 2       | canonical    | fixture      | 시 UA 차단   | 준비           
+        | wiki-lint — | ·link·index |              |              |              | links,       | 초안 수정 후 |              |              |                
+        | 60분 비동기 | /log·신뢰도 |              |              |              | index/log,   | 전체 lint    |              |              |                
+        | 동영상 +    | 검사        |              |              |              | provenance   |              |              |              |                
+        | 120분 대면  |             |              |              |              | PASS         |              |              |              |                
+        | 실습: CTI-  |             |              |              |              |              |              |              |              |                
+        | to-         |             |              |              |              |              |              |              |              |                
+        | canonical   |             |              |              |              |              |              |              |              |                
+        | Wiki·lint   |             |              |              |              |              |              |              |              |                
+     11 | topic_id:   | understand- | Wiki lint    | LO4:         | run receipt  | live         | partial/stal | pinned       | 상태         | 출석, 기말     
+        | W11-ua-     | knowledge   | PASS         | graph/meta   | 또는 fixture | complete     | e UA와       | graph+fresh  | 문구·파일    | UA 10점 준비   
+        | generation- | complete-   |              | invariant를  | manifest와   | batches·fres | PARTIAL_BATC | report,      | 존재만으로   |                
+        | structural- | batch/fresh |              | 생성·검증    | 새           | h mtimes     | H·duplicate  | fresh        | 성공 금지    |                
+        | validation  | ness 또는   |              |              | validation   | 또는         | ID·DANGLING_ | enrichment   |              |                
+        | — 60분      | pinned      |              |              | JSON         | fallback     | EDGE는       | claim false  |              |                
+        | 비동기      | graph 검사  |              |              |              | hash match,  | 거절하고     |              |              |                
+        | 동영상 +    |             |              |              |              | 구조 PASS    | validator    |              |              |                
+        | 120분 대면  |             |              |              |              |              | nonzero      |              |              |                
+        | 실습: UA    |             |              |              |              |              |              |              |              |                
+        | 생성·구조   |             |              |              |              |              |              |              |              |                
+        | 검증        |             |              |              |              |              |              |              |              |                
+     12 | topic_id:   | directed    | 검증된 graph | LO5: 투영    | raw count    | input hash,  | 방향·loop·pa | pinned       | node/edge    | 출석, 기말     
+        | W12-graph-  | provenance  |              | 정책을 재현  | 표와         | 제거/병합/무 | rallel·weigh | graph와      | 수를 영구    | 지표 10점      
+        | data-model- | 와 simple   |              |              | projection   | 시 수, tie   | t 혼합은     | golden       | 임계값으로   | 준비           
+        | metrics —   | undirected  |              |              | metadata     | rule PASS    | 재현 실패    | projection   | 사용 금지    |                
+        | 60분 비동기 | projection  |              |              | JSON         |              |              |              |              |                
+        | 동영상 +    | 생성        |              |              |              |              |              |              |              |                
+        | 120분 대면  |             |              |              |              |              |              |              |              |                
+        | 실습: graph |             |              |              |              |              |              |              |              |                
+        | data        |             |              |              |              |              |              |              |              |                
+        | model·metri |             |              |              |              |              |              |              |              |                
+        | cs          |             |              |              |              |              |              |              |              |                
+     13 | topic_id:   | components/ | 12주         | LO5: 지표를  | 분석 보고서, | fixture      | 근거 없는    | golden       | CVSS/EPSS/KE | 출석, 기말     
+        | W13-        | isolate,    | projection   | 재현하고     | verified     | 기대치·toler | 공유         | metrics와    | V 무설명     | LO5 20점       
+        | reproducibl | degree top- |              | 결론을 판정  | insight 1,   | ance와       | 허브/중심성  | source-check | 합성 금지    | 준비           
+        | e-analysis- | five,       |              |              | rejected     | source       | 관계를       | sheet        |              |                
+        | source-     | bridge/arti |              |              | inference 1  | identifiers  | rejected     |              |              |                
+        | verificatio | culation    |              |              |              | 일치         | inference로  |              |              |                
+        | n — 60분    | 또는        |              |              |              |              | 기록         |              |              |                
+        | 비동기      | betweenness |              |              |              |              |              |              |              |                
+        | 동영상 +    | 와 원문     |              |              |              |              |              |              |              |                
+        | 120분 대면  | 대조        |              |              |              |              |              |              |              |                
+        | 실습: 재현  |             |              |              |              |              |              |              |              |                
+        | 분석·source |             |              |              |              |              |              |              |              |                
+        | verificatio |             |              |              |              |              |              |              |              |                
+        | n           |             |              |              |              |              |              |              |              |                
+     14 | topic_id:   | 전 lineage  | 9–13주       | LO3·LO4·LO5: | 개인         | 모든 handoff | dangling/par | last-good 및 | public       | 출석, 기말     
+        | W14-end-to- | 재실행, 한  | 산출물       | 계보를       | receipt,     | ID와 결과가  | tial/stale/h | 승인 golden  | IP·임시      | 전 항목        
+        | end-        | 장애 복구,  |              | 복구·검증    | command      | 연속         | ash          | fixture      | 로그·fixture | 리허설         
+        | recovery-   | 환경·증거   |              |              | manifest,    |              | mismatch에서 |              | 사본 정리    |                
+        | final-      | 정리        |              |              | 보존/삭제·te |              | publish·merg |              |              |                
+        | rehearsal-  |             |              |              | ardown 목록  |              | e 차단       |              |              |                
+        | teardown —  |             |              |              |              |              |              |              |              |                
+        | 60분 비동기 |             |              |              |              |              |              |              |              |                
+        | 동영상 +    |             |              |              |              |              |              |              |              |                
+        | 120분 대면  |             |              |              |              |              |              |              |              |                
+        | 실습: end-  |             |              |              |              |              |              |              |              |                
+        | to-end      |             |              |              |              |              |              |              |              |                
+        | 복구·기말   |             |              |              |              |              |              |              |              |                
+        | 리허설·tear |             |              |              |              |              |              |              |              |                
+        | down        |             |              |              |              |              |              |              |              |                
+     15 | topic_id:   | Wiki→UA→pro | 9–14주 필수  | LO4·LO5:     | lineage      | 네 10점      | stale/partia | 승인된       | 비밀 미제출, | 기말고사 40%   
+        | W15-final-  | jection→met | 증거 가족    | 생성·검증·분 | receipt,     | rubric과     | l/unsourced  | Wiki·UA·anal | 학기         |                
+        | individual- | ric→checked |              | 석·복구를    | lint·validat | source       | relation을   | ysis         | 보존·삭제    |                
+        | practical — | conclusion  |              | 독립 수행    | ion JSON,    | evidence     | 거절하고     | fixtures     | 정책 준수    |                
+        | 3시간 개인  | 독립 실행   |              |              | metric       | 일치         | 재진입 설명  |              |              |                
+        | 실기시험,   |             |              |              | report, 원문 |              |              |              |              |                
+        | 신규 강의   |             |              |              | 대조         |              |              |              |              |                
+        | 없음        |             |              |              |              |              |              |              |              |                
+                                                                                                                                                              
+  ## 실습 마일스톤 및 제출 증거                                                                                                                               
+                                                                                                                                                              
+  각 마일스톤은 happy path, failure path, 학생 artifact, 기계 판독 증거, fallback, 안전·비용 메모, 평가 연결을 모두 가져야 한다.                              
+                                                                                                                                                              
+   마일스톤         | Happy            | Fail             | Artifact         | Machine          | Fallback          | Safety            | Assess              
+  ------------------|------------------|------------------|------------------|------------------|-------------------|-------------------|-------------------  
+   M1               | M1-HAPPY fixture | M1-FAIL          | M1-ARTIFACT 진단 | M1-MACHINE       | M1-FALLBACK       | M1-SAFETY         | M1-ASSESS           
+   진단·provenance  | ID/hash와 다섯   | malformed·권한   | 5종·provenance   | parser exit·SHA- | offline fixture는 | secret·PII 없음   | LO3·LO4, 출석       
+                    | 진단 PASS        | 오류 격리 후     | 표               | 256 report       | 판독 보존, live   |                   |                     
+                    |                  | 보충 재수행      |                  |                  | 접근 미증명       |                   |                     
+   M2 NCP/Linux     | M2-HAPPY 제한    | M2-FAIL          | M2-ARTIFACT      | M2-MACHINE ACG   | M2-FALLBACK 설계  | M2-SAFETY         | M2-ASSESS LO1,      
+                    | SSH·service·budg | unrestricted     | redacted         | validator와      | 판독만 보존,      | 최소권한·public   | 중간 10점           
+                    | et·완전 teardown | SSH·stop-        | export·ACG·termi | resource/비용    | provisioning·실비 | IP release        |                     
+                    | PASS             | only·남은        | nal/curl·teardow | 상태 report      | 용 상실           |                   |                     
+                    |                  | IP/비용 거절     | n receipt        |                  |                   |                   |                     
+   M3 Hermes safety | M3-HAPPY pinned  | M3-FAIL          | M3-ARTIFACT      | M3-MACHINE       | M3-FALLBACK 판단  | M3-SAFETY non-    | M3-ASSESS LO2,      
+                    | version·doctor·o | doctor/semantic  | version/hash·doc | config hash와    | 보존, systemd     | root·workspace    | 중간 10+8점         
+                    | ne scheduler·세  | 실패는 publish   | tor·redacted     | triggered/skippe | persistence·실제  | allowlist·local-  |                     
+                    | 관찰 일치        | 0·last-good 보존 | config receipt   | d/failure JSON   | cron 상실         | only·redaction    |                     
+   M4 CTI collector | M4-HAPPY raw→3종 | M4-FAIL          | M4-ARTIFACT raw  | M4-MACHINE       | M4-FALLBACK       | M4-SAFETY 공개    | M4-ASSESS LO3,      
+                    | normalize→dedupe | malformed        | manifest·normali | schema/dedupe/42 | 변환·실패 판단    | 데이터, 공격·자동 | 중간 12+8점         
+                    | , 재실행 증가 0  | 격리·duplicate   | zed              | 9 JSON report    | 보존, 현재성·실제 | 대응 금지         |                     
+                    |                  | 0·429 최대 3회   | records·retry    |                  | limit 상실        |                   |                     
+                    |                  | 후 defer         | receipt          |                  |                   |                   |                     
+   M5 Wiki lint     | M5-HAPPY raw     | M5-FAIL          | M5-ARTIFACT      | M5-MACHINE       | M5-FALLBACK lint  | M5-SAFETY 외부    | M5-ASSESS LO4,      
+                    | 불변·schema/sour | source/tag/link/ | canonical 후보   | 항목별 machine-  | 판단 보존, vault  | 텍스트는 data-    | 기말 10점           
+                    | ce/link/index/lo | contradiction    | diff·lint 입력   | readable lint    | 변경·새           | only, 실행 금지   |                     
+                    | g PASS           | 오류면 UA 차단   | manifest         | report           | enrichment 상실   |                   |                     
+   M6 UA graph      | M6-HAPPY         | M6-FAIL          | M6-ARTIFACT      | M6-MACHINE 구조  | M6-FALLBACK 구조  | M6-SAFETY 상태    | M6-ASSESS LO4,      
+                    | complete         | partial/stale/du | run/fixture      | invariant        | 판단 보존, 새     | 문자열만으로 성공 | 기말 10점           
+                    | batches+fresh    | plicate/dangling | receipt·graph/me | validation JSON  | UA·fresh          | 선언 금지         |                     
+                    | artifacts 또는   | 거절, validator  | ta hash          |                  | enrichment 상실   |                   |                     
+                    | pinned           | nonzero          |                  |                  |                   |                   |                     
+                    | hash+fresh       |                  |                  |                  |                   |                   |                     
+                    | report           |                  |                  |                  |                   |                   |                     
+   M7 graph         | M7-HAPPY 같은    | M7-FAIL          | M7-ARTIFACT      | M7-MACHINE       | M7-FALLBACK       | M7-SAFETY 가설을  | M7-ASSESS LO5,      
+   analysis·lineage | input hash의 세  | projection       | metadata·source- | metrics          | 계산·판정 보존,   | 사실·자동         | 기말 20점           
+                    | 지표군·원문 대조 | 불일치·근거 없는 | check            | JSON·fixture     | fixture 밖 일반화 | 대응으로 승격     |                     
+                    | 완료             | relation 반려    | sheet·lineage    | comparison       | 상실              | 금지              |                     
+                    |                  |                  | receipt          | report           |                   |                   |                     
+                                                                                                                                                              
+  CTI raw manifest 필드는 source, request_url, retrieved_at_utc, sha256, etag, last_modified, http_status, content_type이다. 정규화 schema는 다음 필드를      
+  생략하지 않는다.                                                                                                                                            
+                                                                                                                                                              
+   record        | 필수 식별자·source/version/hash·timestamp·상태 필드                                                                                        
+  ---------------|------------------------------------------------------------------------------------------------------------------------------------------  
+   vulnerability | source, native_id, cve_id, published_at, last_modified_at, description, kev_date_added, kev_due_date, raw_sha256,                          
+                 | source_version_or_raw_sha256, retrieved_at_utc, value_state, state_reason                                                                  
+   signal        | source, native_id, cve_id, signal_type, score, percentile, signal_date, raw_sha256, source_version_or_raw_sha256, retrieved_at_utc,        
+                 | value_state, state_reason                                                                                                                  
+   attack        | source, native_id, stix_id, object_type, name, stix_version, modified, revoked, deprecated, fixture_release, fixture_sha256, as_of,        
+                 | value_state, state_reason                                                                                                                  
+                                                                                                                                                              
+  CVE join은 trim 후 uppercase와 CVE-연도-번호 형식 검사를 거치며 dedupe key는 (source,native_id,source_version_or_raw_sha256)다. absent(공급자 미제공),      
+  null(명시적 JSON null), unknown(값 미확정)은 서로 대체하지 않고 각 필드의 value_state와 state_reason에 이유를 남기며 빈 문자열이나 추정값으로 메우지 않는다.
+                                                                                                                                                              
+  NVD 수집은 resultsPerPage와 startIndex를 run manifest에 기록하고 작은 페이지/날짜 batch로 수행한다. 각 페이지/날짜 batch 사이에는 **최소 6초**를 두며       
+  timeout·network error·HTTP 429에는 Retry-After를 우선하고 없으면 증가 backoff로 최대 3회만 재시도한다. 상한을 넘으면 deferred_rate_limited로 격리하고       
+  publish하지 않으며 last_good_run_id와 last_good_sha256을 보존한다. 근거: NVD API https://nvd.nist.gov/developers/vulnerabilities, NVD limits                
+  https://nvd.nist.gov/developers/start-here.                                                                                                                 
+                                                                                                                                                              
+  UA live 검사는 kind == "knowledge", nonempty nodes, unique node IDs, array edges·layers·tour, 모든 edge endpoint 존재, valid meta JSON, expected/completed  
+  batch 집합 일치, graph/meta mtime이 run 시작보다 최신임을 요구한다. partial 또는 stale UA는 명시적으로 거절하고 validator가 nonzero를 반환해야 한다.        
+  fallback도 같은 구조 불변식을 새로 검사하되 pinned graph hash와 fresh validation report를 요구하고 fresh_enrichment_claim: false로 기록한다.                
+                                                                                                                                                              
+  그래프 계보 수는 원시 directed graph에서 방향·type·multiplicity를 보존한다. 구조 지표는 같은 input hash의 모든 node를 포함한 unweighted simple undirected   
+  projection에서만 계산하며 self-loop를 제거하고 parallel/mutual edge를 한 unordered pair로 병합하며 weight와 edge type을 무시한다. 동점은 node ID            
+  오름차순이다. 필수 지표군은 (1) connected components와 isolates, (2) degree top-five, (3) bridges·articulation exact-set/order zero tolerance 또는 fixture가
+  지정한 normalized betweenness top-five와 허용오차 1e-9다.                                                                                                   
+                                                                                                                                                              
+  ## 운영 환경 및 대체 실습 매트릭스                                                                                                                          
+                                                                                                                                                              
+  ### 플랫폼 역량                                                                                                                                             
+                                                                                                                                                              
+   플랫폼                        | live로 주장 가능한 범위                                    | 제한                                                          
+  -------------------------------|------------------------------------------------------------|-------------------------------------------------------------  
+   학교 NCP sub-account+Linux VM | NCP provisioning, 제한 ACG/SSH, public IP, 비용경보,       | 학교 승인·비용·권한 범위 안에서만 수행                        
+                                 | terminate/release; Hermes systemd 관찰                     |                                                               
+   실습실/개인 Linux VM          | Linux/service와, systemd 제공 시 Hermes gateway 지속성     | NCP control-plane·실제 public 비용 증명 불가                  
+   WSL2-with-systemd             | Linux/service와 Hermes live systemd 경로                   | NCP provisioning·public IP·실제 Cost Explorer 증명 불가       
+   Docker                        | collector·Wiki·UA의 제한적 컨테이너 실습                   | Hermes gateway persistence는 fixture-only; NCP provisioning   
+                                 |                                                            | 불가                                                          
+                                                                                                                                                              
+  ### 정확히 여섯 트랙의 live/fallback 계약                                                                                                                   
+                                                                                                                                                              
+   트랙           | live evidence        | instructor fixture   | manifest/hash        | preserved competency | lost competency      | allowed claim          
+  ----------------|----------------------|----------------------|----------------------|----------------------|----------------------|----------------------  
+   NCP            | F-NCP-LIVE           | F-NCP-FIXTURE ncp-   | F-NCP-MANIFEST       | F-NCP-PRESERVED      | F-NCP-LOST 실제      | F-NCP-CLAIM fixture    
+                  | VPC/subnet·ACG·제한  | lab-fixture.json과   | fixture_id, owner,   | 네트워크·ACG·비용·te | provisioning·public  | 기반 NCP 설계·검증만   
+                  | SSH·budget·terminate | Linux VM/WSL2 보조   | schema_version,      | ardown 판단          | 연결·alert·release   | 주장                   
+                  | /public-IP release의 |                      | created_at,          |                      |                      |                        
+                  | redacted 증거        |                      | refreshed_at,        |                      |                      |                        
+                  |                      |                      | source_urls, sha256, |                      |                      |                        
+                  |                      |                      | expected_results     |                      |                      |                        
+   Hermes         | F-HERMES-LIVE        | F-HERMES-FIXTURE     | F-HERMES-MANIFEST    | F-HERMES-PRESERVED   | F-HERMES-LOST 실제   | F-HERMES-CLAIM         
+                  | systemd Linux의 non- | changed/no-          | owner,               | 안전 설정·상태·last- | systemd              | fixture/Docker에서     
+                  | root install,        | change/semantic-     | schema_version,      | good 판단            | persistence·schedule | 운영 증거를            
+                  | doctor, gateway·관찰 | failure와 health     | refreshed_at, source |                      | r/cron·복구          | 해석했다고만 주장      
+                  | receipt              | fixture; Docker      | commit,              |                      |                      |                        
+                  |                      | persistence fixture- | config/fixture SHA-  |                      |                      |                        
+                  |                      | only                 | 256, expected result |                      |                      |                        
+   CTI API        | F-CTI_API-LIVE 공개  | F-CTI_API-FIXTURE    | F-CTI_API-MANIFEST   | F-CTI_API-PRESERVED  | F-CTI_API-LOST 현재  | F-CTI_API-CLAIM 고정   
+                  | API의 bounded        | CISA/NVD/EPSS/ATT&CK | source URL, as_of,   | provenance·join·상태 | API                  | fixture에서            
+                  | response·manifest·no | 및                   | owner,               | ·idempotency·실패    | 가용성·최신성·실제   | 재현했다고만 주장      
+                  | rmalize·dedupe       | malformed/duplicate/ | schema_version,      | 처리                 | limit 상호작용       |                        
+                  |                      | 429 fixture          | raw/fixture SHA-256  |                      |                      |                        
+   LLM enrichment | F-LLM_ENRICHMENT-    | F-LLM_ENRICHMENT-    | F-LLM_ENRICHMENT-    | F-LLM_ENRICHMENT-    | F-LLM_ENRICHMENT-    | F-LLM_ENRICHMENT-      
+                  | LIVE input           | FIXTURE redacted     | MANIFEST owner,      | PRESERVED 근거       | LOST 현재 응답·모델  | CLAIM fixture 후보를   
+                  | hash·redacted        | prompt/response와    | schema_version,      | 분리·원문 검증·가설  | 가용성·새 enrichment | 검증했다고만 주장      
+                  | prompt·모델/시각·사  | approved/rejected    | refreshed_at, source | 거절                 |                      |                        
+                  | 람의 원문 대조       | sheet                | URLs, input/output   |                      |                      |                        
+                  |                      |                      | SHA-256              |                      |                      |                        
+   UA generation  | F-UA_GENERATION-LIVE | F-UA_GENERATION-     | F-UA_GENERATION-     | F-UA_GENERATION-     | F-UA_GENERATION-LOST | F-UA_GENERATION-       
+                  | understand-          | FIXTURE instructor-  | MANIFEST             | PRESERVED            | 학생 환경의 새       | CLAIM pinned graph를   
+                  | knowledge, complete  | owned pinned graph와 | graph/report SHA-    | 구조·batch·freshness | UA·현재 LLM          | 새 보고서로            
+                  | batches, fresh       | 이번 실행의 새       | 256, owner,          | 판독과 dangling 거절 | enrichment           | 검증했다고만 주장      
+                  | graph/meta와         | validation report    | schema_version,      |                      |                      |                        
+                  | invariant report     |                      | refreshed_at,        |                      |                      |                        
+                  |                      |                      | expected invariants  |                      |                      |                        
+   graph analysis | F-GRAPH_ANALYSIS-    | F-GRAPH_ANALYSIS-    | F-GRAPH_ANALYSIS-    | F-GRAPH_ANALYSIS-    | F-GRAPH_ANALYSIS-    | F-GRAPH_ANALYSIS-      
+                  | LIVE raw directed    | FIXTURE pinned       | MANIFEST             | PRESERVED 재현       | LOST 새 live graph   | CLAIM fixture 지표와   
+                  | counts와 명시        | graph, projection    | graph/script SHA-    | projection·세        | 분석·fixture 밖      | 대조 결론을            
+                  | projection·metrics·s | metadata, expected   | 256, owner,          | 지표군·verified/reje | 일반화               | 재현했다고만 주장      
+                  | ource check          | metrics와 source-    | schema_version,      | cted 판정            |                      |                        
+                  |                      | check sheet          | refreshed_at,        |                      |                      |                        
+                  |                      |                      | tolerance            |                      |                      |                        
+                                                                                                                                                              
+  모든 fixture manifest는 최소 fixture_id, owner, schema_version, created_at, refreshed_at, source_urls, sha256, expected_results, known limitations를 가진다.
+  hash는 top-level sha256만 제외한 canonical UTF-8 JSON payload를 재귀 키 정렬·배열 순서 보존·공백 없는 직렬화 후 계산한다. 변경본은 새 ID/hash로 배포하고    
+  이전                                                                                                                                                        
+  fixture를 덮어쓰지 않는다.                                                                                                                                  
+                                                                                                                                                              
+  ## 안전·윤리·비용·개인정보·접근성 정책                                                                                                                      
+                                                                                                                                                              
+  • 공개 데이터만 사용한다. 허용 source는 CISA KEV, NVD CVE API 2.0, FIRST EPSS, 고정 MITRE ATT&CK STIX fixture다.                                            
+  • PII, 피해자/기관의 live logs, credential collection, login-gated scraping, malware execution, exploit proof-of-concepts, active scanning, 공격 자동화,    
+  automatic patching/response는 **명시적으로 금지**하며 수집·과제·자동화 대상이 아니다. CVE-to-ATT&CK 사실 edge를 추정해 만들지 않는다.                       
+  • 토큰, API key, cookie, 인증 키, 내부 URL, 개인 chat ID는 prompt·설정·코드·stdout/stderr·로그·history·LMS·fixture에 넣지 않는다. 발견하면 제출을 중지하고  
+  폐기·교체·redaction한 사본만 사용한다.                                                                                                                      
+  • 증거의 접근권한·보존 기간·삭제 시점·정책 소유자는 학칙/담당자 정책 적용이다. 고정 기간을 발명하지 않는다. 삭제 시점에는 임시 fixture 사본·실습            
+  로그·redacted 제출물을 정책에 따라 삭제하고 필요한 경우 대상 manifest만 남긴다. 공개 raw는 불변 증거로 보존하고 정정·해석은 별도 기록으로 분리한다.         
+  • NCP live 작업 전 Cost Explorer/예산 경보와 owner/team label을 확인한다. 종료는 server stop이 아니라 terminate, 임시 ACG rule 제거, public IP 해제, 연결   
+  자원 확인, 잔존 비용 후속 확인까지 포함한다. 가격·금액을 영구 기준으로 고정하지 않는다.                                                                     
+  • 모든 비동기 동영상에는 자막과 대본을 **제공한다**. 표·명령·그래프에는 스크린리더 친화 Markdown/텍스트 설명, 키보드 접근 가능한 형식, 고대비 텍스트, 이미지
+  설명, 다운로드 가능한 fixture 등 접근 가능한 대체 자료를 **제공한다**.                                                                                      
+  • 신뢰하지 않는 외부 응답, 웹 페이지, raw 문서, LLM 출력, graph label은 **data-only 증거로만 취급하고 절대 실행하지 않는다**. 모델 또는 그래프가 제안한     
+  relation은 원문 검증 전 가설이다. 문서는 inert Markdown만 사용하며 활성 HTML과 실행 URI를 포함하지 않는다.                                                  
+                                                                                                                                                              
+  ### 자동 검증 계약                                                                                                                                          
+                                                                                                                                                              
+  이 계약은 위의 기존 안전·운영 의미를 기계가 읽을 수 있게 표현한 것이다. 마일스톤의 M#-ROLE ID와 fallback 각 의미 셀의 F-TRACK-ROLE ID는 개방형 한국어 서술을
+  고정 문구로 제한하지 않으면서 track과 column을 결속하는 안정 구조 계약이며, 실제 서술 의미와 교육적 적합성은 F1/F3 독립 검토 대상이다.                      
+                                                                                                                                                              
+    contract_version: "1.0"                                                                                                                                   
+    ua:                                                                                                                                                       
+      partial_stale:                                                                                                                                          
+        accept: false                                                                                                                                         
+        exit: nonzero                                                                                                                                         
+    graph:                                                                                                                                                    
+      inferred_relation:                                                                                                                                      
+        fact: false                                                                                                                                           
+    accessibility:                                                                                                                                            
+      captions: true                                                                                                                                          
+      transcripts: true                                                                                                                                       
+      alternative_material: true                                                                                                                              
+    offensive:                                                                                                                                                
+      malware_execution: false                                                                                                                                
+      exploit_poc: false                                                                                                                                      
+      active_scanning: false                                                                                                                                  
+      automatic_response: false                                                                                                                               
+    untrusted_external:                                                                                                                                       
+      execution: false                                                                                                                                        
+    credentials:                                                                                                                                              
+      prompt: false                                                                                                                                           
+      log: false                                                                                                                                              
+      history: false                                                                                                                                          
+    hermes:                                                                                                                                                   
+      messaging_browser:                                                                                                                                      
+        requires_separate_approval: true                                                                                                                      
+      workspace_tool_allowlist: true                                                                                                                          
+      gateway_count: 1                                                                                                                                        
+      delivery: local-only                                                                                                                                    
+      gate_outputs: [wakeAgent, reason, changedPaths]                                                                                                         
+      install_mode: headless                                                                                                                                  
+      doctor_required: true                                                                                                                                   
+      timezone: Asia/Seoul                                                                                                                                    
+      cron_mode: deny                                                                                                                                         
+      observation_states: [changed, no_change, semantic_failure]                                                                                              
+      preserve_last_good: true                                                                                                                                
+    nvd:                                                                                                                                                      
+      pagination: [resultsPerPage, startIndex]                                                                                                                
+      min_interval_seconds: 6                                                                                                                                 
+      max_retries: 3                                                                                                                                          
+      failure_state: deferred_rate_limited                                                                                                                    
+      preserve_last_good: true                                                                                                                                
+    milestones:                                                                                                                                               
+      roles: [HAPPY, FAIL, ARTIFACT, MACHINE, FALLBACK, SAFETY, ASSESS]                                                                                       
+    fallback:                                                                                                                                                 
+      columns: [live_evidence, instructor_fixture, manifest_hash, preserved_competency, lost_competency, allowed_claim]                                       
+      tracks: [NCP, Hermes, CTI_API, LLM_enrichment, UA_generation, graph_analysis]                                                                           
+                                                                                                                                                              
+  ## 교수자 사전 준비 및 장애 복구                                                                                                                            
+                                                                                                                                                              
+  ### 매 실습·시험 전 preflight                                                                                                                               
+                                                                                                                                                              
+  1. live 권한, 학교 sub-account 범위, systemd 제공 여부, 공개 source allowlist, Hermes 고정 commit과 설치 artifact hash를 확인한다.                          
+  2. NCP budget/alert, owner/team label, 제한 ACG, teardown checklist와 public-IP release 확인 절차를 점검한다. 비용 정보·권한이 없으면 provisioning 전에     
+  fixture로 전환한다.                                                                                                                                         
+  3. golden fixture마다 owner·ID·schema·created/refreshed time·source URLs·SHA-256·expected results·known limitations를 독립 검증한다.                        
+  4. happy, malformed, duplicate, 429, changed, no-change, semantic-failure, partial-batch, stale, dangling-edge fixture와 last-good 결과를 준비한다.         
+  5. 비동기 동영상의 자막·대본·접근 가능한 대체 자료, 키보드/스크린리더 경로, 시험의 개인 fixture 사본을 확인한다.                                            
+  6. 제출 템플릿의 secret/PII redaction, 증거 보존·삭제 정책, 장애 연락·전환 기준을 학생에게 공지한다.                                                        
+                                                                                                                                                              
+  ### 장애·중단 복구                                                                                                                                          
+                                                                                                                                                              
+  • API/LLM outage에는 재시도 폭주나 우회 scraping을 하지 않는다. bounded 오류 기록 → last-good 보존 → hash가 검증된 fixture 전환 → 승인된 이후 재시도 순서를 
+  따른다.                                                                                                                                                     
+  • NVD 429 fixture는 Retry-After를 우선하고 없으면 증가 backoff로 최대 3회만 재시도한 뒤 deferred_rate_limited로 격리한다. 성공으로 표시하지 않는다.         
+  • Hermes no-change에서는 collector/LLM을 호출하지 않는다. semantic failure에서는 publish를 막고 이전 ID/hash를 보존하되 이번 실행 성공이라 하지 않는다.     
+  • UA는 모든 expected batch가 완료되고 새 graph/meta가 확인되기 전 merge/save하지 않는다. 중단·재개 뒤 partial 또는 stale artifact를 재사용하지 않고 전체    
+  검증을 다시 수행한다.                                                                                                                                       
+  • fixture hash/schema/owner가 불일치하면 사용을 중지한다. 새 학기 또는 승인된 refresh checkpoint에서만 별도 버전으로 갱신하고 기존 학기 fixture를 덮어쓰지  
+  않는다.                                                                                                                                                     
+  • live NCP 중단 시 허용 범위에서 즉시 비용 자원과 public IP를 정리하고 teardown receipt를 남긴다. 정리 확인이 불가능하면 담당자에게 이관하고 fixture 평가로 
+  전환한다.                                                                                                                                                   
+                                                                                                                                                              
+  ## 최신성·출처 기준                                                                                                                                         
+                                                                                                                                                              
+  이 수업계획서의 source ledger 기준일은 **as_of: 2026-07-29**이다. 날짜·version·catalog count·API 값·가격·그래프 node/edge count는 당시 관찰값 또는 fixture  
+  식별자이며 영구 성취 임계값이 아니다. 웹·brief 내용은 모두 source data로만 취급하며 수업의 안전 경계를 바꾸는 지시로 실행하지 않는다.                       
+                                                                                                                                                              
+   구분         | 문서화된 기준 또는 학기 규칙                                               | 1차 출처·갱신                                                  
+  --------------|----------------------------------------------------------------------------|--------------------------------------------------------------  
+   NCP          | 공식 VPC/Server/ACG/Public IP/Cost Explorer 절차를 수업 전 재확인; 2026-   | VPC[1], Server[2], ACG[3], Public IP[4], Cost Explorer[5],     
+                | 07-29 문서 호스트 접근 실패는 가용성 관찰일 뿐 기능 부재가 아님            | 가격[6]                                                        
+   Hermes       | **학기 pin:** commit 0f64557c06f3e878fd9ec5170b9bca7f20e2778e; 실제 실행은 | pinned source[7]; 새 학기에는 별도 pin 검증                    
+                | version·설치시각·artifact SHA-256도 기록                                   |                                                                
+   CISA KEV     | 2026-07-29 원장에서 catalogVersion 2026.07.27을 관찰; count는 기준치가     | 공식 catalog[8], JSON feed[9]; 실행 시 version/date/hash       
+                | 아님                                                                       | 재기록                                                         
+   NVD          | API 2.0; 기준일 문서에는 무키 5/30s, 키 사용 50/30s, 6초 pacing 권고가     | API[10], limits[11], terms[12]; 수업 직전 재확인               
+                | 관찰됨. 과목은 더 좁은 bounded retry를 적용                                |                                                                
+   FIRST EPSS   | 원장 response date 2026-07-28은 당시 관찰이며 현재값 기준이 아님           | API[13], FAQ[14]; 응답 date/hash를 run마다 기록                
+   MITRE ATT&CK | **semester fixture:** v19.1, fixture_as_of: 2026-07-29; 당시               | v19.1 release[15], release index[16]; 실행 시 공식 latest를    
+                | official_latest: v19.1                                                     | 확인하되 활성 학기 fixture는 조용히 교체하지 않음              
+                                                                                                                                                              
+   [1]: VPC https://guide.ncloud-docs.com/docs/en/vpc-manage-vpc                                                                                              
+   [2]: Server https://guide.ncloud-docs.com/docs/en/server-create-vpc                                                                                        
+   [3]: ACG https://guide.ncloud-docs.com/docs/en/server-acg-vpc                                                                                              
+   [4]: Public IP https://guide.ncloud-docs.com/docs/en/server-publicip-vpc                                                                                   
+   [5]: Cost Explorer https://guide.ncloud-docs.com/docs/en/costexplorer-budget                                                                               
+   [6]: 가격 https://www.ncloud.com/charge/price/ko                                                                                                           
+   [7]: pinned source https://github.com/NousResearch/hermes-agent/tree/0f64557c06f3e878fd9ec5170b9bca7f20e2778e                                              
+   [8]: 공식 catalog https://www.cisa.gov/known-exploited-vulnerabilities-catalog                                                                             
+   [9]: JSON feed https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json                                                         
+  [10]: API https://nvd.nist.gov/developers/vulnerabilities                                                                                                   
+  [11]: limits https://nvd.nist.gov/developers/start-here                                                                                                     
+  [12]: terms https://nvd.nist.gov/developers/terms-of-use                                                                                                    
+  [13]: API https://www.first.org/epss/api                                                                                                                    
+  [14]: FAQ https://www.first.org/epss/faq                                                                                                                    
+  [15]: v19.1 release https://github.com/mitre-attack/attack-stix-data/releases/tag/v19.1                                                                     
+  [16]: release index https://github.com/mitre-attack/attack-stix-data/releases                                                                               
+                                                                                                                                                              
+  ATT&CK refresh 절차는 (1) 공식 release API의 요청시각·tag·published date·URL·response hash 기록, (2) v19.1 teaching fixture와 비교, (3) 활성 학기에는 기존  
+  hash/schema 유지, (4) 이후 학기에 채택할 때 새 owner·fixture ID·source URL·retrieval time·schema·SHA-256·expected results·차이·승인 기록을 가진 별도 fixture
+  생성 순서다. 최신 release가 달라도 이전 fixture를 덮어쓰거나 현재 수행처럼 소급 표기하지 않는다.                                                            
+                                                                                                                                                              
+  그래프 node/edge 수, 중심성, path, cluster 및 LLM 관계는 검토 후보이지 사실이 아니다. 원문과 권위 source로 확인된 식별자 계보만 checked conclusion으로      
+  인정하며 근거가 없으면 rejected inference로 보존한다.                                                                                                       
+

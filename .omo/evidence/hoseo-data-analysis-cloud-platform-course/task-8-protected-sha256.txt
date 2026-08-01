@@ -1,0 +1,9 @@
+# Todo 8 protected-state recomputation
+
+captured_at_utc: 2026-07-29T10:42:09Z
+protected_path_count: 142
+protected_hash_mismatches: 0
+scope_added_paths: output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md
+target_sha256: 65ed06d96716202509679a3a3ef57c4a0d446c2bb77998a454ed2885d2123d66
+checker_sha256: 487470cea93eeb62ca199216f4db0385a3816a40428d725f5a9f419a9520f5ba
+result: PASS

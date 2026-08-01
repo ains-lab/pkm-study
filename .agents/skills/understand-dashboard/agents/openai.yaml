@@ -1,0 +1,4 @@
+interface:
+  display_name: "Understand Dashboard"
+  short_description: "Open the interactive project knowledge graph"
+  default_prompt: "Use $understand-dashboard to open the interactive graph for this project."

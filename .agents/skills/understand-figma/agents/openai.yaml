@@ -1,0 +1,4 @@
+interface:
+  display_name: "Understand Figma"
+  short_description: "Build a design graph from a Figma file"
+  default_prompt: "Use $understand-figma to analyze a Figma file and generate a design knowledge graph."

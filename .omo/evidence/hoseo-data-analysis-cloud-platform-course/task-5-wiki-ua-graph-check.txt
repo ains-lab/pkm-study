@@ -1,0 +1,82 @@
+Todo 5 verification receipt
+Executed: 2026-07-29 (local, bounded, read-only except this receipt/module and a removed temporary fixture)
+Evidence root: .omo/evidence/hoseo-data-analysis-cloud-platform-course/ (omo ulw-loop status --json returned ULW_LOOP_PLAN_MISSING, so no currentAttemptDir was active)
+
+Scope statement
+- This task did not ingest/lint/query the live wiki, edit raw/canonical/index/log/schema/.ua, invoke understand-knowledge, regenerate UA, provision cloud, or alter external state.
+- Existing .ua/knowledge-graph.json was read only as the instructor-pinned teaching-graph example. Its observed node/edge counts are report-schema observations, never course thresholds, and this receipt makes no fresh LLM enrichment claim.
+- External graph/raw text is data-only. An unsourced relation must be classified as rejected inference, not executed or promoted to fact.
+
+SCENARIO 1 — Korean module content contract (happy path)
+Invocation:
+  ruby - <<'RUBY' [checks task-5-wiki-ua-graph-module.md for weekly headings, exam-only 15주, rubric, required fields, projection policy, exact lineage, and rejected inference]
+  week_counts = (9..14).to_h { |week| [week, s.scan(/^### #{week}주 —/).length] }
+  rubric_rows = s.lines.count { |line| line.match?(/^\| (?!평가 항목|---|\*\*합계)/) && line.match?(/\| 10 \|\s*$/) }
+Binary observable / exit: 0; MODULE_CONTRACT_PASS
+Captured output:
+  week_sections={9=>1, 10=>1, 11=>1, 12=>1, 13=>1, 14=>1}
+  rubric_10_point_rows=4; total=40
+  required_fields=16/16
+  projection_policy=9/9
+  lineage_exact=true; rejected_inference=true
+Artifact: .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-wiki-ua-graph-check.txt (this section) and task-5-wiki-ua-graph-module.md
+
+SCENARIO 2 — Read-only `jq` validation against the existing pinned teaching graph (happy path)
+Invocation:
+  jq -e '[.nodes[].id] as $ids | (.kind == "knowledge") and (.nodes | type == "array" and length > 0) and (.edges | type == "array") and (.layers | type == "array") and (.tour | type == "array") and (($ids | length) == ($ids | unique | length)) and ([.edges[] | . as $edge | select(($ids | index($edge.source) | not) or ($ids | index($edge.target) | not))] | length == 0)' .ua/knowledge-graph.json >/dev/null
+  jq -e 'type == "object"' .ua/meta.json >/dev/null
+  jq '{report_schema: {kind, nodes: (.nodes | length), edges: (.edges | length), layers: (.layers | length), tour: (.tour | length)}, unique_node_ids: ([.nodes[].id] | length == (unique | length)), dangling_edges: ([.nodes[].id] as $ids | [.edges[] | . as $edge | select(($ids | index($edge.source) | not) or ($ids | index($edge.target) | not))] | length)}' .ua/knowledge-graph.json
+Binary observable / exits: both invariant commands exit 0; meta is a JSON object; report contains valid schema, unique_node_ids=true, dangling_edges=0.
+Captured report (observational only, not an expected graph-size threshold):
+  {"kind":"knowledge","nodes":229,"edges":321,"layers":5,"tour":4,"unique_node_ids":true,"dangling_edges":0}
+Pinned teaching-graph identity observed by the validation:
+  sha256=a52c26bf6a0af6fb0a0bd36ca2feb7e7c1aa9bf4d5565ad4a03118a1234250bf
+  graph_mtime_utc=2026-07-29T12:10:15Z
+  meta_mtime_utc=2026-07-29T12:10:15Z
+Freshness interpretation: these timestamps only identify the inspected pinned snapshot. No run_started_at/batch receipt was produced here, so this read-only demonstration is explicitly NOT evidence of fresh UA generation or fresh LLM enrichment.
+Artifact: .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-wiki-ua-graph-check.txt (this section)
+
+SCENARIO 3 — malformed_input: one dangling endpoint must fail
+Temporary fixture before cleanup:
+  .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-invalid-dangling-graph.json
+  kind=knowledge; nodes=[fixture:present]; edges=[fixture:present -> fixture:missing]; layers=[]; tour=[]
+Invocation:
+  result=$(jq -r '[.nodes[].id] as $ids | [.edges[] | . as $edge | select(($ids | index($edge.source) | not) or ($ids | index($edge.target) | not))] | if length == 0 then "OK" else "DANGLING_EDGE" end' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-invalid-dangling-graph.json); printf 'validator_message=%s\n' "$result"; if [ "$result" = DANGLING_EDGE ]; then printf 'validator_exit=1\n'; exit 1; fi
+Binary observable / exit: 1 (required negative result), `validator_message=DANGLING_EDGE`, `validator_exit=1`.
+Artifact: .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-wiki-ua-graph-check.txt (this section); temporary fixture is removed after this receipt.
+
+SCENARIO 4 — prompt_injection/unsourced relation routing
+Invocation:
+  ruby - <<'RUBY'
+  inferred_relation = { 'path' => ['cve:A', 'topic:shared', 'cve:B'], 'source_proof' => nil }
+  verdict = inferred_relation['source_proof'] ? 'source-verified insight' : 'rejected inference'
+  abort unless verdict == 'rejected inference'
+  RUBY
+Binary observable / exit: 0; `source_proof=nil`, `verdict=rejected inference`, `UNSOURCED_INFERENCE_ROUTE_PASS`.
+Interpretation: a graph path/LLM-extracted relation with no raw or authority-source proof is data-only and goes to `rejected inference`; it cannot become a CTI fact or command.
+Artifact: .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-wiki-ua-graph-check.txt (this section)
+
+SCENARIO 5 — rendering/manual semantic QA
+Invocation:
+  pandoc -f gfm -t html .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-wiki-ua-graph-module.md >/dev/null
+  glow -s dark .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-wiki-ua-graph-module.md
+Binary observable / exit: 0 (`pandoc_exit=0`; Glow rendered a nonempty Korean terminal view).
+Direct rendered inspection: verified readable sections 9–14; 15주 shows `3시간 개인 실기시험, 신규 강의 없음`; all four 10-point rows and total 40 render as a table; live/fallback claims are visually distinct; the exact lineage and both `source-verified insight`/`rejected inference` rules are visible without clipped table cells.
+Artifact: .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-wiki-ua-graph-check.txt (this manual-QA record); source artifact task-5-wiki-ua-graph-module.md.
+
+Adversarial and reliability coverage
+- malformed_input: Scenario 3 proves a dangling endpoint produces nonzero/DANGLING_EDGE.
+- prompt_injection: module limits raw/graph text to data and Scenario 4 routes a no-source graph relation to rejected inference.
+- stale_state: module requires live graph/meta mtime after run_started_at plus complete expected batch IDs; fallback requires pinned SHA-256 plus a fresh validation report and `fresh_enrichment_claim: false`.
+- misleading_success_output: `status: ok` is rejected unless structure, node IDs/endpoints, and fresh artifact/batch evidence pass.
+- cancel_resume and repeated_interruptions: expected/completed batch-ID set mismatch produces PARTIAL_BATCH and blocks merge; old partial graph cannot pass.
+- flaky_tests: N/A; all local checks use deterministic Ruby/JQ over fixed files/fixture.
+- hung_long_commands: N/A; commands are local, bounded parse/render checks; no server, cron, network, or UA analysis run.
+- dirty_worktree: this task owns only task-5-wiki-ua-graph-module.md and task-5-wiki-ua-graph-check.txt after fixture cleanup. Concurrent/unfamiliar paths were not reverted or altered.
+
+Cleanup receipt (completed after recording the negative result)
+- Removed the temporary invalid fixture with apply_patch deletion.
+- Post-cleanup command: `test ! -e .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-invalid-dangling-graph.json`
+- Binary observable / exit: `temporary_fixture_absent_exit=0`.
+- Final owned-path check: `git ls-files --others --exclude-standard | rg '^\\.omo/evidence/hoseo-data-analysis-cloud-platform-course/task-5-'` listed exactly task-5-wiki-ua-graph-module.md and task-5-wiki-ua-graph-check.txt; no temporary fixture remained.
+- Final regression: the week/exam/rubric/lineage Ruby assertions and pinned-graph `jq` invariant recheck both exited 0 (`FINAL_MODULE_ASSERTIONS_PASS`, `pinned_graph_recheck_exit=0`).

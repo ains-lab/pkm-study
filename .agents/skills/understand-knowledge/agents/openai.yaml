@@ -1,0 +1,4 @@
+interface:
+  display_name: "Understand Wiki"
+  short_description: "Generate a knowledge graph from the local LLM wiki"
+  default_prompt: "Use $understand-knowledge to regenerate and validate this LLM wiki's knowledge graph."

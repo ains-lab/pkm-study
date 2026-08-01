@@ -1,7 +1,7 @@
 ---
 title: 에이전트 작업환경
 created: 2026-07-16
-updated: 2026-07-16
+updated: 2026-07-22
 type: concept
 tags: [agent, orchestration, workflow, automation]
 sources:
@@ -9,6 +9,10 @@ sources:
   - "raw/youtube/📺 Orca Is the Free Cursor Killer Nobody's Talking About!.md"
   - "raw/web/NomaDamasslides-grab Best harness + editor + linter for generating slides in Claude Code  Codex - Claude Design Open Source Alternative.md"
   - "raw/notebooklm/notebooklm-py-github.md"
+  - "raw/papers/2026-06-agentic-ai-and-llm-driven-framework-for-contextual-anomaly-detection.md"
+  - "raw/papers/2024-12-design-and-evaluation-of-an-autonomous-cyber-defence-agent-using-drl-and-an-augmented-llm.md"
+  - "raw/papers/2025-09-a-review-of-agentic-ai-in-cybersecurity-cognitive-autonomy-ethical-governance-and-quantum-resilient-defense-version-1-peer-review-2-approved.md"
+  - "raw/papers/2026-06-detection-and-mitigation-of-mythos-class-frontier-model-capabilities-a-layered-reference-architecture.md"
 confidence: medium
 ---
 
@@ -23,6 +27,9 @@ confidence: medium
 - **전문 산출 도구:** [[slides-grab]]처럼 결과물을 해당 형식의 검증 과정까지 포함해 만든다.
 - **사람의 관문:** 출처, diff, 시각 결과, 최종 병합을 검토한다.
 - **외부 연구 엔진:** [[notebooklm-py]]가 대규모 소스 질의와 산출물 생성을 맡는다.
+- **행동 궤적 검증:** [[agentic-ai-contextual-anomaly-detection]]이 목표·순서·문맥에서 벗어난 실행을 보조적으로 탐지한다. ^[raw/papers/2026-06-agentic-ai-and-llm-driven-framework-for-contextual-anomaly-detection.md]
+- **도메인 행동 모듈:** [[autonomous-cyber-defense-agents]]처럼 관측·계획·행동·복구를 맡는 에이전트는 제한된 행동 공간 안에서 실행한다. ^[raw/papers/2024-12-design-and-evaluation-of-an-autonomous-cyber-defence-agent-using-drl-and-an-augmented-llm.md]
+- **다층 안전 관문:** [[agentic-ai-safety-governance]]가 접근 권한, 결과 승인, runtime 감시와 실행면 격리를 결합한다. ^[raw/papers/2025-09-a-review-of-agentic-ai-in-cybersecurity-cognitive-autonomy-ethical-governance-and-quantum-resilient-defense-version-1-peer-review-2-approved.md] ^[raw/papers/2026-06-detection-and-mitigation-of-mythos-class-frontier-model-capabilities-a-layered-reference-architecture.md]
 
 ## 병렬화가 유효한 조건
 

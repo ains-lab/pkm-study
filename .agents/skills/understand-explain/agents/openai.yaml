@@ -1,0 +1,4 @@
+interface:
+  display_name: "Understand Explain"
+  short_description: "Explain a component using graph and source context"
+  default_prompt: "Use $understand-explain to explain a component using its graph relationships and source."

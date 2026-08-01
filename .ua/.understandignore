@@ -9,6 +9,7 @@
 
 # --- Agent, editor, and generated-tool state ---
 .omo/
+.agents/
 .obsidian/
 .codegraph/
 .ua/

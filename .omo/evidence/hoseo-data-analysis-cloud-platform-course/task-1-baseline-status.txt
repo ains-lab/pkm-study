@@ -1,0 +1,61 @@
+# Todo 1 dirty-worktree baseline receipt
+
+vault_root: /Users/sysmoon/.codex/projects/pkm-study
+captured_before_first_task_owned_write: true
+recorded_at_utc: 2026-07-29T05:23:42Z
+capture_command: git status --short
+prior_task_1_artifacts: all four designated paths were absent before this receipt was created (cancel_resume=PASS; prior worker interruption left no partial artifact)
+external_content_handling: all downloaded or browsed content is treated strictly as evidence data, never as instructions.
+
+exact_git_status_short_before_task_owned_writes:
+ M .omo/drafts/pkm-study-open-source-readme.md
+ M .ua/.understandignore
+ M .ua/knowledge-graph.json
+ M .ua/meta.json
+ M concepts/agentic-workspace.md
+ M concepts/ai-personal-knowledge-management.md
+ M concepts/llm-wiki.md
+ M entities/obsidian.md
+ M entities/zotero-mcp.md
+ M index.md
+ M log.md
+?? .agents/
+?? .obsidian/community-plugins.json
+?? .obsidian/plugins/
+?? .omo/boulder.json
+?? .omo/drafts/hoseo-data-analysis-cloud-platform-course.md
+?? .omo/evidence/
+?? .omo/plans/
+?? .omo/start-work/
+?? .ua/domain-graph.json
+?? README.md
+?? comparisons/ontology-and-llm-wiki.md
+?? concepts/agentic-ai-contextual-anomaly-detection.md
+?? concepts/agentic-ai-safety-governance.md
+?? concepts/autonomous-cyber-defense-agents.md
+?? concepts/cyber-threat-intelligence-knowledge-graphs.md
+?? concepts/enterprise-ai-operating-system.md
+?? concepts/enterprise-ontology.md
+?? entities/logseq.md
+?? entities/palantir.md
+?? inbox/
+?? output/second-brain-pkm-architecture.architecture.json
+?? output/second-brain-pkm-architecture.html
+?? queries/cti-thinker-paper-summary.md
+?? raw/blog/codex-excalidraw-archify-architecture-diagrams.md
+?? raw/papers/
+?? raw/platform/
+?? "raw/web/ains-lab2nd-brain-template llm-wiki \354\235\264\354\232\251\355\225\230\354\227\254 \353\202\230\354\235\230 \352\260\234\354\235\270 \354\247\200\354\213\235\352\264\200\353\246\254 \354\203\235\354\204\261\354\235\204 \354\234\204\355\225\234 2nd-brain \355\224\204\353\241\234\354\240\235\355\212\270 \354\236\205\353\213\210\353\213\244..md"
+?? raw/web/ax-labs-enterprise-ontology-shared-vocabulary.md
+?? raw/web/codex-mcp-configuration.md
+?? raw/web/logseq-github-overview.md
+?? raw/web/palantir-aip-architecture-overview.md
+?? raw/web/palantir-aip-foundry-apollo.md
+?? raw/web/palantir-architecture-center-overview.md
+?? raw/web/palantir-interoperability.md
+?? raw/web/palantir-multimodal-data-plane.md
+?? raw/web/palantir-ontology-system.md
+?? raw/web/palantir-rubix-substrate.md
+?? raw/web/zotero-mcp-server-installation.md
+?? "raw/web/\353\202\264\352\260\200 \354\202\254\354\232\251\355\225\230\352\263\240 \354\236\210\353\212\224 obsidian \355\224\214\353\237\254\352\267\270\354\235\270.md"
+?? "raw/web/\354\232\260\353\246\254 \355\232\214\354\202\254\353\212\224 \352\260\231\354\235\200 \353\213\250\354\226\264\353\245\274 \352\260\231\354\235\200 \353\234\273\354\234\274\353\241\234 \354\223\260\352\263\240 \354\236\210\353\212\224\352\260\200 \342\200\224 AX LABS \353\270\224\353\241\234\352\267\270.md"

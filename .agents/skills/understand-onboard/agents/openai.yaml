@@ -1,0 +1,4 @@
+interface:
+  display_name: "Understand Onboarding"
+  short_description: "Create an onboarding guide from the project graph"
+  default_prompt: "Use $understand-onboard to create an onboarding guide from the project's knowledge graph."

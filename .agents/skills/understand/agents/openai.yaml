@@ -1,0 +1,4 @@
+interface:
+  display_name: "Understand Codebase"
+  short_description: "Generate an architecture knowledge graph for this repo"
+  default_prompt: "Use $understand to analyze this repository and generate a validated architecture knowledge graph."

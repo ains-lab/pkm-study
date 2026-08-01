@@ -1,0 +1,180 @@
+# Todo 8 validation transcript — stable-ID rebuild
+
+Target: `output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md`
+Target SHA-256: `d062c7427f7b8a715f357f7d6f7e307f677fcd3b455c9b709c899ef192d52bee`
+
+## Phase 1 — failing-first handoff
+
+The Task 7 remediation handoff recorded the former checker as RED against this exact target: `ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/syllabus_check.rb output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md` exited 1 with `milestone table missing required evidence fields`. That checker expected the superseded combined Artifact/Machine column. The stable-ID checker below replaces only that owned validation surface.
+
+## Phase 2 — deterministic checker
+
+Invocation: `ruby -c .omo/evidence/hoseo-data-analysis-cloud-platform-course/syllabus_check.rb && ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/syllabus_check.rb output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md`
+
+Binary observable:
+
+```text
+Syntax OK
+PASS headings=10 weeks=15 topic_ids=15 milestones=7 evidence_ids=49 fallbacks=6 weights=20/40/40 rubrics=40/40 carry=PASS
+```
+
+Exit: 0.
+
+The checker parses table rows before making maps: the exact 1..15 weeks, three unique grade identities/weights, M1..M7, seven separate stable IDs per milestone row (49 total), and six ordered fallback tracks. It requires W01..W15 topic IDs and stable ID placement in the correct row/cell, while a non-contract Korean topic paraphrase remains valid.
+
+## Phase 3 — real-surface render
+
+Invocation: `pandoc --standalone --from gfm --to html5 output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md -o .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-8-syllabus.html`
+
+Observable: Pandoc exit 0; HTML has 47,416 bytes, 11 opening and 11 closing tables, and active-content scan count 0.
+
+Invocation: `glow -w 160 output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md` and `glow -w 400 output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md`
+
+Observable: both exit 0; concatenated surface artifact `task-8-render.txt` has 197,864 bytes and 770 lines. It visibly contains 20/40/40 exam rows, W08 and W15, and M1-HAPPY contracts. The prescribed xterm.js visual-QA script is absent from this Markdown vault (`script/qa/web-terminal-visual-qa.mjs` does not exist), so no browser/session/process was started; direct Glow output is retained as the available terminal-render artifact.
+
+## Phase 4 — adversarial controls
+
+All controls use a temporary copy and invoke the real checker. Expected exit / actual exit / result:
+
+```text
+duplicate-week                         1 / 1 / PASS
+duplicate-weight                       1 / 1 / PASS
+duplicate-milestone                    1 / 1 / PASS
+duplicate-fallback                     1 / 1 / PASS
+token-stuffed-no-ids                   1 / 1 / PASS
+korean-topic-synonym                   0 / 0 / PASS
+ua-stale-success                       1 / 1 / PASS
+accessibility-inversion                1 / 1 / PASS
+offensive-inversion                    1 / 1 / PASS
+data-only-inversion                    1 / 1 / PASS
+active-script                          1 / 1 / PASS
+active-event                           1 / 1 / PASS
+active-javascript                      1 / 1 / PASS
+active-data-html                       1 / 1 / PASS
+carry-messaging/browser                1 / 1 / PASS
+carry-workspace                        1 / 1 / PASS
+carry-allowlist                        1 / 1 / PASS
+carry-wakeAgent                        1 / 1 / PASS
+carry-reason                           1 / 1 / PASS
+carry-changedPaths                     1 / 1 / PASS
+carry-resultsPerPage                   1 / 1 / PASS
+carry-startIndex                       1 / 1 / PASS
+carry-published_at                     1 / 1 / PASS
+carry-last_modified_at                 1 / 1 / PASS
+carry-value_state                      1 / 1 / PASS
+carry-state_reason                     1 / 1 / PASS
+carry-fixture_release                  1 / 1 / PASS
+missing-file                           1 / 1 / PASS
+invalid-utf8                           1 / 1 / PASS
+```
+
+Key diagnostics: duplicate-week reports the exact-set violation; duplicate-weight reports `grading mismatch`; missing IDs reports an M1 stable contract; stale-success reports the M6 nonzero-validator requirement; every active-content control reports `active script or executable URI is forbidden`; missing path and malformed UTF-8 report a stable `FAIL:` line without a trace.
+
+The evidence-only corrupt copy removes week 8 and changes the midterm percentage. Invocation: `ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/syllabus_check.rb .omo/evidence/hoseo-data-analysis-cloud-platform-course/corrupt-syllabus.md`. Exit: 1. Required observables: `FAIL: missing week 8 or week 15 exam` and `FAIL: grading mismatch: rows must have exact unique identities and weights`.
+
+## Phase 5 — integrity and gate decision
+
+Whitespace invocation: `git diff --no-index --check /dev/null output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md`. Raw exit 1 is the normal added-file diff status; diagnostics are empty.
+
+Protected-state invocation: compatible Ruby recomputation against `task-1-protected-sha256.txt`. Observable: `PROTECTED_RECEIPT PASS paths=142 mismatches=0 added=output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md`. The fresh scope set is 143 paths: exactly the 142 protected paths plus the syllabus.
+
+Gate decision: PASS. The current target SHA remained `d062c7427f7b8a715f357f7d6f7e307f677fcd3b455c9b709c899ef192d52bee` through checker, corrupt-copy, render, and integrity scenarios.
+
+Cleanup receipt: every control fixture was created inside `Dir.mktmpdir('t8-controls')` and removed on block exit. No server, browser, terminal session, port, container, cloud resource, scheduler, or process remained.
+
+Final independent rerun after artifact regeneration:
+
+```text
+FINAL_QA PASS sha=d062c7427f7b8a715f357f7d6f7e307f677fcd3b455c9b709c899ef192d52bee html_tables=11 active=0 render_bytes=197864 protected=142/0 scope_added=1 staged=0 whitespace_raw=1 secrets={:private_key=>0, :github=>0, :aws=>0, :bearer=>0, :jwt=>0, :korean_rrn=>0, :email=>0} prompt_scan=0 cleanup=tmpdir-auto
+```
+
+## Stable-contract repair rerun
+
+Failing-first command before the repair: `ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-8-regression.rb`.
+
+It exited 1 because the former checker accepted vulnerability schema omissions, scoped Hermes/NVD/raw-manifest omissions, M1 semantic gibberish, fallback gibberish, M6/NVD/policy inversions, an extra weighted row, and rejected safe Korean paraphrases.
+
+Green command after the repair: `ruby -c .omo/evidence/hoseo-data-analysis-cloud-platform-course/syllabus_check.rb && ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-8-regression.rb`.
+
+Exit: 0. The persistent harness records 50 controls: valid target and five Korean semantic paraphrases exit 0; all vulnerability-field, raw-manifest, week-4/week-7/NVD, stable-ID, meaningful-cell, fallback, scoped-polarity, graph-promotion, and grading mutants exit 1.
+
+Fresh artifact commands and observables:
+
+```text
+PROTECTED PASS paths=142 mismatches=0 added=output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md
+BOUNDARY PASS valid=0 corrupt=1 missing=1 invalid_utf8=1 target_sha=d062c7427f7b8a715f357f7d6f7e307f677fcd3b455c9b709c899ef192d52bee checker_sha=c3ff6989382c5f1e9a6185f70b26fb37c4d870894c9dbadc46d9ad312fc8419d
+RENDER PASS html_tables=11/11 active=0 html_bytes=47416
+HYGIENE PASS whitespace_raw=1 diagnostics=0 staged=0 secret_pii={:private_key=>0, :github=>0, :aws=>0, :bearer=>0, :jwt=>0, :korean_rrn=>0, :email=>0}
+```
+
+Artifacts refreshed: `task-8-regression.rb`, `task-8-regression.log`, `task-8-syllabus.html`, `task-8-render.txt`, and `task-8-protected-sha256.txt`. The target syllabus was not edited; its SHA remained `d062c7427f7b8a715f357f7d6f7e307f677fcd3b455c9b709c899ef192d52bee`.
+
+## Second semantic-repair rerun
+
+The independent repair review found eight token-preserving false successes in the former checker: M1 payload nonsense, Hermes fallback nonsense, M6 zero-return wording, graph fact promotion, data-only command execution, denied accessibility delivery, offensive execution, and credential transfer. The checker was strengthened only within its owned evidence boundary: each milestone cell now requires its stable ID plus category-specific behavior/artifact context; every fallback track requires meaningful cells plus its contract categories; and each policy check rejects the concrete unsafe action rather than relying on a single positive token.
+
+Failing-first invocation: `ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-8-regression.rb` before this checker change. It exited 1 because the eight new harmful mutants were accepted. Green invocation: `ruby -c .omo/evidence/hoseo-data-analysis-cloud-platform-course/syllabus_check.rb && ruby .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-8-regression.rb`.
+
+Observable: syntax exit 0; persistent harness exit 0; `task-8-regression.log` contains 57 result lines, each with a PASS verdict (negative-case diagnostics themselves begin with `FAIL:`). It covers the valid target, 51 negative mutations (including all eight review mutations), and five Korean semantic paraphrase positives. Target SHA: `d062c7427f7b8a715f357f7d6f7e307f677fcd3b455c9b709c899ef192d52bee`; checker SHA: `f16029dbf2aaf00f0f06c6d9e76f8bac76d95321b2f3c2952365f30f98807a7f`.
+
+Fresh boundary invocation uses `Dir.mktmpdir`: valid exits 0; corrupt exits 1 and includes both `missing week 8 or week 15 exam` and `grading mismatch`; missing path exits 1 with `syllabus path is missing or unreadable`; invalid UTF-8 exits 1 with `syllabus is not valid UTF-8`; `Dir.mktmpdir` removes all temporary fixtures. Pandoc exit 0 produced `task-8-syllabus.html` (47,416 bytes, 11 tables); Glow exit 0 produced `task-8-render.txt` (83,488 bytes); both source H2 and table-separator counts are 10 and 11. The HTML active-content scan remains zero.
+
+Protected recomputation against the Todo 1 manifest: 142 expected paths, 0 missing, 0 hash mismatches. The target is the sole output addition; `task-8-protected-sha256.txt` records the new checker SHA. Hygiene: `git diff --no-index --check` raw exit 1 with zero diagnostics (normal added-file status), staged paths 0, and high-signal secret/PII scan across target/checker/harness has seven zero counts. Cleanup receipt: `Dir.mktmpdir` auto-cleanup plus exact `/tmp/t8-whitespace.out` unlink confirmed.
+
+Gate decision: local repair evidence PASS, but independent verification remains required for checker SHA `f16029dbf2aaf00f0f06c6d9e76f8bac76d95321b2f3c2952365f30f98807a7f`; prior independent reports do not cover this revision.
+
+## Canonical-contract repair rerun
+
+Independent v3 reproduced seven token-preserving false successes under checker `f16029db…`: semantic M1 padding, M6 zero result, graph conclusion promotion, data-only command execution, inaccessible captions/transcript, offensive activity, and API-key prompt insertion. The old keyword-based checks were removed only from the high-risk scope and replaced with readable canonical arrays/maps for all M1–M7 cells, all six fallback rows, Hermes/NVD/UA/policy lines, and week 4/7 rows. The checker still independently checks all existing structure, arithmetic, IDs, schemas, active content, and source-ledger criteria. It does not hash the whole file and prints a named canonical-cell or canonical-line mismatch for each divergent item.
+
+Failing-first: after adding exact `v3-*` controls but before the canonical checker patch, `ruby task-8-regression.rb` exited 1. All seven v3 controls had expected exit 1 but actual exit 0. Green: `ruby -c syllabus_check.rb && ruby task-8-regression.rb` exits 0. Fresh transcript `task-8-regression.log` has 153 result lines, each with PASS verdict: the valid target, prior structural/schema/policy controls, the seven v3 controls, 49 individual milestone-cell mutations, 36 fallback-cell mutations, and nine individual Hermes/NVD/UA/policy/week-row mutations.
+
+Fresh real surfaces: Pandoc exit 0, 47,416-byte HTML, 11/11 tables, active count 0; Glow width 160 exit 0, 83,488 bytes and 493 lines. Fresh boundaries: valid 0; corrupt 1 (both missing-week and grading diagnostics); missing 1; invalid UTF-8 1. Fresh protected recomputation: 142 paths, 0 mismatches. Hygiene: whitespace raw exit 1 with zero diagnostics, staged 0, high-signal secret/PII counts all zero. Every temp fixture is in `Dir.mktmpdir` and auto-removed.
+
+Target SHA remains `d062c7427f7b8a715f357f7d6f7e307f677fcd3b455c9b709c899ef192d52bee`; checker SHA is `de2cd490ff6f38289e25162ba68be640646682c80676c57854f6c5623e8f8241`. Local verdict: PASS pending a fresh independent verifier for this exact checker SHA.
+
+## YAML-contract repair rerun
+
+Task 7 added the bounded `자동 검증 계약` YAML fence to the target. The checker was rebuilt with `YAML.safe_load` and a recursive typed map comparison rather than the former 49 milestone-cell, 36 fallback-cell, Korean policy, and week-row snapshots. Failing-first harness evidence: 14 YAML tamper copies incorrectly exited 0 and five meaning-preserving Korean/order rewrites incorrectly exited 1 under the snapshot checker. After the repair, the real checker and the persistent harness exit 0: 78 scenarios total, 8 expected accepts and 70 expected rejects.
+
+The five semantic positive controls cover M1 happy, M2 fallback, accessibility, week 4, and NVD ordering. YAML negatives cover every contract domain. Existing structural/schema/arithmetic/malformed/active-content and direct harmful contradiction controls stay negative. The old M1 padding controls are explicitly migrated to accepted stable-role rewrites and paired with a contract-role omission negative; the old 49/36 prose snapshot loops are removed rather than misrepresented as semantic validation.
+
+Fresh artifacts: Pandoc 60,735 bytes with 11/11 tables and active count 0; Glow 91,214 bytes/541 lines; valid/corrupt/missing/invalid-UTF8 exits 0/1/1/1; protected 142/0; whitespace diagnostics 0; staged 0; secret/PII scan 0. Target SHA `75df0f2733c5bf898b78ee531cbc13700aafcc359b4f7ea15d3a0c296d2c1e51`; checker SHA `efab908d52db0049be5d7f1afaf7d78f814bbd9dc9360fe802c1577cfe2041cd`. Fresh independent verification is required.
+
+## Entity-safe machine-contract repair rerun
+
+Target repair baseline: the current single-writer syllabus SHA is `65ed06d96716202509679a3a3ef57c4a0d446c2bb77998a454ed2885d2123d66`. Before this checker revision, a compatibility copy with the then-unknown new Hermes contract fields omitted passed the former checker, while entity-encoded `java&#x73;cript:`, entity-encoded `data:text&#x2f;html`, an `iframe srcdoc`, a duplicate milestone header, and an NCP `LOST`/`CLAIM` cell swap also exited 0. The direct current-target pre-change attempt failed only because the former typed YAML spec did not yet contain the six new Hermes fields; it was not used as a false-success claim.
+
+The checker now parses the one fenced YAML mapping with `YAML.safe_load`, requires the new typed Hermes fields (`install_mode`, `doctor_required`, `timezone`, `cron_mode`, `observation_states`, `preserve_last_good`), and binds exact table-header cardinality/order plus all 36 `F-TRACK-ROLE` marker placements. `CGI.unescapeHTML` is applied to a fixed point before rejecting any decoded raw HTML element or executable URI. The prior Korean substring/polarity oracle for week 4/7, M6, UA, graph, accessibility, offensive activity, untrusted content, credentials, and NVD has been removed. The successful CLI result is deliberately bounded: `machine_contract=PASS prose_semantics=REVIEWED_EXTERNALLY`.
+
+Failing-first artifact: the legacy-copy command described above produced five `exit=0 PASS` false successes. Green invocation: `ruby -c syllabus_check.rb && ruby -c task-8-regression.rb && ruby task-8-regression.rb`. Result: syntax checks exit 0 and the persistent `Open3.capture3` harness exits 0. It has 31 distinct controls: 9 accepts and 22 rejects. Every mutator is fail-fast on no-op or duplicate body/name; accepts require one `PASS` stdout line and empty stderr, while rejects require nonzero exit, empty stdout, `FAIL:`-only stderr, and no traceback.
+
+Fresh boundary invocation uses `Dir.mktmpdir`: valid exits `0`; refreshed corrupt copy exits `1` and includes both `missing week 8 or week 15 exam` and `grading mismatch`; missing path exits `1`; invalid UTF-8 exits `1`. The temporary directory is automatically removed.
+
+Fresh render: Pandoc exits 0 and writes 63,427-byte HTML with 11/11 table tags and zero active-content matches. Glow width 160 exits 0 and writes 93,293 bytes / 554 lines. Protected recomputation is 142 paths, 0 missing, 0 mismatches. Whitespace raw status is 1 with 0 diagnostics (normal added-file diff); staged status is 0. High-signal secret/PII scan of target and Todo 8 runtime artifacts reports seven zero counts. Cleanup: temporary boundary/harness directories use `Dir.mktmpdir`; `/tmp/t8-whitespace.out` was removed.
+
+Hashes: target `65ed06d96716202509679a3a3ef57c4a0d446c2bb77998a454ed2885d2123d66`; checker `579ecfac2a506109d44936859a2763d7df883ec83eccd3ca63a63c0510417441`; harness `e8e43e706ab143a16bca5fdfa77d863dd052df2c9fb3edcc588462c4ad7e8725`. Local Todo 8 verdict: PASS pending a fresh independent verifier for this exact target/checker pair; final/global lanes are intentionally not claimed here.
+
+Follow-up RED→GREEN: a header-order swap retained one copy of every exact header but originally exited 0. The checker now requires the assessment, milestone, and fallback headers in document order; the new real-CLI `table-header-order-swap` rejection passes. Fresh harness result: 32 total / 9 accepts / 23 rejects / 32 distinct / 0 failures. Current checker SHA: `348737f9b4c08db4ff5efb4fa9f0e9a64dece56f8a91b791491acacb055b5050`; current harness SHA: `89ac7ad8dbb9a74c24a86f5131aad20ae451f59e2c0011c96d73860385ddf006`.
+
+## Document-wide YAML-contract cardinality repair
+
+RED: the v7 verifier isolated two genuine document-wide bypasses. Appending a second `### 자동 검증 계약` after the final H2 and appending a second fenced `yml` mapping outside the safety H2 each produced full 169-byte PASS stdout under checker `348737f9…`. The prior heading control was only inside the safety section and did not cover this boundary.
+
+GREEN: the checker now counts `### 자동 검증 계약` across the entire document and counts all fenced `yaml` or `yml` blocks across the entire document. It accepts only one mapping when that exact block is the one extracted under the unique contract heading in the safety H2. Persistent `Open3.capture3` controls `contract-heading-outside-safety` and `contract-yml-outside-safety` both exit 1 with empty stdout, FAIL-only stderr, and no traceback.
+
+Fresh commands: Ruby syntax and target checker exit 0; persistent harness exits 0 with 34 total / 9 accepts / 25 rejects / 34 distinct / 0 failures. Boundary valid/corrupt/missing/invalid-UTF8 exits are 0/1/1/1; corrupt includes both required missing-week and grading diagnostics. Pandoc produces 63,427-byte HTML with 11/11 tables and zero active matches. Glow width 160 produces 93,293 bytes / 554 lines. Protected state is 142 paths / 0 missing / 0 mismatches; whitespace raw exit is 1 with 0 diagnostics; staged count is 0; the seven-class secret/PII scan is all zero. Cleanup: all temporary mutation/boundary directories are `Dir.mktmpdir` scopes and `/tmp/t8-v8-whitespace.out` was removed.
+
+Current hashes: target `65ed06d96716202509679a3a3ef57c4a0d446c2bb77998a454ed2885d2123d66`; checker `a6aa94cf76559af64d5ab9728f163325b29ae588912d07da47fd7196e8c8abcc`; harness `110aae094a9e9621c31562447eb5085354dcb8ee01a3049aa3dd54adb03b4bd4`. Local Todo 8 evidence is PASS pending a fresh independent verifier for this exact pair; no final/global lane is claimed.
+
+Case-fold follow-up RED→GREEN: an appended uppercase fenced `YAML` mapping was initially outside the lower-case YAML/YML count and exited 0. The document-wide fence matcher is now case-insensitive; persistent `contract-uppercase-yaml-outside-safety` exits 1. Final local rerun: syntax, target, all 35 harness controls, Pandoc, Glow, protected 142/0, whitespace diagnostics 0, staging 0, and cleanup pass. Current checker SHA: `1d74b277145e69424d6f6a3ab4af4615d11e203dc858c13390990aa7179934e6`; harness SHA: `360f4ed5913d0899215df57c9541cad6e09b8e1b1a85c0786008ca9762e49d17`; counts: 35 total / 9 accepts / 26 rejects / 35 distinct / 0 failures.
+
+## Fixed-point entity-decoding repair
+
+RED: a five-layer encoded active link and a 65-layer encoded active link each returned full PASS under the former four-round decoder; a benign `&#169;` text note also passed. The false-success payloads were created only inside `Dir.mktmpdir` and were removed at block exit.
+
+GREEN: decoding now calls `CGI.unescapeHTML` until the result is unchanged. It fails closed when more than 64 decode rounds or a 1,000,000-byte decoded value would be required, rather than scanning a partially decoded string. Persistent capture3 controls reject `active-entity-five-layer` by detecting its decoded executable URI and reject `active-entity-deep-layer` with the safe-bound diagnostic. `safe-benign-entity-text` remains an accepted non-active entity case.
+
+Fresh syntax/target/harness run: 38 total / 10 accepts / 28 rejects / 38 distinct / 0 failures. Boundary valid/corrupt/missing/invalid UTF-8 exits: 0/1/1/1; corrupt includes both required missing-week and grading diagnostics. Pandoc: 63,427 bytes, 11/11 tables, active scan 0. Glow: 93,293 bytes / 554 lines. Protected: 142 paths / 0 mismatches. Whitespace raw exit 1 with 0 diagnostics; staged 0; seven secret/PII patterns 0. Cleanup: all temporary fixture paths and `/tmp/t8-v9-ws.out` were removed.
+
+Current hashes: target `65ed06d96716202509679a3a3ef57c4a0d446c2bb77998a454ed2885d2123d66`; checker `487470cea93eeb62ca199216f4db0385a3816a40428d725f5a9f419a9520f5ba`; harness `ba031c00f4382d0e78408a0e1a9e17c410b561fae18e9b6afcbebabde5258dab`. Local Todo 8 evidence is PASS pending a fresh independent verifier for this exact pair; no final/global lane is claimed.

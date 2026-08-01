@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>hoseo-data-analysis-cloud-platform-15-week-syllabus</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<h1 id="데이터-분석과-클라우드-플랫폼-15주-수업계획서">데이터 분석과
+클라우드 플랫폼 15주 수업계획서</h1>
+<h2 id="교과목-개요">교과목 개요</h2>
+<p>이 교과목은 호서대학교 컴퓨터공학과 4학년을 대상으로 한다. 학생은
+공개 CTI 응답에서 시작해 원본 보존, 정규화, 안전한 Hermes Agent 자동화,
+LLM Wiki 승격, Understand Anything(UA) 지식그래프 생성·검증, 재현 가능한
+그래프 분석과 원문 대조 결론까지 하나의 데이터 계보를 완성한다.</p>
+<p>수업은 기능 나열이 아니라
+<code>CTI response → raw hash → normalized CVE/source ID → canonical source link → UA node/edge ID → metric result → checked conclusion</code>의
+전 구간을 개인 실행 증거로 설명하는 데 초점을 둔다. 2~3인 통합
+프로젝트는 동료 검토를 위한 형성 활동이며 <strong>프로젝트 별도 점수
+없음</strong>이다. 성적은 출석 20%, 중간고사 40%, 기말고사 40%만으로
+산정하고 두 시험 모두 개인 실행 증거를 요구한다.</p>
+<p>문서의 진술 유형은 다음처럼 구분한다.</p>
+<ul>
+<li><strong>문서화된 사실:</strong> 기준일에 확인한 공식 문서·API 또는
+고정 commit이 뒷받침하는 내용이다.</li>
+<li><strong>과목 기본값:</strong> 안전하고 재현 가능한 운영을 위해
+담당자가 정한 수업 규칙이며 제품의 영구 속성으로 주장하지 않는다.</li>
+<li><strong>학기 fixture:</strong> owner·schema·hash·기준일·기대 결과를
+고정한 교육 자료다. live 수행과 동일하다고 주장하지 않는다.</li>
+<li><strong>가설:</strong> 그래프·LLM이 제안했지만 원문 대조가 끝나지
+않은 관계다. 평가에서는 사실과 분리한다.</li>
+</ul>
+<h2 id="운영-전제-및-선수지식">운영 전제 및 선수지식</h2>
+<p>학교가 제공한 NCP sub-account를 우선 사용하되, 권한·비용·서비스
+장애가 있으면 승인된 Linux VM, WSL2-with-systemd 또는 교수자 fixture로
+전환한다. NCP/실습실 Linux VM/WSL2-with-systemd는 Hermes의 live systemd
+경로가 될 수 있다. Docker는 collector·Wiki·UA 작업의 제한적 보조 환경일
+뿐, systemd가 없는 Docker에서 Hermes gateway persistence는
+<code>fixture-only</code>다.</p>
+<p>Hermes의 과목 기본값은 학생별 <strong>non-root</strong> 계정과 학생
+workspace 한 경로에 한정된
+<code>read</code>·<code>list</code>·<code>search</code> 및 교수자 검토
+wrapper tool allowlist다. 하나의 gateway scheduler와 local-only
+delivery만 사용하고, <code>approvals.mode: smart</code>를 기본으로 하되
+위험·범위확장 동작은 manual approval 또는 재설계를 요구하며
+<code>cron_mode: deny</code>를 유지한다. messaging/browser는 각각 별도의
+명시적 승인이 있기 전까지 사용하지 않는다. gate가 제공한
+<code>wakeAgent</code>, <code>reason</code>, <code>changedPaths</code>를
+신뢰하고 agent가 변경 여부를 재계산하지 않는다. API
+key·token·cookie·내부 URL은 config·prompt·stdout·log·history에 넣지
+않는다. 근거: <a
+href="https://github.com/NousResearch/hermes-agent/blob/0f64557c06f3e878fd9ec5170b9bca7f20e2778e/website/docs/user-guide/features/cron.md">Hermes
+cron</a>, <a
+href="https://github.com/NousResearch/hermes-agent/blob/0f64557c06f3e878fd9ec5170b9bca7f20e2778e/website/docs/user-guide/security.md#L30-L58">Hermes
+security</a>.</p>
+<p>1주차 개시 진단은 <code>opening-diagnostic.md</code>,
+<code>diagnostic-terminal.txt</code>, <code>diagnostic-git.txt</code>,
+<code>diagnostic-api.json</code>, <code>diagnostic-graph.txt</code>를
+제출한다. 계정·비밀정보·실제 공인 IP는 요구하지 않는다.</p>
+<table>
+<thead>
+<tr>
+<th>선수지식</th>
+<th>진단 관찰값</th>
+<th>fixture 기반 보충 경로</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux shell</td>
+<td>경로·권한·로그 읽기 명령과 오류를 terminal 전사에 기록</td>
+<td>Linux VM/WSL2 shell fixture에서 같은 형식으로 재수행</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>status, diff, staged/untracked를 구분</td>
+<td>오프라인 history fixture로 판별 근거 제출</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>JSON 필수 키 검사와 예외를 stderr로 분리</td>
+<td>고정 입력으로 타입·예외·UTF-8 처리 재수행</td>
+</tr>
+<tr>
+<td>HTTP/API</td>
+<td>URL·상태·헤더·본문을 구분하고 429를 실패로 기록</td>
+<td>저장된 CISA/NVD/EPSS 응답으로 bounded retry 판단</td>
+</tr>
+<tr>
+<td>JSON/YAML</td>
+<td>JSON 배열과 leading YAML frontmatter를 독립 파싱</td>
+<td>malformed fixture의 오류 위치·schema·격리 결정 기록</td>
+</tr>
+<tr>
+<td>networking/IAM</td>
+<td>private/public, 최소권한, 제한된 TCP 22 규칙 판별</td>
+<td>NCP 설정 fixture에서 ACG·비용·정리 표 완성</td>
+</tr>
+<tr>
+<td>graph basics</td>
+<td>방향 그래프와 단순 무방향 projection 및 degree/component/isolate
+구분</td>
+<td>self-loop 제거·parallel edge 병합 fixture 재계산</td>
+</tr>
+</tbody>
+</table>
+<p>진단 미달은 해당 보충 산출물이 기계 판독 가능한 결과와 함께 통과할
+때까지 보완한다. 접근성 조정과 공결·결석 처리는
+<code>학칙/담당자 정책 적용</code>으로 결정하며 임의 감점식을 만들지
+않는다.</p>
+<h2 id="학습성과-및-평가-정렬">학습성과 및 평가 정렬</h2>
+<ul>
+<li><strong>LO1:</strong> live NCP에서는 VPC/subnet·ACG·제한 SSH·public
+IP·비용경보·완전 정리를 <strong>구성하고 검증하여 설명한다</strong>.
+승인 fallback에서는 Linux 서비스 작업과 교수자 NCP fixture의 동일
+설계·teardown 증거를 <strong>검증하여 설명하되 실제 provisioning을
+주장하지 않는다</strong>.</li>
+<li><strong>LO2:</strong> Hermes를 non-root·최소도구·로컬 전달 경계에서
+<strong>점검하고</strong>, changed/no-change/semantic-failure를
+<strong>구분해 last-good 보존과 안전한 복구를 설명한다</strong>.</li>
+<li><strong>LO3:</strong> 공개 CTI의 raw provenance를
+<strong>기록·정규화하고</strong>, uppercase CVE join·dedupe·상태
+구분·rate-limit 실패를 <strong>재현 검증한다</strong>.</li>
+<li><strong>LO4:</strong> raw를 보존한 canonical Wiki를
+<strong>lint하고</strong>, UA graph/meta를 live로 생성하거나 pinned
+fixture로 <strong>구조 검증하며 두 경로의 주장 한계를
+구분한다</strong>.</li>
+<li><strong>LO5:</strong> 원시 방향 그래프와 단순 무방향 projection을
+<strong>재현 계산하고</strong>, 지표 기반 후보를 원문과 대조해
+<strong>검증된 통찰 또는 반려 가설로 판정한다</strong>.</li>
+</ul>
+<p>최소 숙련은 각 시험 안에서 해당 LO의 모든 필수 실습 증거 가족을
+개인적으로 완성하는 것이다. 출석이나 팀 결과는 누락된 기술 성과를
+대체하지 않는다.</p>
+<table>
+<thead>
+<tr>
+<th>LO</th>
+<th>필수 기술과 주차</th>
+<th>평가 증거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LO1</td>
+<td>NCP/Linux, VPC/subnet, ACG, SSH, 비용·teardown; 2·3·8주</td>
+<td>중간: 환경 및 네트워크 증거 10점</td>
+</tr>
+<tr>
+<td>LO2</td>
+<td>Hermes pinned 설치, doctor, 최소 allowlist, scheduler fixture;
+4·7·8주</td>
+<td>중간: 안전 설치·health 10점, troubleshooting·안전 8점</td>
+</tr>
+<tr>
+<td>LO3</td>
+<td>CISA KEV, NVD 2.0, FIRST EPSS, ATT&amp;CK v19.1, normalize/dedupe;
+1·5·6·7·8·9·14주</td>
+<td>중간: CTI 수집·품질 12점</td>
+</tr>
+<tr>
+<td>LO4</td>
+<td>raw manifest, canonical lint, <code>understand-knowledge</code>, UA
+구조; 1·9·10·11·14·15주</td>
+<td>기말: Wiki 10점, UA 10점</td>
+</tr>
+<tr>
+<td>LO5</td>
+<td>directed/raw, simple undirected projection, 세 지표군, 원문 대조;
+12·13·14·15주</td>
+<td>기말: 지표 10점, 해석·복구 10점</td>
+</tr>
+</tbody>
+</table>
+<h2 id="평가-방법">평가 방법</h2>
+<table>
+<thead>
+<tr>
+<th>평가 범주</th>
+<th style="text-align: right;">비중</th>
+<th>학습성과 및 증거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>출석</td>
+<td style="text-align: right;">20%</td>
+<td>LO1–LO5의 준비 과정: LMS 동영상 완료 기록과 대면 실습 참여·산출물을
+함께 확인한다. 공결·결석은 학칙/담당자 정책 적용이다.</td>
+</tr>
+<tr>
+<td>중간고사</td>
+<td style="text-align: right;">40%</td>
+<td>8주 3시간 개인 실기, LO1·LO2·LO3의 명령 전사·manifest/hash·redacted
+설정·실패 판정</td>
+</tr>
+<tr>
+<td>기말고사</td>
+<td style="text-align: right;">40%</td>
+<td>15주 3시간 개인 실기, LO4·LO5 및 전 구간 lineage의 개인
+생성·검증·해석·복구 증거</td>
+</tr>
+</tbody>
+</table>
+<p>2~3인 형성 통합 활동은 별도 가중치가 없고 팀 화면·공유 파일이 개인
+수행을 대신하지 않는다.</p>
+<h3 id="중간고사-개인-실기-rubric">중간고사 개인 실기 rubric</h3>
+<table>
+<thead>
+<tr>
+<th>채점 항목</th>
+<th>관련 LO</th>
+<th style="text-align: right;">점수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NCP/fallback 환경 및 네트워크 증거</td>
+<td>LO1</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>Hermes 안전 설치·health</td>
+<td>LO2</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>CTI 수집 및 데이터 품질 증거</td>
+<td>LO3</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr>
+<td>개인 troubleshooting·안전 설명</td>
+<td>LO1·LO2·LO3</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr>
+<td><strong>합계</strong></td>
+<td></td>
+<td style="text-align: right;"><strong>40</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="기말고사-개인-실기-rubric">기말고사 개인 실기 rubric</h3>
+<table>
+<thead>
+<tr>
+<th>채점 항목</th>
+<th>관련 LO</th>
+<th style="text-align: right;">점수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM Wiki schema·provenance·lint</td>
+<td>LO4</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>UA graph 생성·검증</td>
+<td>LO4</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>그래프 지표 재현성</td>
+<td>LO5</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>원문 대조 해석 및 복구</td>
+<td>LO4·LO5</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td><strong>합계</strong></td>
+<td></td>
+<td style="text-align: right;"><strong>40</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="15주-수업-일정">15주 수업 일정</h2>
+<p>모든 비동기 동영상에는 자막·대본·접근 가능한 대체 자료가 함께
+제공된다.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">주차</th>
+<th>형식·주제</th>
+<th>실습·시험</th>
+<th>선행</th>
+<th>LO</th>
+<th>산출물</th>
+<th>Happy</th>
+<th>Fail</th>
+<th>대체</th>
+<th>안전·비용</th>
+<th>평가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td><code>topic_id: W01-orientation-diagnostic-provenance</code> — 60분
+비동기 동영상 + 120분 대면 실습: 오리엔테이션·진단·provenance</td>
+<td>공개 fixture의 지시/데이터 경계와 manifest/hash 판독</td>
+<td>없음</td>
+<td>LO3·LO4: 증거 계보를 식별</td>
+<td>진단 5종과 provenance 표</td>
+<td>fixture ID/hash 및 parser PASS</td>
+<td>malformed·주입성 문구를 실행하지 않고 격리</td>
+<td>오프라인 golden fixture</td>
+<td>credential·PII 미사용</td>
+<td>출석, LO3·LO4 진단</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td><code>topic_id: W02-cloud-ncp-networking</code> — 60분 비동기 동영상
++ 120분 대면 실습: cloud·NCP networking</td>
+<td>VPC/public subnet·ACG·public IP·budget 설계 검토</td>
+<td>networking/IAM 진단</td>
+<td>LO1: 최소권한 네트워크를 설계·검증</td>
+<td>redacted 설정 export 또는 <code>ncp-lab-fixture.json</code> 결과와
+ACG 표</td>
+<td>TCP 22가 현재 IP/campus CIDR로 제한되고 budget 증거 PASS</td>
+<td><code>0.0.0.0/0</code> SSH는 <code>FAIL_UNRESTRICTED_SSH</code></td>
+<td>Linux VM/WSL2와 NCP fixture</td>
+<td>실제 IP·키 redaction, 생성 전 비용경보</td>
+<td>출석, 중간 LO1 10점 준비</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td><code>topic_id: W03-ncp-vm-approved-fallback</code> — 60분 비동기
+동영상 + 120분 대면 실습: NCP VM 또는 승인 fallback</td>
+<td>SSH/terminal·임시 service curl·완전 teardown</td>
+<td>2주 승인 설계</td>
+<td>LO1: live 구성 또는 fixture 설계 검증을 정직하게 설명</td>
+<td>terminal/curl, owner label, rule·budget, teardown 묶음</td>
+<td>live는 접속·서비스·terminate·public-IP release·잔여 확인 PASS</td>
+<td>stop-only·남은 IP·미제한 rule은 실패</td>
+<td>개인/실습 Linux VM 또는 WSL2와 fixture; provisioning 주장 금지</td>
+<td>임시 포트 제거, 잔존 비용 후속 확인</td>
+<td>출석, 중간 LO1 10점 준비</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td><code>topic_id: W04-hermes-safe-install-operation</code> — 60분
+비동기 동영상 + 120분 대면 실습: Hermes 설치·안전 운영</td>
+<td>non-root headless 설치 또는 health fixture 판독</td>
+<td>Linux 보충 완료</td>
+<td>LO2: 안전 경계와 health를 점검</td>
+<td>commit/version/hash, <code>hermes doctor</code>, redacted
+config</td>
+<td>non-root·학생 workspace allowlist·local-only·Asia/Seoul 확인</td>
+<td>doctor 오류는 성공으로 바꾸지 않고 원인·fallback 기록</td>
+<td>systemd Linux live 또는 install-health fixture</td>
+<td>approvals·<code>cron_mode: deny</code>; messaging/browser는 별도
+승인</td>
+<td>출석, 중간 LO2 10점 준비</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td><code>topic_id: W05-cti-source-manual-provenance</code> — 60분
+비동기 동영상 + 120분 대면 실습: CTI source·수동 provenance</td>
+<td>CISA/NVD/EPSS/ATT&amp;CK 원본 manifest와 표본 정규화</td>
+<td>HTTP·JSON 진단</td>
+<td>LO3: raw 사실 단위를 기록·구분</td>
+<td>8필드 manifest, 3종 normalized 표본</td>
+<td>source/version/hash와 uppercase CVE join PASS</td>
+<td>absent/null/unknown 혼동·잘못된 CVE는 격리</td>
+<td>instructor-owned response fixture</td>
+<td>공개 데이터만, API key·원문 명령 실행 금지</td>
+<td>출석, 중간 LO3 12점 준비</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td><code>topic_id: W06-cti-normalize-idempotent-collector</code> — 60분
+비동기 동영상 + 120분 대면 실습: normalized/idempotent collector</td>
+<td>request→raw→normalize→dedupe→validate 재현</td>
+<td>5주 manifest</td>
+<td>LO3: 중복·rate-limit·semantic 실패를 검증</td>
+<td>run manifest, dedupe report, malformed/duplicate/429 결과</td>
+<td>동일 key 재실행의 new duplicates = 0</td>
+<td>malformed 격리, 429 bounded retry 후 defer, last-good 보존</td>
+<td>고정 wrapper와 golden fixtures</td>
+<td>NVD pagination·batch·pacing 준수, 재시도 폭주 금지</td>
+<td>출석, 중간 LO3 12점 준비</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td><code>topic_id: W07-hermes-scheduling-recovery-rehearsal</code> —
+60분 비동기 동영상 + 120분 대면 실습: Hermes scheduling·관찰·복구·중간
+리허설</td>
+<td>changed/no-change/semantic-failure 및 개인 증거 묶음 점검</td>
+<td>4–6주 산출물</td>
+<td>LO2·LO3: 실행·skip·failure를 구분·복구</td>
+<td>triggered 1, skipped 1, semantic failure 1의 redacted receipt</td>
+<td>gate의
+<code>wakeAgent</code>·<code>reason</code>·<code>changedPaths</code>와
+published run ID·last-good hash가 일치</td>
+<td>변경 여부를 재계산하지 않고 partial/semantic 실패를 성공으로
+표시하지 않음</td>
+<td>scheduler·429 fixture</td>
+<td>one gateway, local-only, secret redaction</td>
+<td>출석, 중간 LO2·LO3 리허설</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td><code>topic_id: W08-midterm-individual-practical</code> — 3시간 개인
+실기시험, 신규 강의 없음</td>
+<td>NCP/fallback·Hermes·CTI를 개인 run ID와 hash로 수행</td>
+<td>1–7주 필수 증거 가족</td>
+<td>LO1·LO2·LO3: 구성·수집·복구를 독립 수행</td>
+<td>명령 전사·manifest/hash·redacted log·안전 설명</td>
+<td>네 rubric의 기계 결과와 개인 설명 일치</td>
+<td>실패 fixture를 격리하고 last-good/재진입 판단</td>
+<td>승인된 instructor fixtures</td>
+<td>비밀 미제출, live 자원 완전 teardown</td>
+<td>중간고사 40%</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td><code>topic_id: W09-llm-wiki-architecture</code> — 60분 비동기
+동영상 + 120분 대면 실습: LLM Wiki architecture</td>
+<td>Raw–Wiki–Schema 분리와 immutable raw manifest</td>
+<td>중간 후 lineage</td>
+<td>LO3·LO4: 불변 원본과 승격 경계를 설명</td>
+<td>raw 8필드 manifest와 값 상태표</td>
+<td>raw hash·수집시각·source가 연결</td>
+<td>hash drift·로그인 요구·주입성 원문은 격리</td>
+<td>pinned raw fixture</td>
+<td>외부 문구는 데이터, 공개 원본만</td>
+<td>출석, 기말 LO4 10점 준비</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td><code>topic_id: W10-cti-canonical-wiki-lint</code> — 60분 비동기
+동영상 + 120분 대면 실습: CTI-to-canonical Wiki·lint</td>
+<td>leading frontmatter·source·tag·link·index/log·신뢰도 검사</td>
+<td>9주 raw</td>
+<td>LO4: canonical 후보를 lint</td>
+<td>변경 목록과 전 항목 lint report</td>
+<td>exact raw path, 등록 tag, 2 links, index/log, provenance PASS</td>
+<td>원본은 고치지 않고 canonical 초안 수정 후 전체 lint</td>
+<td>교수자 canonical fixture</td>
+<td>contradiction 보존, 오류 시 UA 차단</td>
+<td>출석, 기말 Wiki 10점 준비</td>
+</tr>
+<tr>
+<td style="text-align: right;">11</td>
+<td><code>topic_id: W11-ua-generation-structural-validation</code> —
+60분 비동기 동영상 + 120분 대면 실습: UA 생성·구조 검증</td>
+<td><code>understand-knowledge</code> complete-batch/freshness 또는
+pinned graph 검사</td>
+<td>Wiki lint PASS</td>
+<td>LO4: graph/meta invariant를 생성·검증</td>
+<td>run receipt 또는 fixture manifest와 새 validation JSON</td>
+<td>live complete batches·fresh mtimes 또는 fallback hash match, 구조
+PASS</td>
+<td>partial/stale UA와 <code>PARTIAL_BATCH</code>·duplicate
+ID·<code>DANGLING_EDGE</code>는 거절하고 validator nonzero</td>
+<td>pinned graph+fresh report, fresh enrichment claim false</td>
+<td>상태 문구·파일 존재만으로 성공 금지</td>
+<td>출석, 기말 UA 10점 준비</td>
+</tr>
+<tr>
+<td style="text-align: right;">12</td>
+<td><code>topic_id: W12-graph-data-model-metrics</code> — 60분 비동기
+동영상 + 120분 대면 실습: graph data model·metrics</td>
+<td>directed provenance와 simple undirected projection 생성</td>
+<td>검증된 graph</td>
+<td>LO5: 투영 정책을 재현</td>
+<td>raw count 표와 projection metadata JSON</td>
+<td>input hash, 제거/병합/무시 수, tie rule PASS</td>
+<td>방향·loop·parallel·weight 혼합은 재현 실패</td>
+<td>pinned graph와 golden projection</td>
+<td>node/edge 수를 영구 임계값으로 사용 금지</td>
+<td>출석, 기말 지표 10점 준비</td>
+</tr>
+<tr>
+<td style="text-align: right;">13</td>
+<td><code>topic_id: W13-reproducible-analysis-source-verification</code>
+— 60분 비동기 동영상 + 120분 대면 실습: 재현 분석·source
+verification</td>
+<td>components/isolate, degree top-five, bridge/articulation 또는
+betweenness와 원문 대조</td>
+<td>12주 projection</td>
+<td>LO5: 지표를 재현하고 결론을 판정</td>
+<td>분석 보고서, verified insight 1, rejected inference 1</td>
+<td>fixture 기대치·tolerance와 source identifiers 일치</td>
+<td>근거 없는 공유 허브/중심성 관계를 rejected inference로 기록</td>
+<td>golden metrics와 source-check sheet</td>
+<td>CVSS/EPSS/KEV 무설명 합성 금지</td>
+<td>출석, 기말 LO5 20점 준비</td>
+</tr>
+<tr>
+<td style="text-align: right;">14</td>
+<td><code>topic_id: W14-end-to-end-recovery-final-rehearsal-teardown</code>
+— 60분 비동기 동영상 + 120분 대면 실습: end-to-end 복구·기말
+리허설·teardown</td>
+<td>전 lineage 재실행, 한 장애 복구, 환경·증거 정리</td>
+<td>9–13주 산출물</td>
+<td>LO3·LO4·LO5: 계보를 복구·검증</td>
+<td>개인 receipt, command manifest, 보존/삭제·teardown 목록</td>
+<td>모든 handoff ID와 결과가 연속</td>
+<td>dangling/partial/stale/hash mismatch에서 publish·merge 차단</td>
+<td>last-good 및 승인 golden fixture</td>
+<td>public IP·임시 로그·fixture 사본 정리</td>
+<td>출석, 기말 전 항목 리허설</td>
+</tr>
+<tr>
+<td style="text-align: right;">15</td>
+<td><code>topic_id: W15-final-individual-practical</code> — 3시간 개인
+실기시험, 신규 강의 없음</td>
+<td>Wiki→UA→projection→metric→checked conclusion 독립 실행</td>
+<td>9–14주 필수 증거 가족</td>
+<td>LO4·LO5: 생성·검증·분석·복구를 독립 수행</td>
+<td>lineage receipt, lint·validation JSON, metric report, 원문 대조</td>
+<td>네 10점 rubric과 source evidence 일치</td>
+<td>stale/partial/unsourced relation을 거절하고 재진입 설명</td>
+<td>승인된 Wiki·UA·analysis fixtures</td>
+<td>비밀 미제출, 학기 보존·삭제 정책 준수</td>
+<td>기말고사 40%</td>
+</tr>
+</tbody>
+</table>
+<h2 id="실습-마일스톤-및-제출-증거">실습 마일스톤 및 제출 증거</h2>
+<p>각 마일스톤은 happy path, failure path, 학생 artifact, 기계 판독
+증거, fallback, 안전·비용 메모, 평가 연결을 모두 가져야 한다.</p>
+<table>
+<thead>
+<tr>
+<th>마일스톤</th>
+<th>Happy</th>
+<th>Fail</th>
+<th>Artifact</th>
+<th>Machine</th>
+<th>Fallback</th>
+<th>Safety</th>
+<th>Assess</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M1 진단·provenance</td>
+<td><code>M1-HAPPY</code> fixture ID/hash와 다섯 진단 PASS</td>
+<td><code>M1-FAIL</code> malformed·권한 오류 격리 후 보충 재수행</td>
+<td><code>M1-ARTIFACT</code> 진단 5종·provenance 표</td>
+<td><code>M1-MACHINE</code> parser exit·SHA-256 report</td>
+<td><code>M1-FALLBACK</code> offline fixture는 판독 보존, live 접근
+미증명</td>
+<td><code>M1-SAFETY</code> secret·PII 없음</td>
+<td><code>M1-ASSESS</code> LO3·LO4, 출석</td>
+</tr>
+<tr>
+<td>M2 NCP/Linux</td>
+<td><code>M2-HAPPY</code> 제한 SSH·service·budget·완전 teardown
+PASS</td>
+<td><code>M2-FAIL</code> unrestricted SSH·stop-only·남은 IP/비용
+거절</td>
+<td><code>M2-ARTIFACT</code> redacted export·ACG·terminal/curl·teardown
+receipt</td>
+<td><code>M2-MACHINE</code> ACG validator와 resource/비용 상태
+report</td>
+<td><code>M2-FALLBACK</code> 설계 판독만 보존, provisioning·실비용
+상실</td>
+<td><code>M2-SAFETY</code> 최소권한·public IP release</td>
+<td><code>M2-ASSESS</code> LO1, 중간 10점</td>
+</tr>
+<tr>
+<td>M3 Hermes safety</td>
+<td><code>M3-HAPPY</code> pinned version·doctor·one scheduler·세 관찰
+일치</td>
+<td><code>M3-FAIL</code> doctor/semantic 실패는 publish 0·last-good
+보존</td>
+<td><code>M3-ARTIFACT</code> version/hash·doctor·redacted config
+receipt</td>
+<td><code>M3-MACHINE</code> config hash와 triggered/skipped/failure
+JSON</td>
+<td><code>M3-FALLBACK</code> 판단 보존, systemd persistence·실제 cron
+상실</td>
+<td><code>M3-SAFETY</code> non-root·workspace
+allowlist·local-only·redaction</td>
+<td><code>M3-ASSESS</code> LO2, 중간 10+8점</td>
+</tr>
+<tr>
+<td>M4 CTI collector</td>
+<td><code>M4-HAPPY</code> raw→3종 normalize→dedupe, 재실행 증가 0</td>
+<td><code>M4-FAIL</code> malformed 격리·duplicate 0·429 최대 3회 후
+defer</td>
+<td><code>M4-ARTIFACT</code> raw manifest·normalized records·retry
+receipt</td>
+<td><code>M4-MACHINE</code> schema/dedupe/429 JSON report</td>
+<td><code>M4-FALLBACK</code> 변환·실패 판단 보존, 현재성·실제 limit
+상실</td>
+<td><code>M4-SAFETY</code> 공개 데이터, 공격·자동 대응 금지</td>
+<td><code>M4-ASSESS</code> LO3, 중간 12+8점</td>
+</tr>
+<tr>
+<td>M5 Wiki lint</td>
+<td><code>M5-HAPPY</code> raw 불변·schema/source/link/index/log
+PASS</td>
+<td><code>M5-FAIL</code> source/tag/link/contradiction 오류면 UA
+차단</td>
+<td><code>M5-ARTIFACT</code> canonical 후보 diff·lint 입력 manifest</td>
+<td><code>M5-MACHINE</code> 항목별 machine-readable lint report</td>
+<td><code>M5-FALLBACK</code> lint 판단 보존, vault 변경·새 enrichment
+상실</td>
+<td><code>M5-SAFETY</code> 외부 텍스트는 data-only, 실행 금지</td>
+<td><code>M5-ASSESS</code> LO4, 기말 10점</td>
+</tr>
+<tr>
+<td>M6 UA graph</td>
+<td><code>M6-HAPPY</code> complete batches+fresh artifacts 또는 pinned
+hash+fresh report</td>
+<td><code>M6-FAIL</code> partial/stale/duplicate/dangling 거절,
+validator nonzero</td>
+<td><code>M6-ARTIFACT</code> run/fixture receipt·graph/meta hash</td>
+<td><code>M6-MACHINE</code> 구조 invariant validation JSON</td>
+<td><code>M6-FALLBACK</code> 구조 판단 보존, 새 UA·fresh enrichment
+상실</td>
+<td><code>M6-SAFETY</code> 상태 문자열만으로 성공 선언 금지</td>
+<td><code>M6-ASSESS</code> LO4, 기말 10점</td>
+</tr>
+<tr>
+<td>M7 graph analysis·lineage</td>
+<td><code>M7-HAPPY</code> 같은 input hash의 세 지표군·원문 대조
+완료</td>
+<td><code>M7-FAIL</code> projection 불일치·근거 없는 relation 반려</td>
+<td><code>M7-ARTIFACT</code> metadata·source-check sheet·lineage
+receipt</td>
+<td><code>M7-MACHINE</code> metrics JSON·fixture comparison report</td>
+<td><code>M7-FALLBACK</code> 계산·판정 보존, fixture 밖 일반화 상실</td>
+<td><code>M7-SAFETY</code> 가설을 사실·자동 대응으로 승격 금지</td>
+<td><code>M7-ASSESS</code> LO5, 기말 20점</td>
+</tr>
+</tbody>
+</table>
+<p>CTI raw manifest 필드는 <code>source</code>,
+<code>request_url</code>, <code>retrieved_at_utc</code>,
+<code>sha256</code>, <code>etag</code>, <code>last_modified</code>,
+<code>http_status</code>, <code>content_type</code>이다. 정규화 schema는
+다음 필드를 생략하지 않는다.</p>
+<table>
+<thead>
+<tr>
+<th>record</th>
+<th>필수 식별자·source/version/hash·timestamp·상태 필드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vulnerability</code></td>
+<td><code>source</code>, <code>native_id</code>, <code>cve_id</code>,
+<code>published_at</code>, <code>last_modified_at</code>,
+<code>description</code>, <code>kev_date_added</code>,
+<code>kev_due_date</code>, <code>raw_sha256</code>,
+<code>source_version_or_raw_sha256</code>,
+<code>retrieved_at_utc</code>, <code>value_state</code>,
+<code>state_reason</code></td>
+</tr>
+<tr>
+<td><code>signal</code></td>
+<td><code>source</code>, <code>native_id</code>, <code>cve_id</code>,
+<code>signal_type</code>, <code>score</code>, <code>percentile</code>,
+<code>signal_date</code>, <code>raw_sha256</code>,
+<code>source_version_or_raw_sha256</code>,
+<code>retrieved_at_utc</code>, <code>value_state</code>,
+<code>state_reason</code></td>
+</tr>
+<tr>
+<td><code>attack</code></td>
+<td><code>source</code>, <code>native_id</code>, <code>stix_id</code>,
+<code>object_type</code>, <code>name</code>, <code>stix_version</code>,
+<code>modified</code>, <code>revoked</code>, <code>deprecated</code>,
+<code>fixture_release</code>, <code>fixture_sha256</code>,
+<code>as_of</code>, <code>value_state</code>,
+<code>state_reason</code></td>
+</tr>
+</tbody>
+</table>
+<p>CVE join은 trim 후 uppercase와 <code>CVE-연도-번호</code> 형식 검사를
+거치며 dedupe key는
+<code>(source,native_id,source_version_or_raw_sha256)</code>다.
+<code>absent</code>(공급자 미제공), <code>null</code>(명시적 JSON null),
+<code>unknown</code>(값 미확정)은 서로 대체하지 않고 각 필드의
+<code>value_state</code>와 <code>state_reason</code>에 이유를 남기며 빈
+문자열이나 추정값으로 메우지 않는다.</p>
+<p>NVD 수집은 <code>resultsPerPage</code>와 <code>startIndex</code>를
+run manifest에 기록하고 작은 페이지/날짜 batch로 수행한다. 각
+페이지/날짜 batch 사이에는 <strong>최소 6초</strong>를 두며
+timeout·network error·HTTP 429에는 <code>Retry-After</code>를 우선하고
+없으면 증가 backoff로 최대 3회만 재시도한다. 상한을 넘으면
+<code>deferred_rate_limited</code>로 격리하고 publish하지 않으며
+<code>last_good_run_id</code>와 <code>last_good_sha256</code>을
+보존한다. 근거: <a
+href="https://nvd.nist.gov/developers/vulnerabilities">NVD API</a>, <a
+href="https://nvd.nist.gov/developers/start-here">NVD limits</a>.</p>
+<p>UA live 검사는 <code>kind == "knowledge"</code>, nonempty
+<code>nodes</code>, unique node IDs, array
+<code>edges</code>·<code>layers</code>·<code>tour</code>, 모든 edge
+endpoint 존재, valid meta JSON, expected/completed batch 집합 일치,
+graph/meta mtime이 run 시작보다 최신임을 요구한다. partial 또는 stale
+UA는 명시적으로 거절하고 validator가 nonzero를 반환해야 한다. fallback도
+같은 구조 불변식을 새로 검사하되 pinned graph hash와 fresh validation
+report를 요구하고 <code>fresh_enrichment_claim: false</code>로
+기록한다.</p>
+<p>그래프 계보 수는 원시 directed graph에서 방향·type·multiplicity를
+보존한다. 구조 지표는 같은 input hash의 모든 node를 포함한 unweighted
+simple undirected projection에서만 계산하며 self-loop를 제거하고
+parallel/mutual edge를 한 unordered pair로 병합하며 weight와 edge type을
+무시한다. 동점은 node ID 오름차순이다. 필수 지표군은 (1) connected
+components와 isolates, (2) degree top-five, (3) bridges·articulation
+exact-set/order zero tolerance 또는 fixture가 지정한 normalized
+betweenness top-five와 허용오차 <code>1e-9</code>다.</p>
+<h2 id="운영-환경-및-대체-실습-매트릭스">운영 환경 및 대체 실습
+매트릭스</h2>
+<h3 id="플랫폼-역량">플랫폼 역량</h3>
+<table>
+<thead>
+<tr>
+<th>플랫폼</th>
+<th>live로 주장 가능한 범위</th>
+<th>제한</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>학교 NCP sub-account+Linux VM</td>
+<td>NCP provisioning, 제한 ACG/SSH, public IP, 비용경보,
+terminate/release; Hermes systemd 관찰</td>
+<td>학교 승인·비용·권한 범위 안에서만 수행</td>
+</tr>
+<tr>
+<td>실습실/개인 Linux VM</td>
+<td>Linux/service와, systemd 제공 시 Hermes gateway 지속성</td>
+<td>NCP control-plane·실제 public 비용 증명 불가</td>
+</tr>
+<tr>
+<td>WSL2-with-systemd</td>
+<td>Linux/service와 Hermes live systemd 경로</td>
+<td>NCP provisioning·public IP·실제 Cost Explorer 증명 불가</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>collector·Wiki·UA의 제한적 컨테이너 실습</td>
+<td>Hermes gateway persistence는 <code>fixture-only</code>; NCP
+provisioning 불가</td>
+</tr>
+</tbody>
+</table>
+<h3 id="정확히-여섯-트랙의-livefallback-계약">정확히 여섯 트랙의
+live/fallback 계약</h3>
+<table>
+<thead>
+<tr>
+<th>트랙</th>
+<th>live evidence</th>
+<th>instructor fixture</th>
+<th>manifest/hash</th>
+<th>preserved competency</th>
+<th>lost competency</th>
+<th>allowed claim</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NCP</td>
+<td><code>F-NCP-LIVE</code> VPC/subnet·ACG·제한
+SSH·budget·terminate/public-IP release의 redacted 증거</td>
+<td><code>F-NCP-FIXTURE</code> <code>ncp-lab-fixture.json</code>과 Linux
+VM/WSL2 보조</td>
+<td><code>F-NCP-MANIFEST</code> fixture_id, owner, schema_version,
+created_at, refreshed_at, source_urls, sha256, expected_results</td>
+<td><code>F-NCP-PRESERVED</code> 네트워크·ACG·비용·teardown 판단</td>
+<td><code>F-NCP-LOST</code> 실제 provisioning·public
+연결·alert·release</td>
+<td><code>F-NCP-CLAIM</code> fixture 기반 NCP 설계·검증만 주장</td>
+</tr>
+<tr>
+<td>Hermes</td>
+<td><code>F-HERMES-LIVE</code> systemd Linux의 non-root install, doctor,
+gateway·관찰 receipt</td>
+<td><code>F-HERMES-FIXTURE</code> changed/no-change/semantic-failure와
+health fixture; Docker persistence fixture-only</td>
+<td><code>F-HERMES-MANIFEST</code> owner, schema_version, refreshed_at,
+source commit, config/fixture SHA-256, expected result</td>
+<td><code>F-HERMES-PRESERVED</code> 안전 설정·상태·last-good 판단</td>
+<td><code>F-HERMES-LOST</code> 실제 systemd
+persistence·scheduler/cron·복구</td>
+<td><code>F-HERMES-CLAIM</code> fixture/Docker에서 운영 증거를
+해석했다고만 주장</td>
+</tr>
+<tr>
+<td>CTI API</td>
+<td><code>F-CTI_API-LIVE</code> 공개 API의 bounded
+response·manifest·normalize·dedupe</td>
+<td><code>F-CTI_API-FIXTURE</code> CISA/NVD/EPSS/ATT&amp;CK 및
+malformed/duplicate/429 fixture</td>
+<td><code>F-CTI_API-MANIFEST</code> source URL, as_of, owner,
+schema_version, raw/fixture SHA-256</td>
+<td><code>F-CTI_API-PRESERVED</code>
+provenance·join·상태·idempotency·실패 처리</td>
+<td><code>F-CTI_API-LOST</code> 현재 API 가용성·최신성·실제 limit
+상호작용</td>
+<td><code>F-CTI_API-CLAIM</code> 고정 fixture에서 재현했다고만 주장</td>
+</tr>
+<tr>
+<td>LLM enrichment</td>
+<td><code>F-LLM_ENRICHMENT-LIVE</code> input hash·redacted
+prompt·모델/시각·사람의 원문 대조</td>
+<td><code>F-LLM_ENRICHMENT-FIXTURE</code> redacted prompt/response와
+approved/rejected sheet</td>
+<td><code>F-LLM_ENRICHMENT-MANIFEST</code> owner, schema_version,
+refreshed_at, source URLs, input/output SHA-256</td>
+<td><code>F-LLM_ENRICHMENT-PRESERVED</code> 근거 분리·원문 검증·가설
+거절</td>
+<td><code>F-LLM_ENRICHMENT-LOST</code> 현재 응답·모델 가용성·새
+enrichment</td>
+<td><code>F-LLM_ENRICHMENT-CLAIM</code> fixture 후보를 검증했다고만
+주장</td>
+</tr>
+<tr>
+<td>UA generation</td>
+<td><code>F-UA_GENERATION-LIVE</code> <code>understand-knowledge</code>,
+complete batches, fresh graph/meta와 invariant report</td>
+<td><code>F-UA_GENERATION-FIXTURE</code> instructor-owned pinned graph와
+이번 실행의 새 validation report</td>
+<td><code>F-UA_GENERATION-MANIFEST</code> graph/report SHA-256, owner,
+schema_version, refreshed_at, expected invariants</td>
+<td><code>F-UA_GENERATION-PRESERVED</code> 구조·batch·freshness 판독과
+dangling 거절</td>
+<td><code>F-UA_GENERATION-LOST</code> 학생 환경의 새 UA·현재 LLM
+enrichment</td>
+<td><code>F-UA_GENERATION-CLAIM</code> pinned graph를 새 보고서로
+검증했다고만 주장</td>
+</tr>
+<tr>
+<td>graph analysis</td>
+<td><code>F-GRAPH_ANALYSIS-LIVE</code> raw directed counts와 명시
+projection·metrics·source check</td>
+<td><code>F-GRAPH_ANALYSIS-FIXTURE</code> pinned graph, projection
+metadata, expected metrics와 source-check sheet</td>
+<td><code>F-GRAPH_ANALYSIS-MANIFEST</code> graph/script SHA-256, owner,
+schema_version, refreshed_at, tolerance</td>
+<td><code>F-GRAPH_ANALYSIS-PRESERVED</code> 재현 projection·세
+지표군·verified/rejected 판정</td>
+<td><code>F-GRAPH_ANALYSIS-LOST</code> 새 live graph 분석·fixture 밖
+일반화</td>
+<td><code>F-GRAPH_ANALYSIS-CLAIM</code> fixture 지표와 대조 결론을
+재현했다고만 주장</td>
+</tr>
+</tbody>
+</table>
+<p>모든 fixture manifest는 최소 <code>fixture_id</code>,
+<code>owner</code>, <code>schema_version</code>,
+<code>created_at</code>, <code>refreshed_at</code>,
+<code>source_urls</code>, <code>sha256</code>,
+<code>expected_results</code>, <code>known limitations</code>를 가진다.
+hash는 top-level <code>sha256</code>만 제외한 canonical UTF-8 JSON
+payload를 재귀 키 정렬·배열 순서 보존·공백 없는 직렬화 후 계산한다.
+변경본은 새 ID/hash로 배포하고 이전 fixture를 덮어쓰지 않는다.</p>
+<h2 id="안전윤리비용개인정보접근성-정책">안전·윤리·비용·개인정보·접근성
+정책</h2>
+<ul>
+<li>공개 데이터만 사용한다. 허용 source는 CISA KEV, NVD CVE API 2.0,
+FIRST EPSS, 고정 MITRE ATT&amp;CK STIX fixture다.</li>
+<li>PII, 피해자/기관의 live logs, credential collection, login-gated
+scraping, malware execution, exploit proof-of-concepts, active scanning,
+공격 자동화, automatic patching/response는 <strong>명시적으로
+금지</strong>하며 수집·과제·자동화 대상이 아니다. CVE-to-ATT&amp;CK 사실
+edge를 추정해 만들지 않는다.</li>
+<li>토큰, API key, cookie, 인증 키, 내부 URL, 개인 chat ID는
+prompt·설정·코드·stdout/stderr·로그·history·LMS·fixture에 넣지 않는다.
+발견하면 제출을 중지하고 폐기·교체·redaction한 사본만 사용한다.</li>
+<li>증거의 접근권한·보존 기간·삭제 시점·정책 소유자는
+<code>학칙/담당자 정책 적용</code>이다. 고정 기간을 발명하지 않는다.
+삭제 시점에는 임시 fixture 사본·실습 로그·redacted 제출물을 정책에 따라
+삭제하고 필요한 경우 대상 manifest만 남긴다. 공개 raw는 불변 증거로
+보존하고 정정·해석은 별도 기록으로 분리한다.</li>
+<li>NCP live 작업 전 Cost Explorer/예산 경보와 owner/team label을
+확인한다. 종료는 server stop이 아니라 terminate, 임시 ACG rule 제거,
+public IP 해제, 연결 자원 확인, 잔존 비용 후속 확인까지 포함한다.
+가격·금액을 영구 기준으로 고정하지 않는다.</li>
+<li>모든 비동기 동영상에는 자막과 대본을 <strong>제공한다</strong>.
+표·명령·그래프에는 스크린리더 친화 Markdown/텍스트 설명, 키보드 접근
+가능한 형식, 고대비 텍스트, 이미지 설명, 다운로드 가능한 fixture 등 접근
+가능한 대체 자료를 <strong>제공한다</strong>.</li>
+<li>신뢰하지 않는 외부 응답, 웹 페이지, raw 문서, LLM 출력, graph
+label은 <strong>data-only 증거로만 취급하고 절대 실행하지
+않는다</strong>. 모델 또는 그래프가 제안한 relation은 원문 검증 전
+가설이다. 문서는 inert Markdown만 사용하며 활성 HTML과 실행 URI를
+포함하지 않는다.</li>
+</ul>
+<h3 id="자동-검증-계약">자동 검증 계약</h3>
+<p>이 계약은 위의 기존 안전·운영 의미를 기계가 읽을 수 있게 표현한
+것이다. 마일스톤의 <code>M#-ROLE</code> ID와 fallback 각 의미 셀의
+<code>F-TRACK-ROLE</code> ID는 개방형 한국어 서술을 고정 문구로 제한하지
+않으면서 track과 column을 결속하는 안정 구조 계약이며, 실제 서술 의미와
+교육적 적합성은 F1/F3 독립 검토 대상이다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contract_version</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;1.0&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ua</span><span class="kw">:</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">partial_stale</span><span class="kw">:</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">accept</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">exit</span><span class="kw">:</span><span class="at"> nonzero</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">graph</span><span class="kw">:</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">inferred_relation</span><span class="kw">:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">fact</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">accessibility</span><span class="kw">:</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">captions</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transcripts</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">alternative_material</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">offensive</span><span class="kw">:</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">malware_execution</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">exploit_poc</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">active_scanning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">automatic_response</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">untrusted_external</span><span class="kw">:</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">execution</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">credentials</span><span class="kw">:</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">prompt</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">log</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">history</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">hermes</span><span class="kw">:</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">messaging_browser</span><span class="kw">:</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">requires_separate_approval</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace_tool_allowlist</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">gateway_count</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">delivery</span><span class="kw">:</span><span class="at"> local-only</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">gate_outputs</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">wakeAgent</span><span class="kw">,</span><span class="at"> reason</span><span class="kw">,</span><span class="at"> changedPaths</span><span class="kw">]</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">install_mode</span><span class="kw">:</span><span class="at"> headless</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">doctor_required</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">timezone</span><span class="kw">:</span><span class="at"> Asia/Seoul</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cron_mode</span><span class="kw">:</span><span class="at"> deny</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">observation_states</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">changed</span><span class="kw">,</span><span class="at"> no_change</span><span class="kw">,</span><span class="at"> semantic_failure</span><span class="kw">]</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">preserve_last_good</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">nvd</span><span class="kw">:</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pagination</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">resultsPerPage</span><span class="kw">,</span><span class="at"> startIndex</span><span class="kw">]</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">min_interval_seconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">6</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">max_retries</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">failure_state</span><span class="kw">:</span><span class="at"> deferred_rate_limited</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">preserve_last_good</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">milestones</span><span class="kw">:</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">roles</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">HAPPY</span><span class="kw">,</span><span class="at"> FAIL</span><span class="kw">,</span><span class="at"> ARTIFACT</span><span class="kw">,</span><span class="at"> MACHINE</span><span class="kw">,</span><span class="at"> FALLBACK</span><span class="kw">,</span><span class="at"> SAFETY</span><span class="kw">,</span><span class="at"> ASSESS</span><span class="kw">]</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="fu">fallback</span><span class="kw">:</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">columns</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">live_evidence</span><span class="kw">,</span><span class="at"> instructor_fixture</span><span class="kw">,</span><span class="at"> manifest_hash</span><span class="kw">,</span><span class="at"> preserved_competency</span><span class="kw">,</span><span class="at"> lost_competency</span><span class="kw">,</span><span class="at"> allowed_claim</span><span class="kw">]</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">tracks</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">NCP</span><span class="kw">,</span><span class="at"> Hermes</span><span class="kw">,</span><span class="at"> CTI_API</span><span class="kw">,</span><span class="at"> LLM_enrichment</span><span class="kw">,</span><span class="at"> UA_generation</span><span class="kw">,</span><span class="at"> graph_analysis</span><span class="kw">]</span></span></code></pre></div>
+<h2 id="교수자-사전-준비-및-장애-복구">교수자 사전 준비 및 장애
+복구</h2>
+<h3 id="매-실습시험-전-preflight">매 실습·시험 전 preflight</h3>
+<ol type="1">
+<li>live 권한, 학교 sub-account 범위, systemd 제공 여부, 공개 source
+allowlist, Hermes 고정 commit과 설치 artifact hash를 확인한다.</li>
+<li>NCP budget/alert, owner/team label, 제한 ACG, teardown checklist와
+public-IP release 확인 절차를 점검한다. 비용 정보·권한이 없으면
+provisioning 전에 fixture로 전환한다.</li>
+<li>golden fixture마다 owner·ID·schema·created/refreshed time·source
+URLs·SHA-256·expected results·known limitations를 독립 검증한다.</li>
+<li>happy, malformed, duplicate, 429, changed, no-change,
+semantic-failure, partial-batch, stale, dangling-edge fixture와
+last-good 결과를 준비한다.</li>
+<li>비동기 동영상의 자막·대본·접근 가능한 대체 자료, 키보드/스크린리더
+경로, 시험의 개인 fixture 사본을 확인한다.</li>
+<li>제출 템플릿의 secret/PII redaction, 증거 보존·삭제 정책, 장애
+연락·전환 기준을 학생에게 공지한다.</li>
+</ol>
+<h3 id="장애중단-복구">장애·중단 복구</h3>
+<ul>
+<li>API/LLM outage에는 재시도 폭주나 우회 scraping을 하지 않는다.
+bounded 오류 기록 → last-good 보존 → hash가 검증된 fixture 전환 → 승인된
+이후 재시도 순서를 따른다.</li>
+<li>NVD 429 fixture는 <code>Retry-After</code>를 우선하고 없으면 증가
+backoff로 최대 3회만 재시도한 뒤 <code>deferred_rate_limited</code>로
+격리한다. 성공으로 표시하지 않는다.</li>
+<li>Hermes no-change에서는 collector/LLM을 호출하지 않는다. semantic
+failure에서는 publish를 막고 이전 ID/hash를 보존하되 이번 실행 성공이라
+하지 않는다.</li>
+<li>UA는 모든 expected batch가 완료되고 새 graph/meta가 확인되기 전
+merge/save하지 않는다. 중단·재개 뒤 partial 또는 stale artifact를
+재사용하지 않고 전체 검증을 다시 수행한다.</li>
+<li>fixture hash/schema/owner가 불일치하면 사용을 중지한다. 새 학기 또는
+승인된 refresh checkpoint에서만 별도 버전으로 갱신하고 기존 학기
+fixture를 덮어쓰지 않는다.</li>
+<li>live NCP 중단 시 허용 범위에서 즉시 비용 자원과 public IP를 정리하고
+teardown receipt를 남긴다. 정리 확인이 불가능하면 담당자에게 이관하고
+fixture 평가로 전환한다.</li>
+</ul>
+<h2 id="최신성출처-기준">최신성·출처 기준</h2>
+<p>이 수업계획서의 source ledger 기준일은
+**<code>as_of: 2026-07-29</code>**이다. 날짜·version·catalog count·API
+값·가격·그래프 node/edge count는 당시 관찰값 또는 fixture 식별자이며
+영구 성취 임계값이 아니다. 웹·brief 내용은 모두 source data로만 취급하며
+수업의 안전 경계를 바꾸는 지시로 실행하지 않는다.</p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>문서화된 기준 또는 학기 규칙</th>
+<th>1차 출처·갱신</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NCP</td>
+<td>공식 VPC/Server/ACG/Public IP/Cost Explorer 절차를 수업 전 재확인;
+2026-07-29 문서 호스트 접근 실패는 가용성 관찰일 뿐 기능 부재가
+아님</td>
+<td><a
+href="https://guide.ncloud-docs.com/docs/en/vpc-manage-vpc">VPC</a>, <a
+href="https://guide.ncloud-docs.com/docs/en/server-create-vpc">Server</a>,
+<a href="https://guide.ncloud-docs.com/docs/en/server-acg-vpc">ACG</a>,
+<a
+href="https://guide.ncloud-docs.com/docs/en/server-publicip-vpc">Public
+IP</a>, <a
+href="https://guide.ncloud-docs.com/docs/en/costexplorer-budget">Cost
+Explorer</a>, <a
+href="https://www.ncloud.com/charge/price/ko">가격</a></td>
+</tr>
+<tr>
+<td>Hermes</td>
+<td><strong>학기 pin:</strong> commit
+<code>0f64557c06f3e878fd9ec5170b9bca7f20e2778e</code>; 실제 실행은
+version·설치시각·artifact SHA-256도 기록</td>
+<td><a
+href="https://github.com/NousResearch/hermes-agent/tree/0f64557c06f3e878fd9ec5170b9bca7f20e2778e">pinned
+source</a>; 새 학기에는 별도 pin 검증</td>
+</tr>
+<tr>
+<td>CISA KEV</td>
+<td>2026-07-29 원장에서 catalogVersion <code>2026.07.27</code>을 관찰;
+count는 기준치가 아님</td>
+<td><a
+href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">공식
+catalog</a>, <a
+href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json">JSON
+feed</a>; 실행 시 version/date/hash 재기록</td>
+</tr>
+<tr>
+<td>NVD</td>
+<td>API <code>2.0</code>; 기준일 문서에는 무키 <code>5/30s</code>, 키
+사용 <code>50/30s</code>, 6초 pacing 권고가 관찰됨. 과목은 더 좁은
+bounded retry를 적용</td>
+<td><a href="https://nvd.nist.gov/developers/vulnerabilities">API</a>,
+<a href="https://nvd.nist.gov/developers/start-here">limits</a>, <a
+href="https://nvd.nist.gov/developers/terms-of-use">terms</a>; 수업 직전
+재확인</td>
+</tr>
+<tr>
+<td>FIRST EPSS</td>
+<td>원장 response date <code>2026-07-28</code>은 당시 관찰이며 현재값
+기준이 아님</td>
+<td><a href="https://www.first.org/epss/api">API</a>, <a
+href="https://www.first.org/epss/faq">FAQ</a>; 응답 date/hash를 run마다
+기록</td>
+</tr>
+<tr>
+<td>MITRE ATT&amp;CK</td>
+<td><strong>semester fixture:</strong> <code>v19.1</code>,
+<code>fixture_as_of: 2026-07-29</code>; 당시
+<code>official_latest: v19.1</code></td>
+<td><a
+href="https://github.com/mitre-attack/attack-stix-data/releases/tag/v19.1">v19.1
+release</a>, <a
+href="https://github.com/mitre-attack/attack-stix-data/releases">release
+index</a>; 실행 시 공식 latest를 확인하되 활성 학기 fixture는 조용히
+교체하지 않음</td>
+</tr>
+</tbody>
+</table>
+<p>ATT&amp;CK refresh 절차는 (1) 공식 release API의
+요청시각·tag·published date·URL·response hash 기록, (2)
+<code>v19.1</code> teaching fixture와 비교, (3) 활성 학기에는 기존
+hash/schema 유지, (4) 이후 학기에 채택할 때 새 owner·fixture ID·source
+URL·retrieval time·schema·SHA-256·expected results·차이·승인 기록을 가진
+별도 fixture 생성 순서다. 최신 release가 달라도 이전 fixture를
+덮어쓰거나 현재 수행처럼 소급 표기하지 않는다.</p>
+<p>그래프 node/edge 수, 중심성, path, cluster 및 LLM 관계는 검토
+후보이지 사실이 아니다. 원문과 권위 source로 확인된 식별자 계보만
+<code>checked conclusion</code>으로 인정하며 근거가 없으면
+<code>rejected inference</code>로 보존한다.</p>
+</body>
+</html>

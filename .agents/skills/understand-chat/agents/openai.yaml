@@ -1,0 +1,4 @@
+interface:
+  display_name: "Understand Graph Chat"
+  short_description: "Answer questions from the project knowledge graph"
+  default_prompt: "Use $understand-chat to answer a relationship question from the project's knowledge graph."

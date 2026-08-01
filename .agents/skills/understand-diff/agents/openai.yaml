@@ -1,0 +1,4 @@
+interface:
+  display_name: "Understand Diff"
+  short_description: "Assess Git changes with graph-based impact analysis"
+  default_prompt: "Use $understand-diff to analyze the current Git changes and their graph-based impact."

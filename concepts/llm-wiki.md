@@ -1,7 +1,7 @@
 ---
 title: LLM Wiki
 created: 2026-07-16
-updated: 2026-07-16
+updated: 2026-07-25
 type: concept
 tags: [knowledge-base, pkm, llm, provenance]
 sources:
@@ -9,6 +9,7 @@ sources:
   - "raw/youtube/📺 LLM Wiki를 업그레이드하는 외부 지식 시스템! 연구자를 위한 최강의 조합 Zotero × Notebook × Obsidian x Claude Code.md"
   - "raw/notebooklm/llm-wiki-skill-github.md"
   - "raw/notebooklm/2026-07-16-all-notes.md"
+  - "raw/web/ax-labs-enterprise-ontology-shared-vocabulary.md"
 confidence: high
 ---
 
@@ -27,6 +28,10 @@ LLM Wiki는 원본 자료를 한 번 구조화해 사람과 여러 AI 에이전�
 ## RAG와의 차이
 
 RAG는 질의 시점에 관련 조각을 검색해 답변 문맥을 구성한다. LLM Wiki는 자주 재사용할 지식을 미리 컴파일하고, 모순과 관계를 문서에 남긴다. 둘은 배타적이지 않다. RAG는 대규모 원본 검색에, 위키는 검토된 장기 지식과 연결 구조에 적합하다.
+
+## 온톨로지와의 경계
+
+[[enterprise-ontology]]가 여러 시스템과 에이전트가 지켜야 할 용어·관계·행동 계약을 만든다면, LLM Wiki는 비정형 원본에서 개념과 근거를 계속 축적한다. 둘의 역할과 승격 순서는 [[ontology-and-llm-wiki]]에 비교한다. 위키에서 반복적으로 검증된 개념만 온톨로지 계약 후보로 올리면 탐색과 정합성을 분리할 수 있다. ^[raw/web/ax-labs-enterprise-ontology-shared-vocabulary.md]
 
 ## 운영 원칙
 

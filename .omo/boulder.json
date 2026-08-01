@@ -1,0 +1,27 @@
+{
+  "schema_version": 2,
+  "active_work_id": "hoseo-data-analysis-cloud-platform-course",
+  "works": {
+    "pkm-study-open-source-readme": {
+      "work_id": "pkm-study-open-source-readme",
+      "active_plan": ".omo/plans/pkm-study-open-source-readme.md",
+      "plan_name": "pkm-study-open-source-readme",
+      "session_ids": [
+        "codex:pkm-study-open-source-readme-20260721"
+      ],
+      "status": "active",
+      "worktree_path": null
+    },
+    "hoseo-data-analysis-cloud-platform-course": {
+      "work_id": "hoseo-data-analysis-cloud-platform-course",
+      "active_plan": ".omo/plans/hoseo-data-analysis-cloud-platform-course.md",
+      "plan_name": "hoseo-data-analysis-cloud-platform-course",
+      "session_ids": [
+        "codex:019fac48-7291-7332-a65c-06b6bc370136",
+        "codex:019fac50-a6aa-7651-82a3-acc5b091a489"
+      ],
+      "status": "active",
+      "worktree_path": null
+    }
+  }
+}

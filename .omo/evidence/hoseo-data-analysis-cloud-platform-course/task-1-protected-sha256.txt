@@ -1,0 +1,153 @@
+# Todo 1 protected-path SHA-256 manifest
+
+captured_at_utc: 2026-07-29T05:25:32Z
+vault_root: /Users/sysmoon/.codex/projects/pkm-study
+command: LC_ALL=C find SCHEMA.md index.md log.md entities concepts comparisons queries raw .ua output -type f -print0 | LC_ALL=C sort -z | xargs -0 shasum -a 256
+file_count: 142
+scope: SCHEMA.md, index.md, log.md, all regular files below entities/, concepts/, comparisons/, queries/, raw/, .ua/, and every output/ file present before the future syllabus.
+future_syllabus_excluded: output/hoseo-data-analysis-cloud-platform-15-week-syllabus.md (absent at capture)
+ordering: bytewise ascending path order (LC_ALL=C)
+
+1532ad1d8e9a0cb64a6443809afd080e56c50590c0a8b6c8f3f685745407ca9b  .ua/.trash-1784197655/assemble-review.json
+795bff15ebe7aac67c6d3b1aca0c3fd5ece53616bb9af20dc0938811a091ac7b  .ua/.trash-1784197655/assembled-graph.json
+91ba70da23a0738fce10afa751ceee33b5c15e85a5943575b06248cfe9069611  .ua/.trash-1784197655/batch-1.json
+a51fdfc152247f94f013f086cd257ec8cd011efdd1301b0fb8662af815636f62  .ua/.trash-1784197655/batch-2.json
+eab4b8a44b15df9b829ed57f6b28552e39480b094aeb288cc5f4df7084223aa9  .ua/.trash-1784197655/batch-3.json
+4bcc6cd3c09a2da91a05bb27f6145b79d262139a9780f3ccf4543e53ecf62198  .ua/.trash-1784197655/batch-4.json
+77c4b655440c68bbf8ff4ced690ff98b875a77a1be8a527ee28f7390da80c70d  .ua/.trash-1784197655/batch-5.json
+31b63f477a48f459ddd56712804500a0ee3957811d0ef421fb077bfa22d09092  .ua/.trash-1784197655/batches.json
+b7f8b53eb35fb774a8938e7211b6eb578bfac47db65ee0caf313235330bad404  .ua/.trash-1784197655/fingerprint-input.json
+9c6c6f3b5cffa4a23dd3a3918e1fd982ffb05a531e03f639441bdf292d42551a  .ua/.trash-1784197655/layers.json
+05290be22b3fac2ee5e6fc35662b6c16e5756193baf30410e2d84d4ac1dce2b4  .ua/.trash-1784197655/review.json
+771d33bcaaf608b6da73839bf4914870d4a016b198ad32850045a09d95488e6e  .ua/.trash-1784197655/tmp/compute-batches.stderr
+0ce76c8c80aa1142ef50af8a2a8af7ddfdafc3303b8e819fa9bc09c55f2078de  .ua/.trash-1784197655/tmp/merge.stderr
+14dbeb4156b94fdd7c660970ffb72c4edc8a12d2b69b1e0b9b1e8d1cd6d2d8d9  .ua/.trash-1784197655/tmp/ua-arch-analyze.js
+c35523d5da30574619310d98f58acdce1219d1f0a72c5a088ed3314115cfc72f  .ua/.trash-1784197655/tmp/ua-arch-input.json
+19def8c0ab4659ec90264aa0d1c84108fc0c32fe4accf35f8d4c5cd5d91ba655  .ua/.trash-1784197655/tmp/ua-arch-results.json
+c685869beff055bdca62c0c12dd6c335422e413162fecc05b6d5291d316c7480  .ua/.trash-1784197655/tmp/ua-file-analyzer-input-1.json
+62f2af6ba490b578f2d4c78f06755c72e171c59a5aa107d57f89601c5d2d88b2  .ua/.trash-1784197655/tmp/ua-file-analyzer-input-2.json
+4fb268756d162b887cad2ef942c827262fe5944a6eb98ef1134ccd357f9ff82e  .ua/.trash-1784197655/tmp/ua-file-analyzer-input-3.json
+8d5f5edfd0bbe8b1283069f13abd0792d99d8242a8bee80e25bb7dab3310cc20  .ua/.trash-1784197655/tmp/ua-file-analyzer-input-4.json
+de6c1916d851488254759b06fa98ac6f8b9ae672b7ae63d0b22e0c9afae13ceb  .ua/.trash-1784197655/tmp/ua-file-analyzer-input-5.json
+9bbaec1354901ab07cb4a996234655524902c3eeefa2f3f06ecc7eec9356cd24  .ua/.trash-1784197655/tmp/ua-file-extract-results-1.json
+db119b770789b659f8fa3f959985ede09f2ef90f5e004971e0c5a178875cfca7  .ua/.trash-1784197655/tmp/ua-file-extract-results-2.json
+3420fa1f9f300b265bdf5f0d3ffbeddde0a04bb3496c86ef936fbd357f574a6b  .ua/.trash-1784197655/tmp/ua-file-extract-results-3.json
+a93ba7f2205c1261be09109e3c9586319ee92796421bddee892674fd13506e74  .ua/.trash-1784197655/tmp/ua-file-extract-results-4.json
+85707104840b4b2428d5a6c7115ab5d3286059ea98d6291962f21ed5dd8b8bbc  .ua/.trash-1784197655/tmp/ua-file-extract-results-5.json
+8c643da5a47a82ea8b4f25e4023301d0d214905a80704ed2e6f92aeb250b5ff2  .ua/.trash-1784197655/tmp/ua-import-map-input.json
+39b365c53743b3b533f36ef0589675905889b805914a606b68925584cb7e93d9  .ua/.trash-1784197655/tmp/ua-import-map-output.json
+11d35012e97d258954813204d1a92dbf400c03b3b35f88bcb91cdae21cc1e54d  .ua/.trash-1784197655/tmp/ua-inline-validate.cjs
+dff734aeae2f858a73f413aa098aec8bec6e95ff916dd1bfdfce009204017016  .ua/.trash-1784197655/tmp/ua-scan-files.json
+e6b5238469a64b97ec05c508c341e2cd7bf3d7b2708f76084870d184a871a995  .ua/.trash-1784197655/tmp/ua-tour-analyze.js
+c647e5aeb159647682fab5758b7a9441c33b644f33276ea9d6d044ee149b8a14  .ua/.trash-1784197655/tmp/ua-tour-results.json
+53a9ce45ac7a1d29085132a43387508f2b186a9241307ed2ee203b2796e17892  .ua/.trash-1784197655/tour.json
+993204a9d104aad21ba0153731272982439835954c95d450dee206febe702e8b  .ua/.trash-knowledge-20260716202725/analysis-batch-1.json
+7f9b57e37d4d0837665baec43ba2297ff5f8b731f527ffb84205cda62617de2a  .ua/.trash-knowledge-20260716202725/analysis-batch-2.json
+27ae2f15513829dc5b7f7e50e72b1f051dddd461600c435c217cda1678e196df  .ua/.trash-knowledge-20260716202725/article-batch-1.json
+811c2b984b656b5a8590f60b3f60541ded4e4e60babeae046e494937f4487e16  .ua/.trash-knowledge-20260716202725/article-batch-2.json
+6ddb4d56ac4f8067ee3578cba03175a71b50ee15d7eea88b71bbc42ba67b3b7c  .ua/.trash-knowledge-20260716202725/assembled-graph.json
+a90d5777419ee7f2b17a2c259306e8c60103408da9e21723cafcfe811c412840  .ua/.trash-knowledge-20260716202725/existing-node-ids.json
+c3249a9e0a68499113eaf2ccb012b00d35dea06a7c616cf2df067200d8c1fb27  .ua/.trash-knowledge-20260716202725/scan-manifest.json
+0f0b68e1108dd1ddca8675ef6ee252691b70eb28fddc1c2675f8f47430a2e8ec  .ua/.trash-knowledge-20260716202725/scan-result.json
+d9c93e1c94fc07f705adff5bfbb4e1d1c224a7f5fb442a99401fb9c4e1c2d2f2  .ua/.trash-knowledge-20260716203401/analysis-batch-1.json
+fac9fce74ccf403bd666e228d30510dc831badba752692452edb03e9350fe9fa  .ua/.trash-knowledge-20260716203401/analysis-batch-2.json
+03c7c9c18a64cd668d658eb9c90e2c65bdcb1802f048c0f1387a6fb4572de403  .ua/.trash-knowledge-20260716203401/article-batch-1.json
+a071ef77d764d44d9a76789ac81b091ce39893bf35b05b90b02fe5b3433121e8  .ua/.trash-knowledge-20260716203401/article-batch-2.json
+3c0a16f27b5158b32d7a735ad55552ce1cc7a2db22026d692bd2e1874ab8a9fa  .ua/.trash-knowledge-20260716203401/assembled-graph.json
+b71926aae92c1987a5861ee28f29c8828359df813e489f262dec6b009e7ea90e  .ua/.trash-knowledge-20260716203401/existing-node-ids.json
+2cc115888054a140e15de9ff8fd30a61fb0a83801ffa848a1d167c94a8f18742  .ua/.trash-knowledge-20260716203401/scan-manifest.json
+7f6b3e1773f8d17abbe7e75353e5c3ba0c9ef6d7b3d7bb661eac866a8e510e6d  .ua/.trash-knowledge-20260720T065533Z/analysis-batch-1.json
+75332e92f7d831ecf1dbf0d90a90f0d49a24b984eb26980f0f8d4f0752ad8eb3  .ua/.trash-knowledge-20260720T065533Z/analysis-batch-2.json
+2d425406911d3fff9c395c674f056a2ef822559d115a85f2bd918cc8a5c5bf58  .ua/.trash-knowledge-20260720T065533Z/analysis-batch-3.json
+07e35d5248556b057b6f071188db37a456072cd81969f26ec1c75addead9bc54  .ua/.trash-knowledge-20260720T065533Z/assembled-graph.json
+09c06b80051f94aad9096b28b15eb4f6259f1d443c3ac964e8506cd76ccec524  .ua/.trash-knowledge-20260720T065533Z/scan-manifest.json
+ebcadb7e316fa7a3a7a3572176fb154b236d3364921791512896c92f275279c2  .ua/.understandignore
+6241daac28ec1ac6166af17c73964fef9fa7e728b98c19706b07b7b8f0712b20  .ua/config.json
+3492ef604bac15ecbe521872fe8055f8555d6b7b3e122cce253002f5f369faf5  .ua/domain-graph.json
+89a67c290e281cc291d2d22647a0f8cbed6429bb539c5af589b93faa9832de87  .ua/fingerprints.json
+a52c26bf6a0af6fb0a0bd36ca2feb7e7c1aa9bf4d5565ad4a03118a1234250bf  .ua/knowledge-graph.json
+fac6dad96b8c91200a74e3e422a490559331d2550c377d15b48bb729a4f311b4  .ua/meta.json
+4c81818dd6b420822dac1b48649573b040d12ef085a20258c5ffcabf965ecb0e  SCHEMA.md
+57c910a4b2afd3f03a6dfda00686a0d9b4f249c1b6d5654a1e6ffedcc2f9f849  comparisons/knowledge-graph-tools.md
+e4a969682d7d205b785d367df4dfac4b424d351782b836d3eae12a81b6a64e03  comparisons/knowledge-tool-roles.md
+d67288539c3a914b52bf4cc9948de6565c32550cb91ca7e8f8861085fd7e0b09  comparisons/ontology-and-llm-wiki.md
+283a3f550075f36ed00c65a04dc108f0ed4caefd2657987ab767871bd934d1ce  concepts/agentic-ai-contextual-anomaly-detection.md
+88c2779d099f103c4be3450a4590bbeb708e304864cc6a04f9c7cf755057177c  concepts/agentic-ai-safety-governance.md
+f59d74edb05f5818e4459534e79f4c37bd2ae11e269f46c6ee55caac4f1fd105  concepts/agentic-workspace.md
+72ab5845cf4c115735c0e9c6de01eb7346614b0cc0663f00afba4b6e2e07761b  concepts/ai-knowledge-workflow.md
+a41edf77f16fa12701ad0c67bee8ee6769bda08da73c16e9391c1ae10f170924  concepts/ai-personal-knowledge-management.md
+07d79d149815797a7e5a08357b76e5a7aca9b294e3c4e749c9229c12a0058713  concepts/autonomous-cyber-defense-agents.md
+e0e8cb0b76aade0c6b85e1744db273821fab6d47a6aa284a6f0daa03d1248c82  concepts/cyber-threat-intelligence-knowledge-graphs.md
+6c8c51252372b085521cc89557a92f760d4b02844dc5db75f2d48c1c90412d3f  concepts/enterprise-ai-operating-system.md
+969a0f9f9979509b5299cc8ccaa16485f7e73ecabb75069446e045c28e529e5b  concepts/enterprise-ontology.md
+9cea79074b631940e05f9d625e0fa20931d0fbc733b746c11512be799f796faa  concepts/knowledge-graph-analysis.md
+d17957e6b0f896dd131781d1be0eb939a8c74a0e9ca9985f21f3db2bb2437869  concepts/llm-wiki.md
+0c325357f6d2f09fe91c588835592e0d7ca31aa18cbf473551d11a6c65785b5a  concepts/research-feedback-loop.md
+1e3295d32d0a99601511e9b847ea300fb3588e304ba2a54a2bd8d0c7540630ed  concepts/second-brain-research-workflow.md
+6f37edb884311e98458c95f7f37f992f3f2007a4fff8b7b5deb3ef036b656aa0  entities/codegraph.md
+201bd0b574b51d42d9655a79585da04f1b292cd35cfa594da5373b0c990a71d4  entities/graphify.md
+a3d2f6789c07062f00119e4a5538d2afc36a3239ac7f4c126525ba96cdc6658a  entities/logseq.md
+e4fb3aab07cd925f7a16f70965bab6829aaa728867f0ac0f45c20ea97c17f6a2  entities/notebooklm-py.md
+65de1e1b5205ad401ab65821ac62ada66cf381256f840595843851a0e987adb3  entities/notebooklm.md
+572e98131ded17abdff62b9e2d65dab56414d77f22ab16512ba4ed2528d7f967  entities/obsidian.md
+e5fa739e734b48949480abf066bbb44fb9147e987c0ed5bf1946a8a4b23754a7  entities/orca.md
+c40a918a161953bc343947057c9f085ad7de3e75a79f33e70b024f22daf63ade  entities/palantir.md
+b2b188ffd4711fa2e328f9686433b94fd5f99add9c024166e9cc772ed5208313  entities/slides-grab.md
+9bbfe6a1d977f5dd7bc98ff76690e0f4a85be2e35256cc86fe4b169ed286d6fb  entities/understand-anything.md
+f296dd1a5147ab35a85016dd0fe0a337841f58ae3c701ad3dba2d87c5d415ebb  entities/zotero-mcp.md
+b13dc450447135ade86c6f61345c42c82565a1d5494bcc81e713f7985ce38ae4  entities/zotero.md
+7a63bcbab5ef97b28d26542b70c0bba2422afc3fb7bffa1ab560ff03196a25d8  index.md
+99e94a42d6dc01e79041b8707491cb43e5730f88041432229b0dd3fa6b4df242  log.md
+41ed8a1df23d336da64f4f6fc13c73b03e3a439b39c3bd93a500934320eb2041  output/ai-second-brain-infographic.png
+75f947dcf6b92ac55d17eac0587bb7fa7cae6fc4043f01e0569143cdaf50167b  output/ai-second-brain-mind-map.json
+a983b15156c57fa1e6eb859e1b2a1d58cd7fb21416ec8ebcae6a7b53897b9919  output/ai-second-brain-slides.pdf
+74b517616b2f3ef9c7662b47513704d38b490db19f770f76aa255bc8256e5772  output/ai-second-brain-technical-blog.md
+61faa667cbf4ab222efbcaadb6c6d9c2361484aadc0008bff800f06960d13328  output/second-brain-pkm-architecture.architecture.json
+d7efb2e44eedeef5b3ddda7474639fb96b1bf00bbfd436c9390524318be07ac3  output/second-brain-pkm-architecture.html
+da8fb104770ff3a9fea8c3f40802bcae0fb783c1937cc18380012e42b5b47fb9  queries/cti-thinker-paper-summary.md
+58557c8d0b1dfa8b33388d3010a3b56fefc0fd13049a00f3b56d75e86b75446d  queries/notebooklm-query-compounding.md
+d5dd801ac4794055eba036a4f4e600f42065614dbec550fa71663923b28c8aeb  queries/ua-knowledge-graph-workflow.md
+82748e56665b6ccee012c4ba94a21cc710e3fe2165048ae8edb52bd1c0acfd5c  raw/blog/codex-excalidraw-archify-architecture-diagrams.md
+f6612a96ec0ffb383955d87a451e163034a42227be53e5e02353d252c1bebb91  raw/blog/hermes-agent-cron-llm-wiki-knowledge-graph.md
+d4cbf52a3e9761189d7f570c28cade392759da1652dc7e8fa11f02184cc8b138  raw/lectures/open-up/(Open UP) 오픈소스 AI 활용 인재 양성 과정 멘토 오리엔테이션(풀스택).pdf
+8b6f2ba389e55c2e6a30fb26ac2f6deee371f52765ee61b3636a499dab82c227  raw/lectures/open-up/오픈소스 AI 운영 가이드_양식_풀스택과정.pptx.pdf
+a5e1cc7e1e6dadf807ac6d693e5ca747773d034d16548c6c4d4ba3e0000115b2  raw/lectures/open-up/오픈소스 AI 인ᄌ _________ ᅪ정 운영 가이드_양식_풀스택과정.pptx
+bea48eba5dedd47058c006726f2d9bdb7229f7818948d5ef157f211d2d868a69  raw/notebooklm/2026-07-16-all-notes.md
+4cca5ccd44040ca2e9f9f1726eee65879a1808fc41aa18015e7523eda68dba16  raw/notebooklm/codegraph-github.md
+aa1c6b52a236dcc0701d32197efcdb0ab8aaf77d3b1d05206182e0875614ef90  raw/notebooklm/graphify-github.md
+888fc52566a6688ff269d77d22dc4de472f714ff94371403ad22b0dcc1e2eb8d  raw/notebooklm/llm-wiki-skill-github.md
+a26bc95668ba508de4813f6d40126f70722757b9074fb18c5b63bd58fc37c38b  raw/notebooklm/llm-wiki-zotero-notebooklm-youtube.md
+325062cb964469e784f5ac7d247da88b58369165f6a65950be81a21c3b60ce98  raw/notebooklm/notebooklm-py-github.md
+3116062fda4d6ffdb2c47e9e2a4d73434464bff49e24aedad2b002786b1ce95e  raw/notebooklm/understand-anything-github.md
+96fc91098d1d2e6195504996c0b3c1d00d7dabe41579302ce74cf9e12592f55b  raw/notebooklm/zotero-mcp-github.md
+d0601a0e7e0426513086f3e1be46e7d4cf276d23381056d8480494ab6e1ffcb9  raw/papers/2024-12-design-and-evaluation-of-an-autonomous-cyber-defence-agent-using-drl-and-an-augmented-llm.md
+00d04df10046b2a1b7db6c5096491fba746243869c25b68c21b0e459aeb52777  raw/papers/2025-09-a-review-of-agentic-ai-in-cybersecurity-cognitive-autonomy-ethical-governance-and-quantum-resilient-defense-version-1-peer-review-2-approved.md
+4426727d80b5d5fb287824ffe3c962832add1af3d389c1a4bc453b4c29fca802  raw/papers/2025-augmenting-threat-intelligence-a-framework-for-integrating-llms-ai-agents-and-rag-in-cybersecurity-analysis.md
+3f156ae1e319e3b4171e81b0fe500e5fd256884f4a8dd7acf89a6f9a52f98f8d  raw/papers/2026-01-cti-thinker-an-llm-driven-system-for-cti-knowledge-graph-construction-and-attack-reasoning.md
+0cac18406257d07cde8cf3c6e69147367c0e1ed27d6cdf1a5ad65ba52c7041a7  raw/papers/2026-01-graph-based-anomaly-apt-attack-detection-via-threat-intelligence.md
+1cddbd7c69b736debb2b44c763b1a5d1985f70cd862f84b079093e716bb1682a  raw/papers/2026-04-integrating-anomaly-detection-into-agentic-ai-for-proactive-risk-management-in-human-activity.md
+c6dbe8cca7bcce63ddc57d148951ff6e3014a4e670c9c3d966cdd9b4c3c4a7d6  raw/papers/2026-05-structure-enhanced-pre-trained-language-model-for-requirement-cyber-threat-intelligence-knowledge-graph-completion.md
+71d05d3971e3008bd5ea0aa82db8d6e003118c922820acbb5fe9aa46801a8117  raw/papers/2026-06-agentic-ai-and-llm-driven-framework-for-contextual-anomaly-detection.md
+d280100bb1543a39a625da5822bdf924047d0c397c482aca36adebee25d52df6  raw/papers/2026-06-detection-and-mitigation-of-mythos-class-frontier-model-capabilities-a-layered-reference-architecture.md
+e7aa3ab4e3725ce25f8481b146c66ee944ce7c9ad2bbcb25568efaa0a7531127  raw/platform/AINS Servers.md
+1f13b5634f2358ffa341f4d9e98e258f7ee5745330fa570016dee2f47e57b006  raw/web/Agent Skills Marketplace  Codex & Claude Skills.md
+da6e2f2eac3941edbd631947b4a5521d4f5250186f3c2453704df23296fcada1  raw/web/NomaDamasslides-grab Best harness + editor + linter for generating slides in Claude Code  Codex - Claude Design Open Source Alternative.md
+a313194780bdfdb0e29ca32245e182992a94b3e4359d37e7b36801e97c0b4f4e  raw/web/ains-lab2nd-brain-template llm-wiki 이용하여 나의 개인 지식관리 생성을 위한 2nd-brain 프로젝트 입니다..md
+e6b5dfb0364c845ba1a476ac0646bc974ef19ad903837f69a28f7653babc261a  raw/web/ax-labs-enterprise-ontology-shared-vocabulary.md
+b5cf4e552767353cd9ef60dfa9e2bc9df5c6c12f59d33ad282968353da6d6b96  raw/web/codex-mcp-configuration.md
+9feeb7f894fee4cc3093122f70523bd2626d8d9ef841d571d663b2a84ebc2d8a  raw/web/logseq-github-overview.md
+294bbe33cf38aee0c9f3ef5b00d456f7c5460f959919c577279db548e735361d  raw/web/palantir-aip-architecture-overview.md
+78c33277fdbffcb7ba55dfdb340e26786626028ca7b6e7258dc8dc5a51e70708  raw/web/palantir-aip-foundry-apollo.md
+144dc09fa8443ed05d66689c10c3a02b78ca99814cef600f5c8064406fd4ad86  raw/web/palantir-architecture-center-overview.md
+af95790356c1b628179e25c6abe5cd75fb05bf80cdef4396cd75e99b573e1171  raw/web/palantir-interoperability.md
+c8ed3e698a7a22d4ab239dbf4567fa933cdbfd05f8de9ef609b53b43bdc9e782  raw/web/palantir-multimodal-data-plane.md
+d4272520f0c76b2c17046d2c4999f5538df86cb63362b2d985b027ead7c126c1  raw/web/palantir-ontology-system.md
+dc42c080a3d42f84fbb29a6d1c9a16124555c5bda14067df4899e543a8f2cc8f  raw/web/palantir-rubix-substrate.md
+ff5f3ac6c57c91c003876cf6795c95458cd96512b3ea7c2f7bad7f20a60d090d  raw/web/stablyaiorca Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile..md
+2414d52e239dbad96d9aac52be1306884f06ec7ba65ad76085dcf12a1f4f32bd  raw/web/zotero-mcp-server-installation.md
+689a3d93e12c8c5555ec3e0e6344237554a648e9fccae0e4a4af1baa413df8a8  raw/web/내가 사용하고 있는 obsidian 플러그인.md
+b9c12c2d3c870ad8e4d4b07fb830194ed1a710d7d854852b397055ccc07a7033  raw/web/우리 회사는 같은 단어를 같은 뜻으로 쓰고 있는가 — AX LABS 블로그.md
+f49ebc9265e3828d26c62283d51c1d1dc2bed7c51547386ba33355a77e492d3c  raw/youtube/📺 How To Build LLM Wiki In Obsidian 🧠 A Memory Layer For Any Agentic AI.md
+1b9cb91076131d9a1b1a35cb514faadf8147016ad6d4cbc6fc533f75533e5ccb  raw/youtube/📺 LLM Wiki를 업그레이드하는 외부 지식 시스템! 연구자를 위한 최강의 조합 Zotero × Notebook × Obsidian x Claude Code.md
+1fdb350a56b058e2bec28b0d0a57d85d0734a04ad08bf510e296672f5e755041  raw/youtube/📺 Orca Is the Free Cursor Killer Nobody's Talking About!.md
+

@@ -1,0 +1,103 @@
+# Todo 6 governance/assessment verification receipt
+
+artifact: `.omo/evidence/hoseo-data-analysis-cloud-platform-course/task-6-governance-assessment.md`
+verification_type: local, bounded, read-only after brief creation
+network_or_external_state: none changed
+
+## Scenario: happy — weighted and fallback-table contract
+
+Exact invocation (the inline Ruby parser below was run exactly as shown):
+
+```sh
+ruby -e '
+t = File.read(ARGV.fetch(0), encoding: "UTF-8")
+rows = ->(s) { s.lines.grep(/^\|/).map { |l| l.split("|").map(&:strip)[1..-2] } }
+a = rows.call(t[/^## 평가 방법\n(.*?)(?=^## )/m, 1] || "")
+abort("FAIL weighted table") unless a.length == 5 && a[0] == ["평가 범주", "비중", "채점 증거와 판정"]
+w = a.drop(2); h = w.to_h { |r| [r[0], r[1].delete("%").to_i] }
+abort("FAIL weighted rows") unless h == {"출석"=>20, "중간 실기"=>40, "기말 실기"=>40} && h.values.sum == 100
+f = rows.call(t[/^## 여섯 트랙 장애 대체 매트릭스\n(.*?)(?=^## )/m, 1] || "")
+heads = ["live evidence", "instructor fixture", "manifest/hash", "preserved competency", "lost competency", "allowed claim"]
+abort("FAIL fallback header") unless f.length == 8 && f[0] == heads
+names = f.drop(2).map { |r| r[0][/\*\*(NCP|Hermes|CTI API|LLM enrichment|UA generation|graph analysis)\*\*/, 1] }
+abort("FAIL fallback rows") unless names == ["NCP", "Hermes", "CTI API", "LLM enrichment", "UA generation", "graph analysis"] && f.drop(2).all? { |r| r.length == 6 && r.all? { |c| !c.empty? } }
+need = ["프로젝트 별도 점수 없음", "개인 실행 증거", "학칙/담당자 정책 적용", "자막", "대본", "접근 가능한 대체 자료", "보존", "삭제", "비밀정보", "악성코드", "스캐닝", "피해자/조직 로그", "PII", "credential collection", "login-gated scraping", "automatic patching/response"]
+abort("FAIL literals") unless need.all? { |x| t.include?(x) }
+puts "PASS weighted_rows=#{w.length} total=#{h.values.sum} fallback_rows=#{f.length - 2} complete=#{f.drop(2).length} literals=#{need.length}"
+' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-6-governance-assessment.md
+```
+
+Exit: `0`
+
+Binary observable:
+
+```text
+PASS weighted_rows=3 total=100 fallback_rows=6 complete=6 literals=16
+```
+
+The parser rejects additional/missing weighted rows, a sum other than 100, a changed fallback header or track order, any empty fallback cell, and any missing required literal.
+
+## Scenario: literal-policy scan and whitespace safety
+
+Exact invocation:
+
+```sh
+rg -n -F -e '프로젝트 별도 점수 없음' -e '개인 실행 증거' -e '학칙/담당자 정책 적용' -e '자막' -e '대본' -e '접근 가능한 대체 자료' -e '보존' -e '삭제' -e '비밀정보' -e '악성코드' -e '스캐닝' -e '피해자/조직 로그' -e 'PII' -e 'malware execution' -e 'exploit proof-of-concepts' -e 'active scanning' -e 'credential collection' -e 'login-gated scraping' -e 'automatic patching/response' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-6-governance-assessment.md
+git diff --check -- .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-6-governance-assessment.md
+```
+
+Exit: `0` for both commands. `rg` found every requested term; `git diff --check` emitted no whitespace diagnostics.
+
+## Scenario: adversarial malformed input — Hermes lost competency blank
+
+Exact setup invocation:
+
+```sh
+qa_tmp=$(mktemp -d /tmp/hoseo-t6-governance.XXXXXX)
+cp .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-6-governance-assessment.md "$qa_tmp/task-6-hermes-lost-blank.md"
+```
+
+Exit: `0`; temporary target was `/tmp/hoseo-t6-governance.9WWaQf/task-6-hermes-lost-blank.md`.
+
+Mutation: `apply_patch` replaced only the Hermes row's `lost competency` value with an empty cell (`|  |`). Its file change was directly confirmed by `rg -n -F '**Hermes**'` and `sed -n '22,26p'` before running the parser. The patch tool's automatic LSP follow-up reported a path-outside-cwd diagnostic, but the requested patch itself had applied; this diagnostic is not treated as a passing result.
+
+Exact checker invocation: the same Ruby parser from the happy scenario, with the temporary target substituted for the final artifact.
+
+Exit: `1` (expected nonzero)
+
+Binary observable:
+
+```text
+FAIL incomplete fallback row
+negative_exit=1 (expected nonzero)
+```
+
+Exact cleanup invocation after the result was captured:
+
+```sh
+rmdir /tmp/hoseo-t6-governance.9WWaQf
+test ! -e /tmp/hoseo-t6-governance.9WWaQf
+```
+
+Exit: `0`; the temporary negative copy and its directory are absent. The temporary file itself was removed with `apply_patch` before `rmdir`.
+
+## Manual QA: direct table and policy reading
+
+Exact invocation:
+
+```sh
+sed -n '1,180p' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-6-governance-assessment.md
+rg -n '^## 평가 방법$|^## 여섯 트랙 장애 대체 매트릭스$|^\| 평가 범주|^\| live evidence|^\| \*\*(NCP|Hermes|CTI API|LLM enrichment|UA generation|graph analysis)\*\*' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-6-governance-assessment.md
+```
+
+Exit: `0` for both commands. Direct review confirmed exactly three weighted rows (20/40/40), each exam's individual execution evidence and non-substitutable minimum mastery, exactly six complete fallback rows with the prescribed six columns, public-data-only and prohibited-activity boundaries, secret redaction, policy-owned retention/deletion, NCP cost/teardown, caption/transcript and accessible-alternative coverage, outage recovery, and owner/schema/hash/refresh preflight rules. No HoSeo absence penalty or fixed institutional retention period is asserted.
+
+## Scope receipt
+
+Exact invocation:
+
+```sh
+git status --short -- .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-6-governance-assessment.md .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-6-governance-check.txt
+```
+
+Exit: `0`. The only task-owned paths are the brief and this receipt; no canonical, raw, generated, output, or external-state path was modified by Todo 6.

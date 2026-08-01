@@ -2,4 +2,5 @@
 .ruff_cache/
 .codegraph
 .obsidian/workspace.json
+.obsidian/plugins/remotely-save/
 .ua/.trash*/

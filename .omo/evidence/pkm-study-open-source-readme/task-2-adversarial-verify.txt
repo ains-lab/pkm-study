@@ -1,0 +1,31 @@
+AdversarialVerify {
+  verdict: confirmed,
+  evidence: [
+    "PASS Todo-1 structure validator and Todo-2 link validator were recreated byte-for-byte from the plan and accepted README.md",
+    "PASS all relative Markdown links are confined to the approved authored-document set and resolve inside the repository",
+    "PASS independent full read and section-bounded semantic audit for no-build Markdown core, optional Obsidian, GitHub Code-button cloning without an invented URL, orientation order, immutable raw evidence, smallest canonical update, exact provenance, links/index/log discipline, health gates, UA regeneration and validation",
+    "PASS agent-skill invocation is explicitly non-shell; the sole Bash example is the optional local dashboard launcher; all four prerequisites and unpinned-latest/token-bearing-URL risks are explicit",
+    "PASS core role table contains the five required formats/interfaces; optional table contains all nine integrations and marks each external and not bundled; no live-Hermes claim exists",
+    "PASS separate missing-link and denied-link fixtures were nonempty and each made the exact link validator return nonzero",
+    "PASS synthetic bundled-Hermes plus live-cron claim made the independent semantic audit return nonzero",
+    "PASS bash -n run_ua_dashboard.sh, git diff --check -- README.md, and git diff --cached --quiet",
+    "PASS no active dashboard/viewer process surface was observed and launcher/Git metadata remained unchanged from the task baseline",
+    "PASS Todo-2 receipt exists, is newer than README.md, contains exactly 20 bounded status-only lines, and includes characterization, failing-first, happy, negative, full-read, adversarial, and cleanup receipts",
+    "PASS NUL status-map comparison preserved all task-1 baseline entries; README.md is the sole new product path; plan evidence is confined to its attempt directory",
+    "PASS root-owned .omo/start-work metadata was classified separately, validated as orchestration JSONL, observed after the task-1 baseline and before the Todo-2 README update, and was not attributed to the executor"
+  ],
+  repro: "qa_tmp=$(mktemp -d) with EXIT trap; recreate validate_structure.py and validate_links.py from their exact plan blocks and byte-compare them to those blocks; run both against README.md; extract 저장소 구조 through 선택적 도구와 자동화 with awk and run section-scoped semantic assertions; create separate missing and denied link fixtures and require validate_links.py nonzero; create a bundled/live-Hermes semantic fixture and require the semantic audit nonzero; run bash -n run_ua_dashboard.sh, git diff --check -- README.md, and git diff --cached --quiet; capture default and expanded NUL porcelain statuses and compare them with task-1-baseline-status.z while classifying README, attempt evidence, and root-owned start-work metadata separately; verify Todo-2 receipt freshness and its exact status classes",
+  confidence: 0.98,
+  adversarial_classes: {
+    malformed_input: "PASS missing and denied relative-link fixtures were independently rejected",
+    prompt_injection: "N/A repository-authored factual prose was inspected as data and no untrusted instructions were executed",
+    cancel_resume: "N/A Todo 2 has no resumable workflow",
+    stale_state: "PASS the Todo-2 receipt is newer than README and an intentionally stale temp receipt failed the freshness predicate",
+    dirty_worktree: "PASS baseline entries remained unchanged; README is the sole new product path; evidence and root orchestration metadata were separately authorized",
+    hung_long_commands: "N/A all verification commands are bounded local reads and syntax checks",
+    flaky_tests: "N/A validators and semantic fixtures are deterministic and have no timing or external dependency",
+    misleading_success_output: "PASS receipt PASS text was ignored; current and malformed artifacts were independently rerun with opposite exit statuses",
+    repeated_interruptions: "N/A no interrupt-sensitive state transition exists"
+  },
+  cleanup: "PASS isolated qa_tmp was registered with an EXIT trap; post-exit cleanup verification confirms no verifier fixture, cache, or process remains"
+}

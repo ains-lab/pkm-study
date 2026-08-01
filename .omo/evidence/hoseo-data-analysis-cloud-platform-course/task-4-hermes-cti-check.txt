@@ -1,0 +1,110 @@
+# Todo 4 verification receipt
+
+Validated at: 2026-07-29 KST by local, read-only document checks.
+
+## Boundary and cleanup
+
+- Owned final artifacts are only `task-4-hermes-cti-module.md` and this receipt. No unrelated worktree path was reverted, normalized, or edited.
+- No Hermes installation/configuration/`hermes doctor`, gateway, cron, CTI API collection, cloud resource, raw/canonical/wiki/UA/output mutation, or external operational-state change was performed.
+- Adversarial controls checked in the brief: raw/external content is evidence, never instructions; Hermes/ATT&CK are pinned and volatile CTI observations are dated; deterministic local checks avoid hung/flaky operations; semantic failure preserves last-good state.
+- Temporary whitespace-check file `/tmp/task4-diff-check.out` was removed with `unlink`; `test ! -e /tmp/task4-diff-check.out` exited 0. No temporary fixture remains.
+
+## Executed commands and binary observations
+
+### 1. Required terms and progression
+
+Command (exit 0):
+
+```sh
+rg -n '## [45678]주차|non-root|headless|hermes doctor|Asia/Seoul|cron_mode: deny|approvals.mode: smart|local-only|one gateway scheduler|messaging/browser|CISA KEV|NVD 2.0|FIRST EPSS|v19.1|source_version_or_raw_sha256|5/30s|50/30s|6초|429|last_good|10 \+ 10 \+ 12 \+ 8' .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-4-hermes-cti-module.md
+```
+
+Observation: hits included week headings 4, 5, 6, 7, 8; headless/non-root/pinned Hermes and `hermes doctor`; Asia/Seoul, local-only and one scheduler; smart/manual approval plus `cron_mode: deny`; messaging/browser prohibition; all four CTI sources; all raw/dedupe/rate-policy terms; last-good; and exact rubric arithmetic.
+
+### 2. Ruby set/sum/field checker
+
+Command (exit 0):
+
+```sh
+ruby - .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-4-hermes-cti-module.md <<'RUBY'
+# Read UTF-8 document; fail unless:
+# weeks == [4,5,6,7,8]; Week 8 says no new lecture/team submission;
+# rubric == [10,10,12,8] and sum == 40;
+# raw fields == source/request_url/retrieved_at_utc/sha256/etag/last_modified/http_status/content_type;
+# normalized types == vulnerability/signal/attack; exact dedupe key is present;
+# absent/null/unknown are distinct; NVD 5/30s, keyed 50/30s, 6초, max 3 retry, HTTP 429 are present;
+# malformed-input maps to quarantine parse failure; duplicate-input to duplicate growth 0;
+# nvd-429 to bounded retry then deferred/quarantine, not success; semantic-failure to last-good preservation;
+# triggered/skipped/semantic failure/redacted log/local-only/one scheduler/approval deny/no extra team percentage and explicit no exploit-scan-patch-response are present.
+RUBY
+```
+
+Binary output:
+
+```text
+TASK4_STRUCTURE_OK weeks=4,5,6,7,8 rubric=10+10+12+8=40 raw_fields=8 normalized=3 fixtures=malformed,duplicate,429
+```
+
+### 3. Negative 429 mutation
+
+Command (expected exit 1):
+
+```sh
+ruby - .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-4-hermes-cti-module.md <<'RUBY'
+# In memory only, replace 'bounded retry 후 deferred/quarantine; 성공 아님'
+# with 'published success', then require the original nvd-429 mapping.
+RUBY
+```
+
+Binary output and exit:
+
+```text
+TASK4_NEGATIVE_OK nvd-429 mapping rejected: bounded retry/deferred requirement missing
+TASK4_NEGATIVE_EXIT_EXPECTED=1
+```
+
+Interpretation: the happy checker independently verified malformed→quarantine, duplicate→zero duplicate growth, and 429→bounded retry/deferred rather than success. The in-memory corruption was rejected. Semantic failure is separately required to preserve `last_good_run_id`/`last_good_sha256` with zero new publish.
+
+### 4. Rendering and whitespace
+
+Commands (both exit 0 overall):
+
+```sh
+glow -s dark .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-4-hermes-cti-module.md
+git diff --no-index --check /dev/null .omo/evidence/hoseo-data-analysis-cloud-platform-course/task-4-hermes-cti-module.md >/tmp/task4-diff-check.out
+# Accept git diff exit 1 only for a new file and only when the output is empty.
+unlink /tmp/task4-diff-check.out
+test ! -e /tmp/task4-diff-check.out
+```
+
+Binary outputs:
+
+```text
+GLOW_RENDER_OK
+NO_INDEX_WHITESPACE_OK exit=1 diagnostics=0
+EXITS render=0 cleanup=0 absent=0 status=0
+```
+
+Manual rendered QA: **PASS**. Direct Glow review showed intact Korean headings/tables and the 4→5→6→7→8 progression. Week 8 is individual-only; the four rubric values and 40-point total are legible; 2–3-person work has `프로젝트 별도 점수 없음`; fallback is not portrayed as live success; semantic failure remains failure while preserving last-good; only `<REDACTED>` is used for secrets; and exploit/scanning/patch/response are excluded.
+
+## Artifact map
+
+| Scenario | Invocation | Observable | Evidence |
+|---|---|---|---|
+| Week headings/exam/rubric | Ruby checker | `[4,5,6,7,8]`, `[10,10,12,8]`, `40` | this receipt |
+| Hermes safe progression | `rg` plus Ruby checker | every required safety boundary hit | module + receipt |
+| CTI raw/normalized/dedupe/re-run | Ruby checker | 8 raw fields, 3 types, exact key, duplicate growth 0 | module + receipt |
+| Triggered/skipped/semantic-failure | Ruby checker | all scenarios and redacted logs required | module + receipt |
+| Malformed/duplicate/429 negative behavior | happy checker plus in-memory mutation | expected mapping present; bad 429 map rejected exit 1 | this receipt |
+| Direct rendered safety/honesty review | `glow -s dark` | exit 0; manual PASS | this receipt |
+| Temporary-fixture cleanup | `unlink`, `test ! -e` | cleanup/absence exit 0 | this receipt |
+
+## Post-receipt portability rerun
+
+The first final ownership check used GNU-only `find -printf` and failed on this macOS environment before evaluating the document. It was replaced with the portable command below; the full structural/render/whitespace/ownership scenario was rerun after that correction. This was a test-harness portability failure, not a content acceptance.
+
+```sh
+find .omo/evidence/hoseo-data-analysis-cloud-platform-course -maxdepth 1 -type f -name 'task-4-*' -exec basename {} \; | LC_ALL=C sort
+```
+
+Final rerun binary output: `TASK4_FINAL_OK weeks=4,5,6,7,8 rubric=10+10+12+8=40 fields=ok fixtures=ok`; `TASK4_FINAL_RENDER=0 DIFF_NO_WHITESPACE=ok OWNED_FILES=2`. The two owned paths were the only `task-4-*` files and both were nonempty.
